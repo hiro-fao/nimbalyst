@@ -957,6 +957,12 @@
     "url_removed": "URL パターンを削除しました",
     "all_domains_success": "すべてのドメインを許可しました",
     "all_domains_revoked": "すべてのドメインの許可を取り消しました",
-    "select_directory": "追加するディレクトリを選択"
+    "select_directory": "追加するディレクトリを選択",
+    "agent_verified": "エージェント検証済み",
+    "allow_everything": "すべて許可",
+    "ask_desc": "操作ごとに承認してから実行します。承認内容は記憶されます。",
+    "edits_desc": "ファイル編集は自動で実行し、シェルコマンドと Web リクエストは最初に確認します。",
+    "agent_verified_desc": "中断せずに作業を進めます。デプロイや破壊的なコマンドなどのリスクの高い操作は、承認のために停止します。",
+    "allow_everything_desc": "確認も検証も行わず、すべての操作をすぐに実行します。完全に信頼できるプロジェクト向けです。"
   }
 }
