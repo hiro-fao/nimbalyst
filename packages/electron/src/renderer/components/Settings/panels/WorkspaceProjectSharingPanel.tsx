@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { MaterialSymbol } from '@nimbalyst/runtime/ui/icons/MaterialSymbol';
 import { dialogRef, useDialogState } from '../../../contexts/DialogContext';
 import { DIALOG_IDS } from '../../../dialogs/registry';
@@ -95,14 +96,14 @@ function normalizeTeamMemberRole(role: unknown): TeamMemberRole {
   }
 }
 
-function teamMemberRoleLabel(role: TeamMemberRole): string {
+function teamMemberRoleLabel(role: TeamMemberRole, t: (key: string, fallback: string) => string): string {
   switch (role) {
-    case 'owner': return 'Owner';
-    case 'admin': return 'Admin';
-    case 'member': return 'Member';
-    case 'viewer': return 'Viewer';
-    case 'guest': return 'Guest';
-    case 'unknown': return 'Unknown';
+    case 'owner': return t('workspace_sharing.role_owner', 'Owner');
+    case 'admin': return t('workspace_sharing.role_admin', 'Admin');
+    case 'member': return t('workspace_sharing.role_member', 'Member');
+    case 'viewer': return t('workspace_sharing.role_viewer', 'Viewer');
+    case 'guest': return t('workspace_sharing.role_guest', 'Guest');
+    case 'unknown': return t('workspace_sharing.role_unknown', 'Unknown');
   }
 }
 
@@ -136,6 +137,7 @@ function MemberAvatar({ name, email, color, isPending }: {
 }
 
 function RoleBadge({ role, editable, onChange }: { role: TeamMemberRole; editable?: boolean; onChange?: (newRole: EditableTeamMemberRole) => void }) {
+  const { t } = useTranslation();
   const colorClass = role === 'admin'
     ? 'bg-[rgba(96,165,250,0.15)] text-[var(--nim-primary)]'
     : 'bg-[rgba(180,180,180,0.1)] text-[var(--nim-text-faint)]';
@@ -147,48 +149,47 @@ function RoleBadge({ role, editable, onChange }: { role: TeamMemberRole; editabl
         onChange={(e) => onChange(e.target.value as EditableTeamMemberRole)}
         className={`${colorClass} px-[5px] py-[2px] rounded-[10px] text-[10px] font-semibold border-none cursor-pointer outline-none hover:ring-1 hover:ring-[var(--nim-primary)]`}
       >
-        <option value="admin">Admin</option>
-        <option value="member">Member</option>
-        <option value="viewer">Viewer</option>
+        <option value="admin">{t('workspace_sharing.role_admin', 'Admin')}</option>
+        <option value="member">{t('workspace_sharing.role_member', 'Member')}</option>
+        <option value="viewer">{t('workspace_sharing.role_viewer', 'Viewer')}</option>
       </select>
     );
   }
 
   return (
     <span className={`${colorClass} px-[7px] py-[2px] rounded-[10px] text-[10px] font-semibold`}>
-      {teamMemberRoleLabel(role)}
+      {teamMemberRoleLabel(role, t)}
     </span>
   );
 }
 
 function PendingBadge() {
+  const { t } = useTranslation();
   return (
     <span className="inline-flex items-center gap-1 px-[7px] py-[2px] rounded-[10px] text-[10px] font-semibold bg-[rgba(251,191,36,0.15)] text-[var(--nim-warning)]">
       <MaterialSymbol icon="schedule" size={8} />
-      Pending
+      {t('workspace_sharing.pending', 'Pending')}
     </span>
   );
 }
 
 function EncryptionCard() {
+  const { t } = useTranslation();
   return (
     <div className="p-3.5 bg-[var(--nim-bg-secondary)] border border-[var(--nim-border)] rounded-lg">
       <div className="flex items-center gap-2 mb-2">
         <MaterialSymbol icon="lock" size={16} className="text-[var(--nim-success)]" />
         <span className="text-[13px] font-semibold text-[var(--nim-success)]">
-          Encryption &amp; Privacy
+          {t('workspace_sharing.encryption_title', 'Encryption & Privacy')}
         </span>
       </div>
       <p className="m-0 mb-2 text-[12px] text-[var(--nim-text-muted)] leading-relaxed">
-        Organization data (trackers and documents) is encrypted in transit and at rest and
-        isolated per organization. Depending on your organization&apos;s setup, encryption keys are
-        either held only by members&apos; devices, or managed by Nimbalyst so the
-        organization is reachable from the web, CLI, and cloud agents.
+        {t('workspace_sharing.encryption_desc', "Organization data (trackers and documents) is encrypted in transit and at rest and isolated per organization. Depending on your organization's setup, encryption keys are either held only by members' devices, or managed by Nimbalyst so the organization is reachable from the web, CLI, and cloud agents.")}
       </p>
       <ul className="m-0 pl-5 text-[12px] text-[var(--nim-text)] leading-7">
-        <li>Only authorized organization members can access shared data</li>
-        <li>Your personal device sync (sessions, drafts, settings) stays zero-knowledge — keys never leave your devices</li>
-        <li>Need true zero-knowledge for organization data? Self-hosting is the answer</li>
+        <li>{t('workspace_sharing.encryption_li1', 'Only authorized organization members can access shared data')}</li>
+        <li>{t('workspace_sharing.encryption_li2', 'Your personal device sync (sessions, drafts, settings) stays zero-knowledge — keys never leave your devices')}</li>
+        <li>{t('workspace_sharing.encryption_li3', 'Need true zero-knowledge for organization data? Self-hosting is the answer')}</li>
       </ul>
     </div>
   );
@@ -214,6 +215,7 @@ function ErrorBanner({ error, onDismiss }: { error: string; onDismiss: () => voi
 // ============================================================================
 
 function GitRemoteNotice({ gitRemote }: { gitRemote: string }) {
+  const { t } = useTranslation();
   if (gitRemote) {
     return (
       <div className="project-sharing-git-remote flex items-center gap-2 px-3 py-2.5 bg-[var(--nim-bg-secondary)] rounded-md" data-testid="project-sharing-git-remote">
@@ -227,9 +229,7 @@ function GitRemoteNotice({ gitRemote }: { gitRemote: string }) {
     <div className="project-sharing-no-remote flex items-start gap-2 px-3 py-2.5 bg-[var(--nim-bg-secondary)] rounded-md" data-testid="project-sharing-no-remote">
       <MaterialSymbol icon="link_off" size={16} className="mt-0.5 shrink-0 text-[var(--nim-warning)]" />
       <span className="text-[12px] leading-relaxed text-[var(--nim-text-muted)]">
-        This workspace has no git remote. You can still share it, but a teammate&apos;s copy is matched to a
-        project by its git remote — without one, only this computer connects to it. Add a remote
-        (<span className="font-mono">git remote add origin …</span>) if others need to work in it too.
+        {t('workspace_sharing.no_git_remote', "This workspace has no git remote. You can still share it, but a teammate's copy is matched to a project by its git remote — without one, only this computer connects to it. Add a remote (git remote add origin …) if others need to work in it too.")}
       </span>
     </div>
   );
@@ -257,6 +257,7 @@ export function UnsharedProjectSharingState({
   loading?: boolean;
   addingProject?: boolean;
 }) {
+  const { t } = useTranslation();
   const [choice, setChoice] = useState<'existing' | 'new' | null>(null);
   const [selectedOrgId, setSelectedOrgId] = useState<string>('');
 
@@ -271,20 +272,19 @@ export function UnsharedProjectSharingState({
     <div className="unshared-project-sharing-state" data-testid="unshared-project-sharing-state">
       <div className="provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)]">
         <h4 className="provider-panel-section-title text-[15px] font-semibold mb-1 text-[var(--nim-text)]">
-          Connect this project to an organization
+          {t('workspace_sharing.connect_title', 'Connect this project to an organization')}
         </h4>
         <p className="m-0 mb-3 text-[13px] leading-relaxed text-[var(--nim-text-muted)]">
-          Sharing puts <span className="text-[var(--nim-text)]">{projectName}</span> in an organization, so its tracker
-          items and documents sync to the people you give access.
+          {t('workspace_sharing.connect_desc', { name: projectName, defaultValue: 'Sharing puts {{name}} in an organization, so its tracker items and documents sync to the people you give access.' })}
         </p>
 
         {!confirming ? (
           <div className="project-sharing-choices flex flex-col gap-2" data-testid="project-sharing-choices">
             {canChooseExisting && (
               <div className="project-sharing-choice rounded-lg border border-[var(--nim-border)] bg-[var(--nim-bg-secondary)] p-3">
-                <div className="text-[13px] font-medium text-[var(--nim-text)]">Add to an existing organization</div>
+                <div className="text-[13px] font-medium text-[var(--nim-text)]">{t('workspace_sharing.add_existing_title', 'Add to an existing organization')}</div>
                 <p className="m-0 mt-0.5 mb-2 text-[12px] leading-relaxed text-[var(--nim-text-muted)]">
-                  It joins as its own project, sharing the organization&apos;s members and encryption.
+                  {t('workspace_sharing.add_existing_desc', "It joins as its own project, sharing the organization's members and encryption.")}
                 </p>
                 <div className="flex items-center gap-2">
                   <select
@@ -294,7 +294,7 @@ export function UnsharedProjectSharingState({
                     data-testid="project-sharing-org-picker"
                     aria-label="Organization"
                   >
-                    <option value="">Select an organization…</option>
+                    <option value="">{t('workspace_sharing.select_org_placeholder', 'Select an organization…')}</option>
                     {adminOrgs.map((organization) => (
                       <option key={organization.orgId} value={organization.orgId}>{organization.name}</option>
                     ))}
@@ -310,7 +310,7 @@ export function UnsharedProjectSharingState({
                     }`}
                     data-testid="project-sharing-choose-existing"
                   >
-                    Continue
+                    {t('workspace_sharing.continue', 'Continue')}
                   </button>
                 </div>
               </div>
@@ -318,11 +318,11 @@ export function UnsharedProjectSharingState({
 
             {organizationCreationEnabled && (
               <div className="project-sharing-choice rounded-lg border border-[var(--nim-border)] bg-[var(--nim-bg-secondary)] p-3">
-                <div className="text-[13px] font-medium text-[var(--nim-text)]">Create a new organization</div>
+                <div className="text-[13px] font-medium text-[var(--nim-text)]">{t('workspace_sharing.create_new_title', 'Create a new organization')}</div>
                 <p className="m-0 mt-0.5 mb-2 text-[12px] leading-relaxed text-[var(--nim-text-muted)]">
                   {canChooseExisting
-                    ? 'Start a separate organization with its own members and billing.'
-                    : 'You are not in an organization yet. Create one to start sharing this project.'}
+                    ? t('workspace_sharing.create_new_desc_can_choose', 'Start a separate organization with its own members and billing.')
+                    : t('workspace_sharing.create_new_desc_cannot_choose', 'You are not in an organization yet. Create one to start sharing this project.')}
                 </p>
                 <button
                   type="button"
@@ -330,7 +330,7 @@ export function UnsharedProjectSharingState({
                   className="rounded-md border border-[var(--nim-border)] px-4 py-2 text-[12px] font-medium text-[var(--nim-text)] hover:bg-[var(--nim-bg-hover)]"
                   data-testid="project-sharing-choose-new"
                 >
-                  Continue
+                  {t('workspace_sharing.continue', 'Continue')}
                 </button>
               </div>
             )}
@@ -339,8 +339,7 @@ export function UnsharedProjectSharingState({
                 className="project-sharing-creation-unavailable m-0 text-[12px] leading-relaxed text-[var(--nim-text-muted)]"
                 data-testid="project-sharing-creation-unavailable"
               >
-                Creating an organization is temporarily unavailable while this is being finished.
-                Once you are an admin of one, you can add this project to it here.
+                {t('workspace_sharing.creation_unavailable', 'Creating an organization is temporarily unavailable while this is being finished. Once you are an admin of one, you can add this project to it here.')}
               </p>
             )}
           </div>
@@ -348,21 +347,21 @@ export function UnsharedProjectSharingState({
           <div className="project-sharing-confirm rounded-lg border border-[var(--nim-border)] bg-[var(--nim-bg-secondary)] p-4" data-testid="project-sharing-confirm">
             <div className="text-[13px] font-medium text-[var(--nim-text)]">
               {choice === 'existing'
-                ? `Add ${projectName} to ${selectedOrg?.name}`
-                : `Create a new organization for ${projectName}`}
+                ? t('workspace_sharing.confirm_add_to', { project: projectName, org: selectedOrg?.name, defaultValue: `Add ${projectName} to ${selectedOrg?.name}` })
+                : t('workspace_sharing.confirm_create_for', { project: projectName, defaultValue: `Create a new organization for ${projectName}` })}
             </div>
             <ul className="m-0 mt-2 mb-3 pl-5 text-[12px] leading-7 text-[var(--nim-text-muted)]">
               <li>
                 {choice === 'existing'
-                  ? `Everyone you grant access in ${selectedOrg?.name} can open this project's shared tracker items and documents.`
-                  : 'You will be the owner, and nobody else has access until you invite them.'}
+                  ? t('workspace_sharing.confirm_li_add', { org: selectedOrg?.name, defaultValue: `Everyone you grant access in ${selectedOrg?.name} can open this project's shared tracker items and documents.` })
+                  : t('workspace_sharing.confirm_li_create', 'You will be the owner, and nobody else has access until you invite them.')}
               </li>
               <li>
                 {gitRemote
-                  ? <>Teammates who clone <span className="font-mono select-text">{gitRemote}</span> connect to it automatically.</>
-                  : 'With no git remote, only this computer connects to the project — a teammate’s copy has nothing to match it by.'}
+                  ? <>{t('workspace_sharing.confirm_li_clone_prefix', 'Teammates who clone')} <span className="font-mono select-text">{gitRemote}</span> {t('workspace_sharing.confirm_li_clone_suffix', 'connect to it automatically.')}</>
+                  : t('workspace_sharing.confirm_li_no_remote', "With no git remote, only this computer connects to the project — a teammate's copy has nothing to match it by.")}
               </li>
-              <li>Nothing on your disk moves or changes.</li>
+              <li>{t('workspace_sharing.confirm_li_nothing_moves', 'Nothing on your disk moves or changes.')}</li>
             </ul>
             <div className="flex items-center gap-2">
               <button
@@ -375,8 +374,8 @@ export function UnsharedProjectSharingState({
                 data-testid="project-sharing-confirm-action"
               >
                 {choice === 'existing'
-                  ? (addingProject ? 'Adding…' : 'Add project')
-                  : (loading ? 'Creating…' : 'Create organization')}
+                  ? (addingProject ? t('workspace_sharing.adding', 'Adding…') : t('workspace_sharing.add_project', 'Add project'))
+                  : (loading ? t('workspace_sharing.creating', 'Creating…') : t('workspace_sharing.create_organization', 'Create organization'))}
               </button>
               <button
                 type="button"
@@ -384,7 +383,7 @@ export function UnsharedProjectSharingState({
                 className="rounded-md border border-[var(--nim-border)] px-4 py-2 text-[12px] text-[var(--nim-text-muted)] hover:bg-[var(--nim-bg-hover)]"
                 data-testid="project-sharing-back"
               >
-                Back
+                {t('workspace_sharing.back', 'Back')}
               </button>
             </div>
           </div>
@@ -394,7 +393,7 @@ export function UnsharedProjectSharingState({
       {/* Project Identity */}
       <div className="provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)]">
         <h4 className="provider-panel-section-title text-[15px] font-semibold mb-2 text-[var(--nim-text)]">
-          Project Identity
+          {t('workspace_sharing.project_identity', 'Project Identity')}
         </h4>
         <GitRemoteNotice gitRemote={gitRemote} />
       </div>
@@ -432,6 +431,7 @@ export function ProjectScopedTeamExistsState({
   onUnlinkProject: () => void;
   onProjectMoved: () => void;
 }) {
+  const { t } = useTranslation();
   const [moving, setMoving] = useState(false);
   const currentProject = team.teamProjectId
     ? projects.find((project) => project.teamProjectId === team.teamProjectId)
@@ -447,8 +447,8 @@ export function ProjectScopedTeamExistsState({
   return (
     <div className="attached-project-sharing-state" data-testid="attached-project-sharing-state">
       <div className="project-identity-card rounded-lg border border-[var(--nim-border)] bg-[var(--nim-bg-secondary)] p-4" data-testid="project-identity-card">
-        <div className="flex items-center gap-3"><MaterialSymbol icon="folder_shared" size={22} /><div className="min-w-0 flex-1"><div className="truncate text-sm font-semibold">{currentProject?.name || currentProject?.slug || team.name}</div><div className="truncate text-xs text-[var(--nim-text-muted)]">{team.name} · {teamMemberRoleLabel(normalizeTeamMemberRole(team.callerRole))}</div></div></div>
-        <div className="mt-3 flex items-center gap-2 rounded bg-[var(--nim-bg)] px-3 py-2"><MaterialSymbol icon={team.gitRemoteHash ? 'link' : 'link_off'} size={15} /><span className="min-w-0 flex-1 truncate select-text font-mono text-xs text-[var(--nim-text-muted)]">{localGitRemote || 'No git remote linked'}</span>{isAdmin && (team.gitRemoteHash ? <button type="button" className="text-xs text-[var(--nim-text-muted)]" onClick={onUnlinkProject}>Unlink</button> : localGitRemote ? <button type="button" className="text-xs text-[var(--nim-link)]" onClick={onLinkProject}>Relink</button> : null)}</div>
+        <div className="flex items-center gap-3"><MaterialSymbol icon="folder_shared" size={22} /><div className="min-w-0 flex-1"><div className="truncate text-sm font-semibold">{currentProject?.name || currentProject?.slug || team.name}</div><div className="truncate text-xs text-[var(--nim-text-muted)]">{team.name} · {teamMemberRoleLabel(normalizeTeamMemberRole(team.callerRole), t)}</div></div></div>
+        <div className="mt-3 flex items-center gap-2 rounded bg-[var(--nim-bg)] px-3 py-2"><MaterialSymbol icon={team.gitRemoteHash ? 'link' : 'link_off'} size={15} /><span className="min-w-0 flex-1 truncate select-text font-mono text-xs text-[var(--nim-text-muted)]">{localGitRemote || t('workspace_sharing.no_git_remote_linked', 'No git remote linked')}</span>{isAdmin && (team.gitRemoteHash ? <button type="button" className="text-xs text-[var(--nim-text-muted)]" onClick={onUnlinkProject}>{t('workspace_sharing.unlink', 'Unlink')}</button> : localGitRemote ? <button type="button" className="text-xs text-[var(--nim-link)]" onClick={onLinkProject}>{t('workspace_sharing.relink', 'Relink')}</button> : null)}</div>
       </div>
 
       <div className="workspace-organization-account-chain mt-3 select-text rounded-md border border-[var(--nim-border)] bg-[var(--nim-bg)] px-3 py-2 text-xs text-[var(--nim-text-muted)]" data-testid="workspace-organization-account-chain">
@@ -457,26 +457,26 @@ export function ProjectScopedTeamExistsState({
             exists; with one it is the only answer there could be. */}
         {(team.storedAccountCount ?? 0) > 1 && (
           <span data-testid="workspace-organization-account-tail">
-            {' → '}{team.boundAccountEmail ?? team.boundPersonalOrgId ?? 'bound account'}
+            {' → '}{team.boundAccountEmail ?? team.boundPersonalOrgId ?? t('workspace_sharing.bound_account', 'bound account')}
           </span>
         )}
       </div>
 
       <div className="project-organization-links my-4 flex flex-wrap gap-2" data-testid="project-organization-links">
-        <button type="button" className="rounded border border-[var(--nim-border)] px-3 py-1.5 text-xs hover:bg-[var(--nim-bg-hover)]" onClick={openTeamSurface}>Open organization</button>
+        <button type="button" className="rounded border border-[var(--nim-border)] px-3 py-1.5 text-xs hover:bg-[var(--nim-bg-hover)]" onClick={openTeamSurface}>{t('workspace_sharing.open_organization', 'Open organization')}</button>
       </div>
 
       {!currentProject ? (
-        <div className="project-sharing-needs-attention rounded-lg border border-[var(--nim-warning)] bg-[rgba(251,191,36,0.08)] p-4" data-testid="project-sharing-needs-attention"><div className="text-sm font-semibold text-[var(--nim-warning)]">Project attachment needs attention</div><p className="m-0 mt-1 text-xs text-[var(--nim-text-muted)]">The organization is known, but this workspace did not resolve to an explicit project id. Access editing is disabled rather than falling back to another project.</p></div>
+        <div className="project-sharing-needs-attention rounded-lg border border-[var(--nim-warning)] bg-[rgba(251,191,36,0.08)] p-4" data-testid="project-sharing-needs-attention"><div className="text-sm font-semibold text-[var(--nim-warning)]">{t('workspace_sharing.needs_attention_title', 'Project attachment needs attention')}</div><p className="m-0 mt-1 text-xs text-[var(--nim-text-muted)]">{t('workspace_sharing.needs_attention_desc', 'The organization is known, but this workspace did not resolve to an explicit project id. Access editing is disabled rather than falling back to another project.')}</p></div>
       ) : (
-        <><h3 className="m-0 mb-2 text-sm font-semibold">People with access</h3><ProjectAccessEditor orgId={team.orgId} projectId={currentProject.projectId} /></>
+        <><h3 className="m-0 mb-2 text-sm font-semibold">{t('workspace_sharing.people_with_access', 'People with access')}</h3><ProjectAccessEditor orgId={team.orgId} projectId={currentProject.projectId} /></>
       )}
 
       {isAdmin && currentProject && destinationOrganizations.length > 0 && (
-        <div className="project-scoped-actions mt-4 border-t border-[var(--nim-border)] pt-4"><button type="button" className="rounded border border-[var(--nim-border)] px-3 py-1.5 text-xs hover:bg-[var(--nim-bg-hover)]" data-testid="move-current-project" onClick={() => setMoving(true)}>Move project…</button></div>
+        <div className="project-scoped-actions mt-4 border-t border-[var(--nim-border)] pt-4"><button type="button" className="rounded border border-[var(--nim-border)] px-3 py-1.5 text-xs hover:bg-[var(--nim-bg-hover)]" data-testid="move-current-project" onClick={() => setMoving(true)}>{t('workspace_sharing.move_project', 'Move project…')}</button></div>
       )}
       {moving && currentProject && (
-        <MoveProjectWizard srcOrgId={team.orgId} project={{ projectId: currentProject.projectId, name: currentProject.name || currentProject.slug || 'Untitled project' }} destCandidates={destinationOrganizations} onClose={() => setMoving(false)} onMoved={() => { setMoving(false); onProjectMoved(); }} onUpdateEncryption={openTeamSurface} />
+        <MoveProjectWizard srcOrgId={team.orgId} project={{ projectId: currentProject.projectId, name: currentProject.name || currentProject.slug || t('workspace_sharing.untitled_project', 'Untitled project') }} destCandidates={destinationOrganizations} onClose={() => setMoving(false)} onMoved={() => { setMoving(false); onProjectMoved(); }} onUpdateEncryption={openTeamSurface} />
       )}
     </div>
   );
@@ -492,6 +492,7 @@ function InvitePendingState({ invite, onAccept, loading, gitRemote }: {
   loading?: boolean;
   gitRemote: string;
 }) {
+  const { t } = useTranslation();
   return (
     <>
       {/* Invite Card */}
@@ -504,7 +505,7 @@ function InvitePendingState({ invite, onAccept, loading, gitRemote }: {
             {invite.name}
           </div>
           <p className="text-[13px] text-[var(--nim-text-muted)] mb-4 leading-relaxed">
-            You have been invited to join this organization. Accept to collaborate on shared, encrypted tracker items and documents.
+            {t('workspace_sharing.invite_desc', 'You have been invited to join this organization. Accept to collaborate on shared, encrypted tracker items and documents.')}
           </p>
           <button
             onClick={onAccept}
@@ -514,7 +515,7 @@ function InvitePendingState({ invite, onAccept, loading, gitRemote }: {
             }`}
           >
             <MaterialSymbol icon="group_add" size={14} />
-            {loading ? 'Joining…' : 'Join organization'}
+            {loading ? t('workspace_sharing.joining', 'Joining…') : t('workspace_sharing.join_organization', 'Join organization')}
           </button>
         </div>
       </div>
@@ -522,15 +523,15 @@ function InvitePendingState({ invite, onAccept, loading, gitRemote }: {
       {/* Project Identity */}
       <div className="provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)] last:border-b-0 last:mb-0 last:pb-0">
         <h4 className="provider-panel-section-title text-[15px] font-semibold mb-2 text-[var(--nim-text)]">
-          Project Identity
+          {t('workspace_sharing.project_identity', 'Project Identity')}
         </h4>
         <p className="text-[13px] leading-relaxed text-[var(--nim-text-muted)] mb-3">
-          Organizations link a project to its git remote, so any member who opens a clone of the same repo is automatically connected.
+          {t('workspace_sharing.project_identity_desc', 'Organizations link a project to its git remote, so any member who opens a clone of the same repo is automatically connected.')}
         </p>
         <div className="flex items-center gap-2 px-3 py-2.5 bg-[var(--nim-bg-secondary)] rounded-md">
           <MaterialSymbol icon="commit" size={16} className="text-[var(--nim-text-faint)]" />
           <span className="text-[12px] font-mono text-[var(--nim-text-muted)]">
-            {gitRemote || 'No git remote detected'}
+            {gitRemote || t('workspace_sharing.no_git_remote_detected', 'No git remote detected')}
           </span>
         </div>
       </div>
@@ -548,6 +549,7 @@ function InvitePendingState({ invite, onAccept, loading, gitRemote }: {
 // ============================================================================
 
 export function WorkspaceProjectSharingPanel({ workspacePath }: WorkspaceProjectSharingPanelProps) {
+  const { t } = useTranslation();
   const [team, setTeam] = useState<TeamData | null>(null);
   const [pendingInvite, setPendingInvite] = useState<PendingInvite | null>(null);
   const [gitRemote, setGitRemote] = useState<string>('');
@@ -823,11 +825,11 @@ export function WorkspaceProjectSharingPanel({ workspacePath }: WorkspaceProject
         await loadTeamData();
         await loadAdminOrgs();
       } else {
-        setError(result.error || 'Failed to add project to organization');
+        setError(result.error || t('workspace_sharing.err_add_project', 'Failed to add project to organization'));
         trackFailure('add_project', result.error, 'project');
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to add project to organization');
+      setError(err instanceof Error ? err.message : t('workspace_sharing.err_add_project', 'Failed to add project to organization'));
       trackFailure('add_project', err, 'project');
     } finally {
       setAddingProject(false);
@@ -865,11 +867,11 @@ export function WorkspaceProjectSharingPanel({ workspacePath }: WorkspaceProject
         // Refresh from server after a short delay
         setTimeout(() => loadTeamData(), 2000);
       } else {
-        setError(result.error || 'Failed to send invite');
+        setError(result.error || t('workspace_sharing.err_send_invite', 'Failed to send invite'));
         trackFailure('send_invitation', result.error);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to send invite');
+      setError(err instanceof Error ? err.message : t('workspace_sharing.err_send_invite', 'Failed to send invite'));
       trackFailure('send_invitation', err);
     }
   };
@@ -877,14 +879,14 @@ export function WorkspaceProjectSharingPanel({ workspacePath }: WorkspaceProject
   const handleRemoveMember = async (memberId: string) => {
     if (!team) return;
     const member = team.members.find((m) => m.id === memberId);
-    const label = member?.email || member?.name || 'this member';
+    const label = member?.email || member?.name || t('workspace_sharing.this_member', 'this member');
     const isPending = member?.status === 'pending';
     const confirmed = await requestConfirmation({
-      title: isPending ? 'Revoke invitation' : 'Remove member',
+      title: isPending ? t('workspace_sharing.confirm_revoke_invitation_title', 'Revoke invitation') : t('workspace_sharing.confirm_remove_member_title', 'Remove member'),
       message: isPending
-        ? `Revoke the pending invite for ${label}?`
-        : `Remove ${label} from "${team.name}"? They will lose access to this organization's shared trackers and documents. This cannot be undone (you'd need to re-invite them).`,
-      confirmLabel: isPending ? 'Revoke' : 'Remove',
+        ? t('workspace_sharing.confirm_revoke_invitation_message', { name: label, defaultValue: `Revoke the pending invite for ${label}?` })
+        : t('workspace_sharing.confirm_remove_member_message', { name: label, team: team.name, defaultValue: `Remove ${label} from "${team.name}"? They will lose access to this organization's shared trackers and documents. This cannot be undone (you'd need to re-invite them).` }),
+      confirmLabel: isPending ? t('workspace_sharing.revoke', 'Revoke') : t('workspace_sharing.remove', 'Remove'),
       destructive: true,
     });
     if (!confirmed) return;
@@ -903,11 +905,11 @@ export function WorkspaceProjectSharingPanel({ workspacePath }: WorkspaceProject
           members: team.members.filter((m) => m.id !== memberId),
         });
       } else {
-        setError(result.error || 'Failed to remove member');
+        setError(result.error || t('workspace_sharing.err_remove_member', 'Failed to remove member'));
         trackFailure('remove_member', result.error);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to remove member');
+      setError(err instanceof Error ? err.message : t('workspace_sharing.err_remove_member', 'Failed to remove member'));
       trackFailure('remove_member', err);
     }
   };
@@ -927,11 +929,11 @@ export function WorkspaceProjectSharingPanel({ workspacePath }: WorkspaceProject
         setPendingInvite(null);
         await loadTeamData();
       } else {
-        setError(result.error || 'Failed to join organization');
+        setError(result.error || t('workspace_sharing.err_join_org', 'Failed to join organization'));
         trackFailure('accept_invitation', result.error);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to join organization');
+      setError(err instanceof Error ? err.message : t('workspace_sharing.err_join_org', 'Failed to join organization'));
       trackFailure('accept_invitation', err);
     } finally {
       setLoading(false);
@@ -952,11 +954,11 @@ export function WorkspaceProjectSharingPanel({ workspacePath }: WorkspaceProject
         });
         await loadTeamData();
       } else {
-        setError(result.error || 'Failed to link project');
+        setError(result.error || t('workspace_sharing.err_link_project', 'Failed to link project'));
         trackFailure('link_project', result.error, 'project');
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to link project');
+      setError(err instanceof Error ? err.message : t('workspace_sharing.err_link_project', 'Failed to link project'));
       trackFailure('link_project', err, 'project');
     }
   };
@@ -964,9 +966,9 @@ export function WorkspaceProjectSharingPanel({ workspacePath }: WorkspaceProject
   const handleUnlinkProject = async () => {
     if (!team) return;
     const confirmed = await requestConfirmation({
-      title: 'Stop syncing project',
-      message: `Stop syncing this project with "${team.name}"? Its trackers and documents will no longer sync to the team. You can re-link it later.`,
-      confirmLabel: 'Stop syncing',
+      title: t('workspace_sharing.confirm_stop_syncing_title', 'Stop syncing project'),
+      message: t('workspace_sharing.confirm_stop_syncing_message', { team: team.name, defaultValue: `Stop syncing this project with "${team.name}"? Its trackers and documents will no longer sync to the team. You can re-link it later.` }),
+      confirmLabel: t('workspace_sharing.stop_syncing', 'Stop syncing'),
       destructive: true,
     });
     if (!confirmed) return;
@@ -982,11 +984,11 @@ export function WorkspaceProjectSharingPanel({ workspacePath }: WorkspaceProject
         });
         await loadTeamData();
       } else {
-        setError(result.error || 'Failed to unlink project');
+        setError(result.error || t('workspace_sharing.err_unlink_project', 'Failed to unlink project'));
         trackFailure('unlink_project', result.error, 'project');
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to unlink project');
+      setError(err instanceof Error ? err.message : t('workspace_sharing.err_unlink_project', 'Failed to unlink project'));
       trackFailure('unlink_project', err, 'project');
     }
   };
@@ -1012,11 +1014,11 @@ export function WorkspaceProjectSharingPanel({ workspacePath }: WorkspaceProject
           ),
         });
       } else {
-        setError(result.error || 'Failed to update role');
+        setError(result.error || t('workspace_sharing.err_update_role', 'Failed to update role'));
         trackFailure('change_member_role', result.error);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to update role');
+      setError(err instanceof Error ? err.message : t('workspace_sharing.err_update_role', 'Failed to update role'));
       trackFailure('change_member_role', err);
     }
   };
@@ -1024,9 +1026,9 @@ export function WorkspaceProjectSharingPanel({ workspacePath }: WorkspaceProject
   const handleDeleteTeam = async () => {
     if (!team) return;
     const confirmed = await requestConfirmation({
-      title: 'Delete organization',
-      message: `Permanently delete organization "${team.name}"? This will remove all members, shared documents, and encryption keys. This action cannot be undone.`,
-      confirmLabel: 'Delete',
+      title: t('workspace_sharing.confirm_delete_org_title', 'Delete organization'),
+      message: t('workspace_sharing.confirm_delete_org_message', { team: team.name, defaultValue: `Permanently delete organization "${team.name}"? This will remove all members, shared documents, and encryption keys. This action cannot be undone.` }),
+      confirmLabel: t('workspace_sharing.delete', 'Delete'),
       destructive: true,
     });
     if (!confirmed) return;
@@ -1042,11 +1044,11 @@ export function WorkspaceProjectSharingPanel({ workspacePath }: WorkspaceProject
         });
         setTeam(null);
       } else {
-        setError(result.error || 'Failed to delete organization');
+        setError(result.error || t('workspace_sharing.err_delete_org', 'Failed to delete organization'));
         trackFailure('delete_organization', result.error);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to delete organization');
+      setError(err instanceof Error ? err.message : t('workspace_sharing.err_delete_org', 'Failed to delete organization'));
       trackFailure('delete_organization', err);
     }
   };
@@ -1058,7 +1060,7 @@ export function WorkspaceProjectSharingPanel({ workspacePath }: WorkspaceProject
         data-component="WorkspaceProjectSharingPanel"
         data-testid="workspace-project-sharing-panel"
       >
-        <span className="text-[13px] text-[var(--nim-text-muted)]">Loading organization data…</span>
+        <span className="text-[13px] text-[var(--nim-text-muted)]">{t('workspace_sharing.loading_org_data', 'Loading organization data…')}</span>
       </div>
     );
   }
@@ -1073,11 +1075,11 @@ export function WorkspaceProjectSharingPanel({ workspacePath }: WorkspaceProject
       >
         <div className="provider-panel-header mb-5 pb-4 border-b border-[var(--nim-border)]">
           <h3 className="provider-panel-title text-xl font-semibold leading-tight mb-1.5 text-[var(--nim-text)] flex items-center gap-2">
-            Organization
+            {t('workspace_sharing.header_title', 'Organization')}
             <AlphaBadge size="sm" stage="beta" tooltip={TEAM_BETA_TOOLTIP} />
           </h3>
           <p className="provider-panel-description text-[13px] leading-relaxed text-[var(--nim-text-muted)]">
-            Create an organization to collaborate on shared, encrypted tracker items and documents.
+            {t('workspace_sharing.header_desc', 'Create an organization to collaborate on shared, encrypted tracker items and documents.')}
           </p>
           <TeamBetaNotice className="mt-2.5" />
         </div>
@@ -1091,8 +1093,7 @@ export function WorkspaceProjectSharingPanel({ workspacePath }: WorkspaceProject
             <MaterialSymbol icon="account_circle" size={24} className="text-[var(--nim-primary)]" />
           </div>
           <p className="text-[13px] text-[var(--nim-text-muted)] mb-3 leading-relaxed">
-            Sharing this project needs a Nimbalyst account. Signing in or creating one is the
-            first step.
+            {t('workspace_sharing.signed_out_desc', 'Sharing this project needs a Nimbalyst account. Signing in or creating one is the first step.')}
           </p>
           <button
             type="button"
@@ -1100,7 +1101,7 @@ export function WorkspaceProjectSharingPanel({ workspacePath }: WorkspaceProject
             data-testid="project-sharing-sign-in"
             onClick={handleSignedOutSignIn}
           >
-            Sign in or create an account
+            {t('workspace_sharing.sign_in_or_create', 'Sign in or create an account')}
           </button>
         </div>
       </div>
@@ -1125,17 +1126,17 @@ export function WorkspaceProjectSharingPanel({ workspacePath }: WorkspaceProject
       {/* Header */}
       <div className="provider-panel-header mb-5 pb-4 border-b border-[var(--nim-border)]">
         <h3 className="provider-panel-title text-xl font-semibold leading-tight mb-1.5 text-[var(--nim-text)] flex items-center gap-2">
-          Organization
+          {t('workspace_sharing.header_title', 'Organization')}
           <AlphaBadge size="sm" stage="beta" tooltip={TEAM_BETA_TOOLTIP} />
         </h3>
         <p className="provider-panel-description text-[13px] leading-relaxed text-[var(--nim-text-muted)]">
-          Create an organization to collaborate on shared, encrypted tracker items and documents.
+          {t('workspace_sharing.header_desc', 'Create an organization to collaborate on shared, encrypted tracker items and documents.')}
         </p>
         <TeamBetaNotice className="mt-2.5" />
         {userEmail && team && (
           <div className="flex items-center gap-1.5 mt-2 text-[12px] text-[var(--nim-text-faint)]">
             <MaterialSymbol icon="person" size={13} />
-            <span>Signed in as <span className="text-[var(--nim-text-muted)]">{userName || userEmail}</span></span>
+            <span>{t('workspace_sharing.signed_in_as', 'Signed in as ')}<span className="text-[var(--nim-text-muted)]">{userName || userEmail}</span></span>
           </div>
         )}
       </div>
