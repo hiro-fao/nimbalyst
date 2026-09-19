@@ -4,6 +4,7 @@ import './hooks/useExtensionInputGuard';
 
 // Side-effect: ensure atomFamily registry is initialized and window.__atomFamilyStats is set
 import './store/debug/atomFamilyRegistry';
+import '../i18n';
 import { agentRightPanelOptions } from './components/AgentMode/agentRightPanelOptions';
 import { revealWorkstreamEditorAtom } from './store/atoms/agentFileViewer';
 
