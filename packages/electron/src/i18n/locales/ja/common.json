@@ -411,6 +411,12 @@
     "add": "追加",
     "claude_cli": "Claude Code CLI",
     "claude_cli_desc": "{{cmd}} コマンドラインツール自体での作業を好む方向けです。上記のエージェントの代わりに、ターミナルで本物の CLI を実行します。Claude サブスクリプションを使用するためにこれは必要ありません。Claude プランでサインインすれば、Claude エージェントは既にそのサブスクリプション上で動作します。SDK とは独立して有効・無効にできます。",
-    "enable_cli": "Claude Code CLI を有効にする"
+    "enable_cli": "Claude Code CLI を有効にする",
+    "runtime_title": "Claude エージェント ランタイム",
+    "runtime_loading": "ランタイムを読み込み中...",
+    "runtime_source": "ソース: {{source}}",
+    "runtime_custom": "カスタム",
+    "runtime_bundled": "Nimbalyst 内蔵ランタイム",
+    "runtime_sdk_version": "Agent SDK バージョン: {{version}}"
   }
 }
