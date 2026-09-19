@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAtomValue } from 'jotai';
 import { usePostHog } from 'posthog-js/react';
 import { MaterialSymbol } from '@nimbalyst/runtime/ui/icons/MaterialSymbol';
@@ -96,6 +97,7 @@ export function ExtensionMarketplacePanel({
   onInstallRequestHandled,
   onViewInstalled,
 }: ExtensionMarketplacePanelProps) {
+  const { t } = useTranslation();
   const posthog = usePostHog();
   const { theme } = useTheme();
 
@@ -463,9 +465,9 @@ export function ExtensionMarketplacePanel({
     return (
       <div className="provider-panel flex flex-col" data-testid="extension-marketplace-panel">
         <div className="mb-6 pb-4 border-b border-[var(--nim-border)]">
-          <h3 className="text-xl font-semibold leading-tight mb-2 text-[var(--nim-text)]">Extension Marketplace</h3>
+          <h3 className="text-xl font-semibold leading-tight mb-2 text-[var(--nim-text)]">{t('marketplace.title', 'Extension Marketplace')}</h3>
           <p className="text-sm leading-relaxed text-[var(--nim-text-muted)]">
-            Discover and install extensions to enhance your Nimbalyst workspace.
+            {t('marketplace.description', 'Discover and install extensions to enhance your Nimbalyst workspace.')}
           </p>
         </div>
 
@@ -473,22 +475,19 @@ export function ExtensionMarketplacePanel({
           <div className="flex items-start gap-3">
             <MaterialSymbol icon="warning" size={24} className="text-[var(--nim-warning)] shrink-0 mt-0.5" />
             <div>
-              <h4 className="m-0 mb-2 text-base font-semibold text-[var(--nim-text)]">Security Warning</h4>
+              <h4 className="m-0 mb-2 text-base font-semibold text-[var(--nim-text)]">{t('marketplace.security_warning', 'Security Warning')}</h4>
               <div className="text-sm leading-relaxed text-[var(--nim-text-muted)] flex flex-col gap-3">
                 <p className="m-0">
-                  Extensions run with access to your local file system and can execute code on your machine.
-                  Installing untrusted extensions may pose security risks including:
+                  {t('marketplace.security_warning_intro', 'Extensions run with access to your local file system and can execute code on your machine. Installing untrusted extensions may pose security risks including:')}
                 </p>
                 <ul className="m-0 pl-5 flex flex-col gap-1.5">
-                  <li>Reading or modifying files on your computer</li>
-                  <li>Executing arbitrary code in the application context</li>
-                  <li>Accessing network resources</li>
-                  <li>Interacting with other installed extensions</li>
+                  <li>{t('marketplace.risk_read_write', 'Reading or modifying files on your computer')}</li>
+                  <li>{t('marketplace.risk_execute', 'Executing arbitrary code in the application context')}</li>
+                  <li>{t('marketplace.risk_network', 'Accessing network resources')}</li>
+                  <li>{t('marketplace.risk_interact', 'Interacting with other installed extensions')}</li>
                 </ul>
                 <p className="m-0">
-                  Only install extensions from sources you trust. Nimbalyst does not review or verify
-                  third-party extensions installed from GitHub URLs. Marketplace extensions published
-                  by Nimbalyst are reviewed for safety.
+                  {t('marketplace.security_warning_outro', 'Only install extensions from sources you trust. Nimbalyst does not review or verify third-party extensions installed from GitHub URLs. Marketplace extensions published by Nimbalyst are reviewed for safety.')}
                 </p>
               </div>
             </div>
@@ -500,10 +499,10 @@ export function ExtensionMarketplacePanel({
               onClick={handleAcceptRisk}
               data-testid="marketplace-accept-risk"
             >
-              I understand the risks
+              {t('marketplace.accept_risk', 'I understand the risks')}
             </button>
             <span className="text-xs text-[var(--nim-text-faint)]">
-              You can reset this in Settings &gt; Advanced
+              {t('marketplace.reset_hint', 'You can reset this in Settings > Advanced')}
             </span>
           </div>
         </div>
@@ -514,7 +513,7 @@ export function ExtensionMarketplacePanel({
   if (loading) {
     return (
       <div className="provider-panel flex flex-col">
-        <div className="p-8 text-center text-[var(--nim-text-muted)]">Loading marketplace...</div>
+        <div className="p-8 text-center text-[var(--nim-text-muted)]">{t('marketplace.loading_marketplace', 'Loading marketplace...')}</div>
       </div>
     );
   }
@@ -523,13 +522,13 @@ export function ExtensionMarketplacePanel({
     return (
       <div className="provider-panel flex flex-col">
         <div className="p-8 text-center text-[var(--nim-error)]">
-          Error: {error}
+          {t('marketplace.error_prefix', { error, defaultValue: `Error: ${error}` })}
           <button
             onClick={loadData}
             className="ml-4 px-4 py-2 bg-[var(--nim-primary)] text-white border-none rounded cursor-pointer"
             data-testid="marketplace-retry"
           >
-            Retry
+            {t('marketplace.retry', 'Retry')}
           </button>
         </div>
       </div>
@@ -572,10 +571,10 @@ export function ExtensionMarketplacePanel({
         <div className="text-[0.8125rem] text-[var(--nim-text-muted)] leading-relaxed mb-3 flex-1 line-clamp-2">{ext.tagline || ext.description}</div>
         <div className="flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
-            <span className="text-xs text-[var(--nim-text-faint)]">by {ext.author}</span>
+            <span className="text-xs text-[var(--nim-text-faint)]">{t('marketplace.by_author', { author: ext.author, defaultValue: `by ${ext.author}` })}</span>
             {ext.downloads > 0 && (
               <span className="text-xs text-[var(--nim-text-faint)]">
-                {ext.downloads.toLocaleString()} installs
+                {t('marketplace.installs', { count: ext.downloads.toLocaleString(), defaultValue: `${ext.downloads.toLocaleString()} installs` })}
               </span>
             )}
           </div>
@@ -593,7 +592,7 @@ export function ExtensionMarketplacePanel({
               disabled={status === 'installing'}
               data-testid={`marketplace-update-${ext.id}`}
             >
-              {status === 'installing' ? 'Updating...' : `Update to v${update.availableVersion}`}
+              {status === 'installing' ? t('marketplace.updating', 'Updating...') : t('marketplace.update_to_version', { version: update.availableVersion, defaultValue: `Update to v${update.availableVersion}` })}
             </button>
           ) : installed ? (
             <span className={`inline-flex items-center px-2 py-1 rounded text-[0.6875rem] font-semibold uppercase tracking-tight ${
@@ -601,7 +600,7 @@ export function ExtensionMarketplacePanel({
                 ? 'bg-[var(--nim-bg-tertiary)] text-[var(--nim-text-muted)]'
                 : 'bg-[rgba(39,174,96,0.15)] text-[#27ae60]'
             }`}>
-              {isBuiltinExtension(ext.id) ? 'Built-in' : 'Installed'}
+              {isBuiltinExtension(ext.id) ? t('marketplace.builtin', 'Built-in') : t('marketplace.installed', 'Installed')}
             </span>
           ) : (
             <button
@@ -617,7 +616,7 @@ export function ExtensionMarketplacePanel({
               disabled={status === 'installing'}
               data-testid={`marketplace-install-${ext.id}`}
             >
-              {status === 'installing' ? 'Installing...' : 'Install'}
+              {status === 'installing' ? t('marketplace.installing', 'Installing...') : t('marketplace.install', 'Install')}
             </button>
           )}
         </div>
@@ -633,7 +632,7 @@ export function ExtensionMarketplacePanel({
           type="text"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Search extensions..."
+          placeholder={t('marketplace.search_placeholder', 'Search extensions...')}
           className="w-full py-3 pl-4 pr-10 border border-[var(--nim-border)] rounded-lg bg-[var(--nim-bg)] text-[var(--nim-text)] text-[0.9375rem] outline-none focus:border-[var(--nim-primary)] placeholder:text-[var(--nim-text-faint)]"
           data-testid="marketplace-search"
           autoFocus
@@ -968,7 +967,7 @@ export function ExtensionMarketplacePanel({
                 onClick={() => handleInstall(selectedExtension)}
                 disabled={status === 'installing'}
               >
-                {status === 'installing' ? 'Installing...' : 'Install Extension'}
+                {status === 'installing' ? t('marketplace.installing', 'Installing...') : t('marketplace.install_extension', 'Install Extension')}
               </button>
             )}
           </div>
@@ -987,9 +986,9 @@ export function ExtensionMarketplacePanel({
     <div className="provider-panel flex flex-col" data-testid="extension-marketplace-panel">
       <div className="mb-4 pb-4 border-b border-[var(--nim-border)] flex items-start justify-between gap-4">
         <div>
-          <h3 className="text-xl font-semibold leading-tight mb-2 text-[var(--nim-text)]">Extension Marketplace</h3>
+          <h3 className="text-xl font-semibold leading-tight mb-2 text-[var(--nim-text)]">{t('marketplace.title', 'Extension Marketplace')}</h3>
           <p className="text-sm leading-relaxed text-[var(--nim-text-muted)]">
-            Discover and install extensions to enhance your Nimbalyst workspace.
+            {t('marketplace.description', 'Discover and install extensions to enhance your Nimbalyst workspace.')}
           </p>
         </div>
         {onViewInstalled && (
@@ -999,7 +998,7 @@ export function ExtensionMarketplacePanel({
             data-testid="marketplace-view-installed"
           >
             <MaterialSymbol icon="extension" size={16} />
-            Installed ({installedCount}){updateCount > 0 && ` • ${updateCount} update${updateCount > 1 ? 's' : ''}`}
+            {t('marketplace.view_installed', { count: installedCount, defaultValue: `Installed (${installedCount})` })}{updateCount > 0 && t('marketplace.updates_available', { count: updateCount, defaultValue: ` • ${updateCount} update${updateCount > 1 ? 's' : ''}` })}
           </button>
         )}
       </div>
