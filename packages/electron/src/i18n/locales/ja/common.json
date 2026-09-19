@@ -49,6 +49,26 @@
       "AI Providers": "AI プロバイダー",
       "GitHub": "GitHub",
       "Extensions": "拡張機能"
+    },
+    "ui": {
+      "scope_account": "アカウント",
+      "scope_application": "アプリケーション",
+      "scope_project": "プロジェクト",
+      "scope_project_placeholder": "プロジェクト設定にアクセスするには、プロジェクトを開くか選択してください。",
+      "open_installed_extensions": "インストール済み拡張機能を開く",
+      "scope_application_desc": "これらの設定はすべてのプロジェクトに適用されます",
+      "scope_account_desc": "アカウント、個人同期、デバイス、および共有リンク",
+      "scope_project_desc": "設定: {{name}}",
+      "save_saving": "保存中...",
+      "save_saved": "保存済み",
+      "save_error": "保存エラー",
+      "mcp_servers_placeholder": "MCP サーバーを構成するには、ローカルプロジェクトを開いてください。",
+      "agent_permissions_placeholder": "エージェント権限を構成するには、ローカルプロジェクトを開いてください。",
+      "provider_overrides_placeholder": "プロバイダーの上書き設定を構成するには、ローカルプロジェクトを開いてください。",
+      "mcp_servers_switch_tab": "上部の「プロジェクト」タブに切り替えて、プロジェクト固有の MCP サーバーを表示または編集してください。",
+      "mcp_servers_count": "このプロジェクトだけに {{count}} 個の追加 MCP {{server}} が構成されています。",
+      "ext_provider_notice": "このエージェントプロバイダーはインストールされた拡張機能によるものです。チャット入力のモデルセレクターからモデルを選択してください。拡張機能の設定や管理を行うには、「インストール済み拡張機能」を開いてください。",
+      "ext_route_unavailable": "この拡張機能の設定ルートは利用できなくなりました。"
     }
   }
 }
