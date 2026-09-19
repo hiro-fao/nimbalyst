@@ -32,7 +32,7 @@
     "build:mac": "npm run build && npm run build:extensions && node -r dotenv/config build/configure-build.js && node build/build-with-env.js --mac",
     "build:mac:signed": "npm run build && npm run build:extensions && node -r dotenv/config build/configure-build.js && node build/build-with-env.js --mac",
     "build:mac:notarized": "npm run build && npm run build:extensions && node -r dotenv/config build/configure-build.js && REQUIRE_NOTARIZE=true node build/build-with-env.js --mac",
-    "build:mac:local": "SKIP_NOTARIZE=true npm run build && npm run build:extensions && SKIP_NOTARIZE=true node -r dotenv/config build/configure-build.js && SKIP_NOTARIZE=true node build/build-with-env.js --mac --publish never",
+    "build:mac:local": "SKIP_NOTARIZE=true npm run build && npm run build:extensions && SKIP_NOTARIZE=true node -r dotenv/config build/configure-build.js && node build/build-with-env.js --mac --publish never",
     "build:mac:release": "npm run build && npm run build:extensions && node -r dotenv/config build/configure-build.js && REQUIRE_NOTARIZE=true node build/build-with-env.js --mac --publish always",
     "validate:extra-resources": "node build/normalize-extra-resources.js && node build/validate-extra-resources.js",
     "verify:native-runtime": "node build/verify-native-runtime.js",
@@ -100,6 +100,7 @@
     "highlight.js": "11.11.1",
     "html2canvas": "^1.4.1",
     "ignore": "^7.0.5",
+    "i18next": "^23.11.5",
     "jimp": "^1.6.0",
     "jotai": "^2.16.1",
     "jotai-family": "^1.1.0",
@@ -123,6 +124,7 @@
     "react": "^19.2.7",
     "react-diff-view": "^3.3.3",
     "react-dom": "^19.2.7",
+    "react-i18next": "^14.1.2",
     "react-is": "^19.2.4",
     "react-virtuoso": "^4.18.11",
     "recharts": "^3.5.0",
@@ -203,7 +205,6 @@
       "node_modules/@anthropic-ai/**/*",
       "node_modules/@openai/**/*",
       "node_modules/@opencode-ai/**/*",
-      "node_modules/@vscode/ripgrep/**/*",
       "node_modules/@zed-industries/**/*",
       "node_modules/openai/**/*",
       "node_modules/heic-decode/**/*"
@@ -241,7 +242,6 @@
       "node_modules/pkg-up/**/*",
       "node_modules/find-up/**/*",
       "node_modules/locate-path/**/*",
-      "node_modules/p-locate/**/*",
       "node_modules/p-limit/**/*",
       "node_modules/p-try/**/*",
       "node_modules/path-exists/**/*",
@@ -312,7 +312,6 @@
           "!src/**",
           "!docs/**",
           "!.github/**",
-          "!*.md",
           "!binding.gyp"
         ]
       },
@@ -396,7 +395,6 @@
         "from": "../extension-sdk-docs",
         "to": "extension-sdk-docs",
         "filter": [
-          "**/*.md",
           "**/manifest.json",
           "**/package.json",
           "**/tsconfig.json",
@@ -453,7 +451,7 @@
         }
       ],
       "signIgnore": [
-        "node_modules/@anthropic-ai/claude-agent-sdk/vendor/.*\\.jar$"
+        "node_modules/@anthropic-ai/claude-agent-sdk/vendor/.*\\\\.jar$"
       ],
       "fileAssociations": [
         {
@@ -510,7 +508,7 @@
     },
     "nsis": {
       "oneClick": false,
-      "packElevateHelper": false,
+      "packElevateHeler": false,
       "runAfterFinish": true
     },
     "linux": {
@@ -521,8 +519,9 @@
       "artifactName": "${productName}-Linux.${ext}",
       "executableName": "nimbalyst",
       "category": "Development",
-      "maintainer": "Nimbalyst Team <support@nimbalyst.com>"
-    },
-    "buildVersion": "0.36.5"
-  }
+      "maintainer": "Nimbalyst Team <support@nimbalyst.com>",
+      "description": "Development"
+    }
+  },
+  "buildVersion": "0.36.5"
 }
