@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ProviderConfig, Model } from '../../Settings/SettingsView';
 import { SettingsToggle } from '../SettingsToggle';
 
@@ -27,19 +28,19 @@ export function ClaudePanel({
   onTestConnection,
   onConfigChange
 }: ClaudePanelProps) {
+  const { t } = useTranslation();
   return (
     <div className="provider-panel flex flex-col">
       <div className="provider-panel-header mb-6 pb-4 border-b border-[var(--nim-border)]">
-        <h3 className="provider-panel-title text-xl font-semibold leading-tight mb-2 text-[var(--nim-text)]">Claude Chat</h3>
+        <h3 className="provider-panel-title text-xl font-semibold leading-tight mb-2 text-[var(--nim-text)]">{t('claude_chat.title', 'Claude Chat')}</h3>
         <p className="provider-panel-description text-sm leading-relaxed text-[var(--nim-text-muted)]">
-          Chat mode is a quicker, more focused tool that is limited to reading and writing your currently open file.
-          Uses direct API calls with files attached as context for faster responses. Requires an Anthropic API key.
+          {t('claude_chat.description', 'Chat mode is a quicker, more focused tool that is limited to reading and writing your currently open file. Uses direct API calls with files attached as context for faster responses. Requires an Anthropic API key.')}
         </p>
       </div>
 
       <SettingsToggle
         variant="enable"
-        name="Enable Claude"
+        name={t('claude_chat.enable', 'Enable Claude')}
         checked={config.enabled}
         onChange={onToggle}
       />
@@ -47,7 +48,7 @@ export function ClaudePanel({
       {config.enabled && (
         <>
           <div className="provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)] last:border-b-0 last:mb-0 last:pb-0">
-            <h4 className="provider-panel-section-title text-base font-semibold mb-3 text-[var(--nim-text)]">API Configuration</h4>
+            <h4 className="provider-panel-section-title text-base font-semibold mb-3 text-[var(--nim-text)]">{t('chat_provider.api_config', 'API Configuration')}</h4>
             <div className="api-key-section mt-4">
               <div className="api-key-row flex gap-2 items-center">
                 <input
@@ -67,9 +68,9 @@ export function ClaudePanel({
                   onClick={onTestConnection}
                   disabled={config.testStatus === 'testing'}
                 >
-                  {config.testStatus === 'testing' ? 'Testing...' :
-                   config.testStatus === 'success' ? '✓ Connected' :
-                   config.testStatus === 'error' ? '✗ Failed' : 'Test'}
+                  {config.testStatus === 'testing' ? t('chat_provider.testing', 'Testing...') :
+                   config.testStatus === 'success' ? `✓ ${t('chat_provider.connected', 'Connected')}` :
+                   config.testStatus === 'error' ? `✗ ${t('chat_provider.failed', 'Failed')}` : t('chat_provider.test', 'Test')}
                 </button>
               </div>
               {config.testMessage && config.testStatus === 'error' && (
@@ -79,27 +80,27 @@ export function ClaudePanel({
           </div>
 
           <div className="provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)] last:border-b-0 last:mb-0 last:pb-0">
-            <h4 className="provider-panel-section-title text-base font-semibold mb-3 text-[var(--nim-text)]">Available Models</h4>
+            <h4 className="provider-panel-section-title text-base font-semibold mb-3 text-[var(--nim-text)]">{t('chat_provider.available_models', 'Available Models')}</h4>
             {loading && (
-              <div className="models-loading text-sm text-[var(--nim-text-muted)] py-2">Loading models...</div>
+              <div className="models-loading text-sm text-[var(--nim-text-muted)] py-2">{t('chat_provider.loading_models', 'Loading models...')}</div>
             )}
 
             {!loading && availableModels.length > 0 && (
               <div className="models-section">
                 <div className="models-header flex items-center justify-between mb-3">
-                  <span className="text-sm text-[var(--nim-text-muted)]">Select models to enable:</span>
+                  <span className="text-sm text-[var(--nim-text-muted)]">{t('chat_provider.select_hint', 'Select models to enable:')}</span>
                   <div className="models-actions flex gap-2">
                     <button
                       className="models-action-btn text-xs py-1 px-2 rounded bg-[var(--nim-bg-secondary)] border border-[var(--nim-border)] text-[var(--nim-text-muted)] hover:text-[var(--nim-text)] hover:bg-[var(--nim-bg-hover)] cursor-pointer transition-all"
                       onClick={() => onSelectAllModels(true)}
                     >
-                      Select All
+                      {t('chat_provider.select_all', 'Select All')}
                     </button>
                     <button
                       className="models-action-btn text-xs py-1 px-2 rounded bg-[var(--nim-bg-secondary)] border border-[var(--nim-border)] text-[var(--nim-text-muted)] hover:text-[var(--nim-text)] hover:bg-[var(--nim-bg-hover)] cursor-pointer transition-all"
                       onClick={() => onSelectAllModels(false)}
                     >
-                      Deselect All
+                      {t('chat_provider.deselect_all', 'Deselect All')}
                     </button>
                   </div>
                 </div>
@@ -120,7 +121,7 @@ export function ClaudePanel({
             )}
 
             {!loading && availableModels.length === 0 && apiKeys.anthropic && (
-              <div className="models-loading text-sm text-[var(--nim-text-muted)] py-2">No models available. Check your API key and connection.</div>
+              <div className="models-loading text-sm text-[var(--nim-text-muted)] py-2">{t('chat_provider.no_models', 'No models available. Check your API key and connection.')}</div>
             )}
           </div>
         </>
