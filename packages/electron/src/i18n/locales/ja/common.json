@@ -204,5 +204,30 @@
     "experimental": "実験的機能",
     "upstream_url": "API アップストリーム URL",
     "upstream_url_desc": "プロキシまたはエンタープライズエンドポイント経由で Claude Code リクエストをルーティングするためのローカルループバック URL。"
+  },
+  "advanced": {
+    "title": "詳細設定",
+    "description": "アプリケーションおよび AI 機能の高度な設定オプションです。",
+    "app_mode": "アプリケーションモード",
+    "standard_mode": "スタンダードモード",
+    "standard_mode_desc": "日常の作業に最適化されたすっきりとしたインターフェース。",
+    "dev_mode": "開発者モード",
+    "dev_mode_desc": "高度なデバッグツール、機能フラグ、開発者向け設定へのアクセスを有効にします。",
+    "all_dev_features": "すべての開発者機能",
+    "release_channel": "リリースチャンネル",
+    "release_channel_desc": "アップデートを受信するチャンネルを選択します。",
+    "release_stable": "安定版 (Stable)",
+    "release_beta": "ベータ版 (Beta)",
+    "release_alpha": "アルファ版 (Alpha / 開発者向け)",
+    "general": "一般",
+    "reset_walkthroughs": "ウォークスルーをリセット",
+    "reset_walkthroughs_desc": "すべてのオンボーディングウォークスルーの完了状態をリセットします。",
+    "reset": "リセット",
+    "tracker_automation": "トラッカー自動化",
+    "tools_environment": "ツール & 環境",
+    "terminal_shell": "優先ターミナルシェル",
+    "terminal_shell_desc": "組み込みターミナルで使用するシェルを選択します。",
+    "external_editor": "外部エディタ",
+    "external_editor_desc": "外部でファイルを開く際に使用するデフォルトのエディタ。"
   }
 }
