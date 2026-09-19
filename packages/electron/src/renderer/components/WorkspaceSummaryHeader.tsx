@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import {useAtomValue} from 'jotai';
 import {selectedMachineAtom} from '../store/atoms/remoteMachines';
 import {RemoteMachineSelector} from './RemoteMachineSelector';
@@ -36,6 +37,7 @@ export function WorkspaceSummaryHeader({
   headerClassName = '',
   actionsClassName = '',
 }: WorkspaceSummaryHeaderProps) {
+  const { t } = useTranslation();
   const remoteHost = useAtomValue(selectedMachineAtom(workspacePath));
   const displayName = workspaceName || getFileName(workspacePath) || 'Workspace';
 
@@ -72,7 +74,7 @@ export function WorkspaceSummaryHeader({
           className="workspace-summary-header-path mt-0.5 text-[11px] text-[var(--nim-text-muted)] overflow-hidden text-ellipsis whitespace-nowrap opacity-75 font-normal"
           title={workspacePath}
         >
-          {showMachineSelector && remoteHost ? "Remote workspace" : workspacePath}
+          {showMachineSelector && remoteHost ? t('workspace_sidebar.remote_workspace', 'Remote workspace') : workspacePath}
         </div>
       </div>
     </>
