@@ -288,7 +288,7 @@ export const VoiceModePanel: React.FC<VoiceModePanelProps> = ({
         </h3>
         <p className="provider-panel-description text-sm leading-relaxed text-[var(--nim-text-muted)]">
           {t('voice_mode.description', "Use OpenAI's Advanced Voice Mode to control Claude Code with your voice.")}
-          Speak naturally to give commands, and receive spoken responses.
+          {t('voice_mode.description_2', 'Speak naturally to give commands, and receive spoken responses.')}
         </p>
       </div>
 
@@ -324,7 +324,7 @@ export const VoiceModePanel: React.FC<VoiceModePanelProps> = ({
             <div className="setting-text flex flex-col gap-0.5">
               <span className="setting-name text-sm font-medium text-[var(--nim-text)]">{t('voice_mode.show_button', 'Show Voice Mode Button')}</span>
               <span className="setting-description text-xs text-[var(--nim-text-muted)]">
-                Display the microphone button in the AI input area
+                {t('voice_mode.show_button_desc', 'Display the microphone button in the AI input area')}
               </span>
             </div>
           </label>
@@ -342,10 +342,10 @@ export const VoiceModePanel: React.FC<VoiceModePanelProps> = ({
               <h4 className="text-sm font-medium text-[var(--nim-text)] mb-1">{t('voice_mode.mic_not_granted', 'Microphone access not granted')}</h4>
               <p className="text-xs text-[var(--nim-text-muted)] mb-3">
                 {micStatus === 'denied'
-                  ? `Voice Mode needs microphone access. Enable it in ${micPlatform === 'win32' ? 'Windows Settings' : 'System Settings'}, then re-check below.`
+                  ? t('voice_mode.mic_denied', { settings: micPlatform === 'win32' ? t('voice_mode.windows_settings', 'Windows Settings') : t('voice_mode.system_settings', 'System Settings'), defaultValue: `Voice Mode needs microphone access. Enable it in ${micPlatform === 'win32' ? 'Windows Settings' : 'System Settings'}, then re-check below.` })
                   : micStatus === 'restricted'
-                  ? 'Microphone access is restricted on this device (e.g. by parental controls or MDM). Voice Mode cannot capture audio.'
-                  : `Voice Mode needs microphone access. Open ${micPlatform === 'win32' ? 'Windows Settings' : 'System Settings'} to grant it.`}
+                  ? t('voice_mode.mic_restricted', 'Microphone access is restricted on this device (e.g. by parental controls or MDM). Voice Mode cannot capture audio.')
+                  : t('voice_mode.mic_needed', { settings: micPlatform === 'win32' ? t('voice_mode.windows_settings', 'Windows Settings') : t('voice_mode.system_settings', 'System Settings'), defaultValue: `Voice Mode needs microphone access. Open ${micPlatform === 'win32' ? 'Windows Settings' : 'System Settings'} to grant it.` })}
               </p>
               <div className="flex items-center gap-2">
                 {(micPlatform === 'darwin' || micPlatform === 'win32') && (
