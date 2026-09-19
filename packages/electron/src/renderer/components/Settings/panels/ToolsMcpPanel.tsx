@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { MaterialSymbol } from '@nimbalyst/runtime/ui/icons/MaterialSymbol';
 import { ToggleSwitch } from '../../GlobalSettings/SettingsToggle';
 
@@ -40,6 +41,14 @@ const GROUP_DESCRIPTIONS: Record<string, string> = {
   'nimbalyst-extension-dev': 'Extension development and debugging (developer mode)',
 };
 
+const GROUP_DESCRIPTION_I18N_KEYS: Record<string, string> = {
+  nimbalyst: 'tools_mcp.desc_nimbalyst',
+  'nimbalyst-host': 'tools_mcp.desc_nimbalyst_host',
+  'nimbalyst-trackers': 'tools_mcp.desc_nimbalyst_trackers',
+  'nimbalyst-situational': 'tools_mcp.desc_nimbalyst_situational',
+  'nimbalyst-extension-dev': 'tools_mcp.desc_nimbalyst_extension_dev',
+};
+
 function formatTokens(estTokens: number | null): string {
   if (estTokens === null) return '—';
   if (estTokens >= 1000) return `~${(estTokens / 1000).toFixed(1)}k`;
@@ -47,11 +56,12 @@ function formatTokens(estTokens: number | null): string {
 }
 
 function PolicyBadge({ policy }: { policy: ToolGroupBudget['loadPolicy'] }) {
+  const { t } = useTranslation();
   const label =
-    policy === 'eager' ? 'Always loaded'
-    : policy === 'conditional' ? 'Conditional'
-    : policy === 'external' ? 'External'
-    : 'Loads on demand';
+    policy === 'eager' ? t('tools_mcp.policy_eager', 'Always loaded')
+    : policy === 'conditional' ? t('tools_mcp.policy_conditional', 'Conditional')
+    : policy === 'external' ? t('tools_mcp.policy_external', 'External')
+    : t('tools_mcp.policy_deferred', 'Loads on demand');
   const style =
     policy === 'eager'
       ? 'bg-[rgba(245,158,11,0.15)] text-[#F59E0B] border-[rgba(245,158,11,0.3)]'
@@ -64,10 +74,11 @@ function PolicyBadge({ policy }: { policy: ToolGroupBudget['loadPolicy'] }) {
 }
 
 function TokenBadge({ estTokens }: { estTokens: number | null }) {
+  const { t } = useTranslation();
   return (
     <span
       className="token-badge text-[11px] tabular-nums text-[var(--nim-text-muted)] min-w-[48px] text-right"
-      title={estTokens === null ? 'Tool definitions live in the external server; cost unknown until it connects' : 'Estimated context tokens when this group’s tool definitions are loaded'}
+      title={estTokens === null ? t('tools_mcp.token_tooltip_unknown', 'Tool definitions live in the external server; cost unknown until it connects') : t('tools_mcp.token_tooltip_known', "Estimated context tokens when this group's tool definitions are loaded")}
     >
       {formatTokens(estTokens)}
     </span>
@@ -81,6 +92,7 @@ export function ToolsMcpPanel({
   workspacePath?: string;
   onNavigateToCategory?: (category: string) => void;
 }) {
+  const { t } = useTranslation();
   const [snapshot, setSnapshot] = useState<ToolBudgetSnapshot | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [trackersEnabled, setTrackersEnabled] = useState(true);
@@ -93,7 +105,7 @@ export function ToolsMcpPanel({
       if (trackers) setTrackersEnabled(trackers.enabled);
       setError(null);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to load tool information');
+      setError(err instanceof Error ? err.message : t('tools_mcp.load_failed', 'Failed to load tool information'));
     }
   }, [workspacePath]);
 
@@ -119,9 +131,11 @@ export function ToolsMcpPanel({
 
   const renderRow = (group: ToolGroupBudget) => {
     const isTrackers = group.configKey === 'nimbalyst-trackers';
-    const description =
-      GROUP_DESCRIPTIONS[group.configKey] ??
-      (group.source === 'extension' ? `${group.toolCount} tools from the ${group.displayName} extension` : 'User-added MCP server');
+    const description = GROUP_DESCRIPTION_I18N_KEYS[group.configKey]
+      ? t(GROUP_DESCRIPTION_I18N_KEYS[group.configKey], GROUP_DESCRIPTIONS[group.configKey])
+      : (group.source === 'extension'
+          ? t('tools_mcp.desc_extension_tools', { name: group.displayName, count: group.toolCount, defaultValue: `${group.toolCount} tools from the ${group.displayName} extension` })
+          : t('tools_mcp.desc_user_server', 'User-added MCP server'));
     const enabled = isTrackers ? trackersEnabled : group.enabled;
 
     return (
@@ -138,12 +152,12 @@ export function ToolsMcpPanel({
                 icon="lock"
                 size={13}
                 className="text-[var(--nim-text-faint)]"
-                title="Required — the app's own tools; cannot be disabled"
+                title={t('tools_mcp.required_tooltip', "Required — the app's own tools; cannot be disabled")}
               />
             )}
             {isTrackers && workspacePath && (
               <span className="scope-chip text-[10px] px-1.5 py-px rounded bg-[var(--nim-bg-tertiary)] border border-[var(--nim-border)] text-[var(--nim-text-faint)]">
-                This workspace
+                {t('tools_mcp.this_workspace', 'This workspace')}
               </span>
             )}
           </div>
@@ -152,7 +166,7 @@ export function ToolsMcpPanel({
         <div className="tool-group-meta flex items-center gap-2.5 shrink-0">
           {group.toolCount > 0 && (
             <span className="tool-count text-[11px] text-[var(--nim-text-faint)] tabular-nums whitespace-nowrap">
-              {group.toolCount} tools
+              {t('tools_mcp.tools_count', { count: group.toolCount, defaultValue: `${group.toolCount} tools` })}
             </span>
           )}
           <TokenBadge estTokens={group.estTokens} />
@@ -166,14 +180,14 @@ export function ToolsMcpPanel({
               className="manage-link text-xs text-[var(--nim-primary)] hover:underline whitespace-nowrap"
               onClick={() => onNavigateToCategory?.('installed-extensions')}
             >
-              Manage
+              {t('tools_mcp.manage', 'Manage')}
             </button>
           ) : group.source === 'user' ? (
             <button
               className="manage-link text-xs text-[var(--nim-primary)] hover:underline whitespace-nowrap"
               onClick={() => onNavigateToCategory?.('mcp-servers')}
             >
-              Manage
+              {t('tools_mcp.manage', 'Manage')}
             </button>
           ) : (
             // Non-toggleable first-party groups (host / situational / extension-dev):
@@ -187,9 +201,9 @@ export function ToolsMcpPanel({
 
   return (
     <div className="tools-mcp-panel max-w-[720px]">
-      <h2 className="text-lg font-semibold text-[var(--nim-text)] mb-1">Tools &amp; MCP</h2>
+      <h2 className="text-lg font-semibold text-[var(--nim-text)] mb-1">{t('tools_mcp.title', 'Tools & MCP')}</h2>
       <p className="text-[13px] text-[var(--nim-text-muted)] mb-5">
-        See what the agent&apos;s tools cost in context tokens and control which groups it can load.
+        {t('tools_mcp.description', "See what the agent's tools cost in context tokens and control which groups it can load.")}
       </p>
 
       {error && (
@@ -200,17 +214,13 @@ export function ToolsMcpPanel({
         <div className="baseline-card flex items-start gap-3 py-3 px-4 mb-6 bg-[var(--nim-bg-secondary)] border border-[var(--nim-border)] rounded-lg">
           <MaterialSymbol icon="info" size={18} className="text-[var(--nim-text-muted)] mt-0.5 shrink-0" />
           <div className="text-[13px] text-[var(--nim-text)] leading-relaxed">
-            Every session starts with only the Core tools loaded
-            (<span className="tabular-nums font-medium">{formatTokens(snapshot.eagerEstTokens)} tokens</span>).
-            All other groups stay out of the context window until the agent actually needs them,
-            so their costs below are only paid on demand. The live breakdown for a running session
-            is on the token meter in the AI panel.
+            {t('tools_mcp.baseline_note', { tokens: `${formatTokens(snapshot.eagerEstTokens)} ${t('tools_mcp.tokens_suffix', 'tokens')}`, defaultValue: `Every session starts with only the Core tools loaded (${formatTokens(snapshot.eagerEstTokens)} tokens). All other groups stay out of the context window until the agent actually needs them, so their costs below are only paid on demand. The live breakdown for a running session is on the token meter in the AI panel.` })}
           </div>
         </div>
       )}
 
       <div className="section-label text-[11px] font-semibold uppercase tracking-wide text-[var(--nim-text-faint)] mb-2">
-        Built-in tool groups
+        {t('tools_mcp.builtin_groups', 'Built-in tool groups')}
       </div>
       <div className="group-list border border-[var(--nim-border)] rounded-lg mb-6 bg-[var(--nim-bg-secondary)]">
         {firstParty.map(renderRow)}
@@ -219,7 +229,7 @@ export function ToolsMcpPanel({
       {extensions.length > 0 && (
         <>
           <div className="section-label text-[11px] font-semibold uppercase tracking-wide text-[var(--nim-text-faint)] mb-2">
-            Extension tool groups
+            {t('tools_mcp.extension_groups', 'Extension tool groups')}
           </div>
           <div className="group-list border border-[var(--nim-border)] rounded-lg mb-6 bg-[var(--nim-bg-secondary)]">
             {extensions.map(renderRow)}
@@ -230,7 +240,7 @@ export function ToolsMcpPanel({
       {userServers.length > 0 && (
         <>
           <div className="section-label text-[11px] font-semibold uppercase tracking-wide text-[var(--nim-text-faint)] mb-2">
-            Your MCP servers <span className="normal-case font-normal">(.mcp.json)</span>
+            {t('tools_mcp.your_mcp_servers', 'Your MCP servers')} <span className="normal-case font-normal">{t('tools_mcp.optional_config', '(.mcp.json)')}</span>
           </div>
           <div className="group-list border border-[var(--nim-border)] rounded-lg mb-6 bg-[var(--nim-bg-secondary)]">
             {userServers.map(renderRow)}
@@ -239,7 +249,7 @@ export function ToolsMcpPanel({
       )}
 
       <div className="footer-note text-[11.5px] text-[var(--nim-text-faint)]">
-        Changes apply to your next message — no restart needed.
+        {t('tools_mcp.footer_note', 'Changes apply to your next message — no restart needed.')}
       </div>
     </div>
   );
