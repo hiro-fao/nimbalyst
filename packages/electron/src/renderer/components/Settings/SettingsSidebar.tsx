@@ -12,6 +12,7 @@ import { MaterialSymbol } from '@nimbalyst/runtime/ui/icons/MaterialSymbol';
 import { getProviderIcon } from '@nimbalyst/runtime/ui/icons/ProviderIcons';
 import { AlphaBadge, SETTINGS_ALPHA_TOOLTIP } from '../common/AlphaBadge';
 import { TEAM_BETA_TOOLTIP } from '../common/TeamBetaNotice';
+import { useTranslation } from 'react-i18next';
 import { developerModeAtom } from '../../store/atoms/appSettings';
 import { teamsConfiguredAtom } from '../../store/atoms/settingsDomains';
 import {
@@ -54,6 +55,7 @@ export const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
   showDirectChatProviders,
   extensionRoutes = [],
 }) => {
+  const { t } = useTranslation();
   const developerMode = useAtomValue(developerModeAtom);
   const teamsConfigured = useAtomValue(teamsConfiguredAtom);
   const [extAgentProviders, setExtAgentProviders] = useState<
@@ -107,20 +109,20 @@ export const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
         {groups.map(([group, routes]) => (
           <section key={group} className="settings-sidebar-group mb-4" data-testid={`settings-group-${group.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}>
             <div className="settings-sidebar-group-title flex items-center gap-1.5 px-2 py-1.5 text-[11px] font-semibold uppercase tracking-wider text-[var(--nim-text-muted)]">
-              {group}
-              {GROUP_DESCRIPTIONS[group] && (
+              {t(`settings.groups.${group}`, group)}
+              {(t(`settings.group_descriptions.${group}`, GROUP_DESCRIPTIONS[group] || '')) && (
                 <button
                   type="button"
                   className="settings-sidebar-group-info inline-flex border-0 bg-transparent p-0 text-[var(--nim-text-faint)] hover:text-[var(--nim-text-muted)]"
                   aria-label={`About ${group}`}
                   onMouseEnter={(event) => {
                     refs.setReference(event.currentTarget);
-                    setTooltipText(GROUP_DESCRIPTIONS[group]);
+                    setTooltipText(t(`settings.group_descriptions.${group}`, GROUP_DESCRIPTIONS[group] || ''));
                   }}
                   onMouseLeave={() => setTooltipText(null)}
                   onFocus={(event) => {
                     refs.setReference(event.currentTarget);
-                    setTooltipText(GROUP_DESCRIPTIONS[group]);
+                    setTooltipText(t(`settings.group_descriptions.${group}`, GROUP_DESCRIPTIONS[group] || ''));
                   }}
                   onBlur={() => setTooltipText(null)}
                 >
@@ -152,7 +154,7 @@ export const SettingsSidebar: React.FC<SettingsSidebarProps> = ({
                       ? routeIcon(route)
                       : route.icon ? <MaterialSymbol icon={route.icon} size={16} /> : getProviderIcon(id, { size: 16 })}
                   </span>
-                  <span className="settings-sidebar-item-name flex-1 truncate">{route.label}</span>
+                  <span className="settings-sidebar-item-name flex-1 truncate">{t(`settings.labels.${route.label}`, route.label)}</span>
                   {isSettingsRoute && route.source === 'builtin' && route.isAlpha && (
                     <AlphaBadge
                       size="xs"
