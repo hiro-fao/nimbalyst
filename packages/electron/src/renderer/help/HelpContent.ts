@@ -9,6 +9,7 @@
  */
 
 import { KeyboardShortcuts } from '../../shared/KeyboardShortcuts';
+import i18next from 'i18next';
 import { CANVAS_HELP_CONTENT } from '@nimbalyst/runtime/canvas/canvasHelpContent';
 import { getRegisteredPanels } from '../extensions/panels/PanelRegistry';
 import { getRegisteredKeybindings } from '../extensions/commands/ExtensionCommandRegistry';
@@ -35,8 +36,8 @@ export const HelpContent: Record<string, HelpEntry> = {
   // ============================================================================
 
   'h2-security-encryption-section': {
-    title: 'Security & encryption',
-    body: 'Controls how your team\'s shared data is encrypted. End-to-end encrypted teams (desktop & mobile only) can be migrated to server-managed keys to unlock web, CLI, and AI-agent access — encrypted, isolated per team, and audit-logged, but no longer zero-knowledge. Your personal sync always stays end-to-end encrypted. Only owners and admins can migrate.',
+    title: i18next.t('help.h2_security_encryption_section_title', 'Security & encryption'),
+    body: i18next.t('help.h2_security_encryption_section_body', "Controls how your team's shared data is encrypted. End-to-end encrypted teams (desktop & mobile only) can be migrated to server-managed keys to unlock web, CLI, and AI-agent access — encrypted, isolated per team, and audit-logged, but no longer zero-knowledge. Your personal sync always stays end-to-end encrypted. Only owners and admins can migrate."),
   },
 
   // ============================================================================
@@ -44,36 +45,36 @@ export const HelpContent: Record<string, HelpEntry> = {
   // ============================================================================
 
   'team-tab-inbox': {
-    title: 'Inbox',
-    body: 'Mentions, assignments, replies, and activity in conversations you follow across this organization. Tracker and document activity land here too, so the Inbox stays useful even when rooms are turned off.',
+    title: i18next.t('help.team_tab_inbox_title', 'Inbox'),
+    body: i18next.t('help.team_tab_inbox_body', 'Mentions, assignments, replies, and activity in conversations you follow across this organization. Tracker and document activity land here too, so the Inbox stays useful even when rooms are turned off.'),
   },
   'org-rooms-section-add': {
-    title: 'Rooms',
-    body: 'Create a room or browse the directory.\n\nRooms are organization-wide conversations. **Public** rooms are open to everyone in the organization; **private** rooms are limited to the people you add. An organization can restrict room creation to admins in its settings — browsing stays open to everyone.',
+    title: i18next.t('help.org_rooms_section_add_title', 'Rooms'),
+    body: i18next.t('help.org_rooms_section_add_body', 'Create a room or browse the directory.\n\nRooms are organization-wide conversations. **Public** rooms are open to everyone in the organization; **private** rooms are limited to the people you add. An organization can restrict room creation to admins in its settings — browsing stays open to everyone.'),
   },
   'org-dms-section-add': {
-    title: 'Start a direct message',
-    body: 'A private conversation with up to seven other people. Direct messages cannot be renamed or joined later — pick the participants up front.',
+    title: i18next.t('help.org_dms_section_add_title', 'Start a direct message'),
+    body: i18next.t('help.org_dms_section_add_body', 'A private conversation with up to seven other people. Direct messages cannot be renamed or joined later — pick the participants up front.'),
   },
   'org-browse-rooms': {
-    title: 'Browse rooms',
-    body: 'Every room you can see: public rooms across the organization plus the private ones you belong to. Joining a public room makes its activity follow you into your Inbox.',
+    title: i18next.t('help.org_browse_rooms_title', 'Browse rooms'),
+    body: i18next.t('help.org_browse_rooms_body', 'Every room you can see: public rooms across the organization plus the private ones you belong to. Joining a public room makes its activity follow you into your Inbox.'),
   },
   'org-rooms-create': {
-    title: 'Create a room',
-    body: 'Add a new organization room. Public rooms are open to everyone; private rooms are limited to the members you add.',
+    title: i18next.t('help.org_rooms_create_title', 'Create a room'),
+    body: i18next.t('help.org_rooms_create_body', 'Add a new organization room. Public rooms are open to everyone; private rooms are limited to the members you add.'),
   },
   'org-room-notifications': {
-    title: 'Notifications for this conversation',
-    body: 'Choose what reaches your Inbox from here:\n\n- **All messages** — every message\n- **Mentions only** — messages that @mention you\n- **Nothing** — nothing at all\n\nThe setting is per conversation and follows you across devices.',
+    title: i18next.t('help.org_room_notifications_title', 'Notifications for this conversation'),
+    body: i18next.t('help.org_room_notifications_body', 'Choose what reaches your Inbox from here:\n\n- **All messages** — every message\n- **Mentions only** — messages that @mention you\n- **Nothing** — nothing at all\n\nThe setting is per conversation and follows you across devices.'),
   },
   'org-room-actions': {
-    title: 'Room actions',
-    body: 'Invite members and open room settings — rename, edit the topic, manage membership and room admins, allow or block agent posting, or archive the room. Available to room admins and organization admins.',
+    title: i18next.t('help.org_room_actions_title', 'Room actions'),
+    body: i18next.t('help.org_room_actions_body', 'Invite members and open room settings — rename, edit the topic, manage membership and room admins, allow or block agent posting, or archive the room. Available to room admins and organization admins.'),
   },
   'org-window-status-bar': {
-    title: 'Nimbalyst Teams is in beta',
-    body: 'Expect bugs.\n\nOrganizations are free during beta and will require a paid Nimbalyst Teams subscription after launch; existing organizations get advance notice before any pricing change.',
+    title: i18next.t('help.org_window_status_bar_title', 'Nimbalyst Teams is in beta'),
+    body: i18next.t('help.org_window_status_bar_body', 'Expect bugs.\n\nOrganizations are free during beta and will require a paid Nimbalyst Teams subscription after launch; existing organizations get advance notice before any pricing change.'),
   },
 
   // ============================================================================
@@ -81,16 +82,16 @@ export const HelpContent: Record<string, HelpEntry> = {
   // ============================================================================
 
   'organization-settings-rooms-toggle': {
-    title: 'Rooms',
-    body: 'Turn organization rooms off for an organization that chats elsewhere. The rooms section, the directory and room creation disappear for everyone; existing rooms are kept and come back if you turn this on again. The Inbox, document comments and tracker comments are unaffected.',
+    title: i18next.t('help.organization_settings_rooms_toggle_title', 'Rooms'),
+    body: i18next.t('help.organization_settings_rooms_toggle_body', 'Turn organization rooms off for an organization that chats elsewhere. The rooms section, the directory and room creation disappear for everyone; existing rooms are kept and come back if you turn this on again. The Inbox, document comments and tracker comments are unaffected.'),
   },
   'organization-settings-dms-toggle': {
-    title: 'Direct messages',
-    body: 'Turn direct messages off for this organization. The direct-messages section and every compose path to a person disappear; existing conversations are kept and come back if you turn this on again.',
+    title: i18next.t('help.organization_settings_dms_toggle_title', 'Direct messages'),
+    body: i18next.t('help.organization_settings_dms_toggle_body', 'Turn direct messages off for this organization. The direct-messages section and every compose path to a person disappear; existing conversations are kept and come back if you turn this on again.'),
   },
   'organization-settings-room-creation': {
-    title: 'Who can create rooms',
-    body: 'Any member can create rooms by default. Restricting creation to organization admins leaves everyone else able to read, post in, and join the rooms that exist.',
+    title: i18next.t('help.organization_settings_room_creation_title', 'Who can create rooms'),
+    body: i18next.t('help.organization_settings_room_creation_body', 'Any member can create rooms by default. Restricting creation to organization admins leaves everyone else able to read, post in, and join the rooms that exist.'),
   },
 
   // ============================================================================
@@ -98,26 +99,26 @@ export const HelpContent: Record<string, HelpEntry> = {
   // ============================================================================
 
   'file-tree-filter-button': {
-    title: 'Filter Your File Tree',
-    body: 'Show only markdown files, uncommitted git changes, or files the AI has read or written in this session.',
+    title: i18next.t('help.file_tree_filter_button_title', 'Filter Your File Tree'),
+    body: i18next.t('help.file_tree_filter_button_body', 'Show only markdown files, uncommitted git changes, or files the AI has read or written in this session.'),
   },
   'file-tree-quick-open-button': {
-    title: 'Quick Open Files',
-    body: 'Search for any file in your project by name. Recently opened files appear at the top.',
+    title: i18next.t('help.file_tree_quick_open_button_title', 'Quick Open Files'),
+    body: i18next.t('help.file_tree_quick_open_button_body', 'Search for any file in your project by name. Recently opened files appear at the top.'),
     shortcut: KeyboardShortcuts.file.open,
   },
   'file-tree-new-file-button': {
-    title: 'New File',
-    body: 'Create a new file in the selected folder.',
+    title: i18next.t('help.file_tree_new_file_button_title', 'New File'),
+    body: i18next.t('help.file_tree_new_file_button_body', 'Create a new file in the selected folder.'),
     shortcut: KeyboardShortcuts.file.newFile,
   },
   'file-tree-new-folder-button': {
-    title: 'New Folder',
-    body: 'Create a new folder in the selected folder.',
+    title: i18next.t('help.file_tree_new_folder_button_title', 'New Folder'),
+    body: i18next.t('help.file_tree_new_folder_button_body', 'Create a new folder in the selected folder.'),
   },
   'file-tree-refresh-button': {
-    title: 'Refresh File Tree',
-    body: 'Reload the file list from disk to pick up files added or removed outside Nimbalyst.',
+    title: i18next.t('help.file_tree_refresh_button_title', 'Refresh File Tree'),
+    body: i18next.t('help.file_tree_refresh_button_body', 'Reload the file list from disk to pick up files added or removed outside Nimbalyst.'),
   },
 
   // ============================================================================
@@ -125,17 +126,17 @@ export const HelpContent: Record<string, HelpEntry> = {
   // ============================================================================
 
   'document-session-control': {
-    title: 'AI Sessions for This Document',
-    body: 'Jump straight back into the last session on this document, or use the arrow to pick another session or start a new one.',
+    title: i18next.t('help.document_session_control_title', 'AI Sessions for This Document'),
+    body: i18next.t('help.document_session_control_body', 'Jump straight back into the last session on this document, or use the arrow to pick another session or start a new one.'),
   },
   'file-history-button': {
-    title: 'Document History',
-    body: 'View previous versions of this document. Restore or compare any saved state.',
+    title: i18next.t('help.file_history_button_title', 'Document History'),
+    body: i18next.t('help.file_history_button_body', 'View previous versions of this document. Restore or compare any saved state.'),
     shortcut: KeyboardShortcuts.edit.viewHistory,
   },
   'toc-toggle-button': {
-    title: 'Table of Contents',
-    body: 'Toggle the table of contents panel. Navigate quickly to any heading in the document.',
+    title: i18next.t('help.toc_toggle_button_title', 'Table of Contents'),
+    body: i18next.t('help.toc_toggle_button_body', 'Toggle the table of contents panel. Navigate quickly to any heading in the document.'),
   },
 
   // ============================================================================
@@ -143,22 +144,22 @@ export const HelpContent: Record<string, HelpEntry> = {
   // ============================================================================
 
   'diff-keep-button': {
-    title: 'Keep Changes',
-    body: 'Accept the AI changes for this section and update the document.',
+    title: i18next.t('help.diff_keep_button_title', 'Keep Changes'),
+    body: i18next.t('help.diff_keep_button_body', 'Accept the AI changes for this section and update the document.'),
     shortcut: KeyboardShortcuts.edit.approve,
   },
   'diff-revert-button': {
-    title: 'Revert Changes',
-    body: 'Reject the AI changes and restore the original content.',
+    title: i18next.t('help.diff_revert_button_title', 'Revert Changes'),
+    body: i18next.t('help.diff_revert_button_body', 'Reject the AI changes and restore the original content.'),
     shortcut: KeyboardShortcuts.edit.reject,
   },
   'diff-keep-all-button': {
-    title: 'Keep All Changes',
-    body: 'Accept all pending AI changes throughout the document.',
+    title: i18next.t('help.diff_keep_all_button_title', 'Keep All Changes'),
+    body: i18next.t('help.diff_keep_all_button_body', 'Accept all pending AI changes throughout the document.'),
   },
   'diff-revert-all-button': {
-    title: 'Revert All Changes',
-    body: 'Reject all pending AI changes and restore the original document.',
+    title: i18next.t('help.diff_revert_all_button_title', 'Revert All Changes'),
+    body: i18next.t('help.diff_revert_all_button_body', 'Reject all pending AI changes and restore the original document.'),
   },
 
   // ============================================================================
@@ -166,13 +167,13 @@ export const HelpContent: Record<string, HelpEntry> = {
   // ============================================================================
 
   'nav-back-button': {
-    title: 'Navigate Back',
-    body: 'Go back to the previous file or location.',
+    title: i18next.t('help.nav_back_button_title', 'Navigate Back'),
+    body: i18next.t('help.nav_back_button_body', 'Go back to the previous file or location.'),
     shortcut: KeyboardShortcuts.view.navigateBack,
   },
   'nav-forward-button': {
-    title: 'Navigate Forward',
-    body: 'Go forward in your navigation history.',
+    title: i18next.t('help.nav_forward_button_title', 'Navigate Forward'),
+    body: i18next.t('help.nav_forward_button_body', 'Go forward in your navigation history.'),
     shortcut: KeyboardShortcuts.view.navigateForward,
   },
 
@@ -181,18 +182,18 @@ export const HelpContent: Record<string, HelpEntry> = {
   // ============================================================================
 
   'files-mode-button': {
-    title: 'Files Mode',
-    body: 'Browse and edit your project files with AI assistance on any document.',
+    title: i18next.t('help.files_mode_button_title', 'Files Mode'),
+    body: i18next.t('help.files_mode_button_body', 'Browse and edit your project files with AI assistance on any document.'),
     shortcut: KeyboardShortcuts.view.filesMode,
   },
   'agent-mode-button': {
-    title: 'Agent Mode',
-    body: 'Full AI coding agent with project-wide context, tool use, and multi-step tasks.',
+    title: i18next.t('help.agent_mode_button_title', 'Agent Mode'),
+    body: i18next.t('help.agent_mode_button_body', 'Full AI coding agent with project-wide context, tool use, and multi-step tasks.'),
     shortcut: KeyboardShortcuts.view.agentMode,
   },
   'agent-sessions-bubble': {
-    title: 'Sessions Needing Attention',
-    body: 'Open sessions that are awaiting your input, currently running, or have unread output.',
+    title: i18next.t('help.agent_sessions_bubble_title', 'Sessions Needing Attention'),
+    body: i18next.t('help.agent_sessions_bubble_body', 'Open sessions that are awaiting your input, currently running, or have unread output.'),
   },
 
   // ============================================================================
@@ -200,8 +201,8 @@ export const HelpContent: Record<string, HelpEntry> = {
   // ============================================================================
 
   'session-kanban-button': {
-    title: 'Kanban Board',
-    body: 'Switch to a kanban board view of your sessions organized by phase: Backlog, Planning, Implementing, Validating, and Complete. Drag sessions between columns to update their status.',
+    title: i18next.t('help.session_kanban_button_title', 'Kanban Board'),
+    body: i18next.t('help.session_kanban_button_body', 'Switch to a kanban board view of your sessions organized by phase: Backlog, Planning, Implementing, Validating, and Complete. Drag sessions between columns to update their status.'),
     shortcut: KeyboardShortcuts.window.kanbanView,
   },
 
@@ -210,14 +211,14 @@ export const HelpContent: Record<string, HelpEntry> = {
   // ============================================================================
 
   'layout-controls': {
-    title: 'Session Layout Modes',
-    body: `View your AI session and files edited together:
+    title: i18next.t('help.layout_controls_title', 'Session Layout Modes'),
+    body: i18next.t('help.layout_controls_body', `View your AI session and files edited together:
 
 **Files**: Show only the file editor tabs. Available when you open an edited file in an AI Session.
 
 **Split**: Show both transcript and editor stacked vertically. Drag the divider to adjust.
 
-**Agent**: Show only the conversation transcript.`,
+**Agent**: Show only the conversation transcript.`),
   },
 
   // ============================================================================
@@ -225,28 +226,28 @@ export const HelpContent: Record<string, HelpEntry> = {
   // ============================================================================
 
   'session-history-button': {
-    title: 'Session History',
-    body: 'Browse past AI sessions. Search, filter, and resume previous conversations.',
+    title: i18next.t('help.session_history_button_title', 'Session History'),
+    body: i18next.t('help.session_history_button_body', 'Browse past AI sessions. Search, filter, and resume previous conversations.'),
     shortcut: KeyboardShortcuts.window.sessionManager,
   },
   'session-quick-open-button': {
-    title: 'Quick Open Session',
-    body: 'Search and jump to any AI session by content or title. Much faster than scrolling through history.',
+    title: i18next.t('help.session_quick_open_button_title', 'Quick Open Session'),
+    body: i18next.t('help.session_quick_open_button_body', 'Search and jump to any AI session by content or title. Much faster than scrolling through history.'),
     shortcut: KeyboardShortcuts.window.sessionQuickOpen,
   },
   'session-quick-search-button': {
-    title: 'Search Sessions',
-    body: `Quickly find any AI session by name. Type **@** to search by file edited -- find every session that touched a specific file. Press **Tab** to switch to prompt search and find sessions by what you asked.`,
+    title: i18next.t('help.session_quick_search_button_title', 'Search Sessions'),
+    body: i18next.t('help.session_quick_search_button_body', `Quickly find any AI session by name. Type **@** to search by file edited -- find every session that touched a specific file. Press **Tab** to switch to prompt search and find sessions by what you asked.`),
     shortcut: KeyboardShortcuts.window.sessionQuickOpen,
   },
   'session-archive-button': {
-    title: 'Archive Session',
-    body: 'Archive this session to keep your session list organized. Archived sessions can be restored anytime.',
+    title: i18next.t('help.session_archive_button_title', 'Archive Session'),
+    body: i18next.t('help.session_archive_button_body', 'Archive this session to keep your session list organized. Archived sessions can be restored anytime.'),
   },
 
   'tracker-automation-section': {
-    title: 'Tracker Automation',
-    body: `Automatically connect git commits to your tracker items. When enabled, Nimbalyst links commits via the session's tracker items and by parsing issue keys (e.g. **NIM-123**) from commit messages — including commits made in your terminal.\n\nFor project-specific behavior, add instructions to your project's **CLAUDE.md** (e.g. "always reference tracker issue keys in commits" or "don't auto-close critical bugs without review").`,
+    title: i18next.t('help.tracker_automation_section_title', 'Tracker Automation'),
+    body: i18next.t('help.tracker_automation_section_body', `Automatically connect git commits to your tracker items. When enabled, Nimbalyst links commits via the session's tracker items and by parsing issue keys (e.g. **NIM-123**) from commit messages — including commits made in your terminal.\n\nFor project-specific behavior, add instructions to your project's **CLAUDE.md** (e.g. "always reference tracker issue keys in commits" or "don't auto-close critical bugs without review").`),
   },
 
   // ============================================================================
@@ -254,20 +255,20 @@ export const HelpContent: Record<string, HelpEntry> = {
   // ============================================================================
 
   'agent-input': {
-    title: 'AI Input',
-    body: 'Type your message or paste images and files. The AI has full context of your project.',
+    title: i18next.t('help.agent_input_title', 'AI Input'),
+    body: i18next.t('help.agent_input_body', 'Type your message or paste images and files. The AI has full context of your project.'),
   },
   'plan-mode-toggle': {
-    title: 'Plan vs Agent Mode',
-    body: 'Toggle between Plan and Agent modes. Plan mode creates structured plans before the AI writes code. Agent mode executes changes directly.',
+    title: i18next.t('help.plan_mode_toggle_title', 'Plan vs Agent Mode'),
+    body: i18next.t('help.plan_mode_toggle_body', 'Toggle between Plan and Agent modes. Plan mode creates structured plans before the AI writes code. Agent mode executes changes directly.'),
   },
   'attach-files-input': {
-    title: 'Attach Files & Images',
-    body: 'Drag and drop files or paste images directly into the chat. You can also use @ to mention files from your project.',
+    title: i18next.t('help.attach_files_input_title', 'Attach Files & Images'),
+    body: i18next.t('help.attach_files_input_body', 'Drag and drop files or paste images directly into the chat. You can also use @ to mention files from your project.'),
   },
   'agent-welcome': {
-    title: 'Start Your First Session',
-    body: 'Create an AI coding session. Describe what you want to build, and the agent will help you.',
+    title: i18next.t('help.agent_welcome_title', 'Start Your First Session'),
+    body: i18next.t('help.agent_welcome_body', 'Create an AI coding session. Describe what you want to build, and the agent will help you.'),
   },
 
   // ============================================================================
@@ -275,8 +276,8 @@ export const HelpContent: Record<string, HelpEntry> = {
   // ============================================================================
 
   'files-scope-dropdown': {
-    title: 'File Scope Modes',
-    body: 'Control which files are shown. View AI edits from this session, only uncommitted changes, or all files in the workspace. In workstreams, filter by individual session or see all sessions combined.',
+    title: i18next.t('help.files_scope_dropdown_title', 'File Scope Modes'),
+    body: i18next.t('help.files_scope_dropdown_body', 'Control which files are shown. View AI edits from this session, only uncommitted changes, or all files in the workspace. In workstreams, filter by individual session or see all sessions combined.'),
   },
 
   // ============================================================================
@@ -284,12 +285,12 @@ export const HelpContent: Record<string, HelpEntry> = {
   // ============================================================================
 
   'git-commit-mode-toggle': {
-    title: 'Commit Modes',
-    body: 'Choose how to commit your changes. Manual lets you write your own message. Smart uses AI to analyze changes and propose a commit message.',
+    title: i18next.t('help.git_commit_mode_toggle_title', 'Commit Modes'),
+    body: i18next.t('help.git_commit_mode_toggle_body', 'Choose how to commit your changes. Manual lets you write your own message. Smart uses AI to analyze changes and propose a commit message.'),
   },
   'git-operations-commit-with-ai-button': {
-    title: 'AI-Assisted Commit',
-    body: 'Have the AI analyze your changes and propose a set of files and a commit message for you to edit and approve.',
+    title: i18next.t('help.git_operations_commit_with_ai_button_title', 'AI-Assisted Commit'),
+    body: i18next.t('help.git_operations_commit_with_ai_button_body', 'Have the AI analyze your changes and propose a set of files and a commit message for you to edit and approve.'),
   },
 
   // ============================================================================
@@ -297,24 +298,24 @@ export const HelpContent: Record<string, HelpEntry> = {
   // ============================================================================
 
   'model-picker': {
-    title: 'Select AI Model',
-    body: 'Choose which AI model to use. Different models have different capabilities and speeds.',
+    title: i18next.t('help.model_picker_title', 'Select AI Model'),
+    body: i18next.t('help.model_picker_body', 'Choose which AI model to use. Different models have different capabilities and speeds.'),
   },
   'model-picker-provider-claude-code': {
-    title: 'Claude Agent (Recommended)',
-    body: 'The in-app agent built on Claude Code with full Nimbalyst integration: it sees your active document and selection, renders the rich inline transcript, and tracks every file it edits. Runs on your Claude subscription when you sign in with your Claude plan, or on your Anthropic API key.',
+    title: i18next.t('help.model_picker_provider_claude_code_title', 'Claude Agent (Recommended)'),
+    body: i18next.t('help.model_picker_provider_claude_code_body', 'The in-app agent built on Claude Code with full Nimbalyst integration: it sees your active document and selection, renders the rich inline transcript, and tracks every file it edits. Runs on your Claude subscription when you sign in with your Claude plan, or on your Anthropic API key.'),
   },
   'model-picker-provider-claude-code-cli': {
-    title: 'Claude Code CLI (Terminal Mode)',
-    body: 'For people who prefer the command-line tool itself: runs the genuine claude binary in an embedded terminal, so you get its slash commands and TUI in the Raw terminal drawer while Nimbalyst mirrors the conversation into the rich transcript. You do not need this to use your Claude subscription.',
+    title: i18next.t('help.model_picker_provider_claude_code_cli_title', 'Claude Code CLI (Terminal Mode)'),
+    body: i18next.t('help.model_picker_provider_claude_code_cli_body', 'For people who prefer the command-line tool itself: runs the genuine claude binary in an embedded terminal, so you get its slash commands and TUI in the Raw terminal drawer while Nimbalyst mirrors the conversation into the rich transcript. You do not need this to use your Claude subscription.'),
   },
   'action-prompts-dropdown': {
-    title: 'Action Prompts',
-    body: 'Reusable prompts you define in nimbalyst-local/ai-actions.md. Picking one inserts its body into the draft so you can tweak it before sending.',
+    title: i18next.t('help.action_prompts_dropdown_title', 'Action Prompts'),
+    body: i18next.t('help.action_prompts_dropdown_body', 'Reusable prompts you define in nimbalyst-local/ai-actions.md. Picking one inserts its body into the draft so you can tweak it before sending.'),
   },
   'context-indicator': {
-    title: 'Context Window',
-    body: 'Shows how much of the AI context window is used. Includes files, conversation history, and tools.',
+    title: i18next.t('help.context_indicator_title', 'Context Window'),
+    body: i18next.t('help.context_indicator_body', 'Shows how much of the AI context window is used. Includes files, conversation history, and tools.'),
   },
 
   // ============================================================================
@@ -322,12 +323,12 @@ export const HelpContent: Record<string, HelpEntry> = {
   // ============================================================================
 
   'transcript-archive-button': {
-    title: 'Archive Session',
-    body: 'Archive this session to keep your session list tidy.',
+    title: i18next.t('help.transcript_archive_button_title', 'Archive Session'),
+    body: i18next.t('help.transcript_archive_button_body', 'Archive this session to keep your session list tidy.'),
   },
   'transcript-search-button': {
-    title: 'Search Transcript',
-    body: 'Search within this conversation for specific messages or content.',
+    title: i18next.t('help.transcript_search_button_title', 'Search Transcript'),
+    body: i18next.t('help.transcript_search_button_body', 'Search within this conversation for specific messages or content.'),
   },
 
   // ============================================================================
@@ -335,8 +336,8 @@ export const HelpContent: Record<string, HelpEntry> = {
   // ============================================================================
 
   'voice-mode-toggle': {
-    title: 'Voice Mode',
-    body: 'Speak to the AI instead of typing. The AI will respond with voice.',
+    title: i18next.t('help.voice_mode_toggle_title', 'Voice Mode'),
+    body: i18next.t('help.voice_mode_toggle_body', 'Speak to the AI instead of typing. The AI will respond with voice.'),
   },
 
   // ============================================================================
@@ -344,48 +345,48 @@ export const HelpContent: Record<string, HelpEntry> = {
   // ============================================================================
 
   'gutter-permissions-button': {
-    title: 'Agent Permissions',
-    body: 'Configure which tools the AI agent can use. Control file access, command execution, and more.',
+    title: i18next.t('help.gutter_permissions_button_title', 'Agent Permissions'),
+    body: i18next.t('help.gutter_permissions_button_body', 'Configure which tools the AI agent can use. Control file access, command execution, and more.'),
   },
   'gutter-extension-dev-button': {
-    title: 'Extension Dev Mode',
-    body: 'Open extension development tools, logs, and rebuild options.',
+    title: i18next.t('help.gutter_extension_dev_button_title', 'Extension Dev Mode'),
+    body: i18next.t('help.gutter_extension_dev_button_body', 'Open extension development tools, logs, and rebuild options.'),
   },
   'gutter-theme-button': {
-    title: 'Theme',
-    body: 'Switch between light and dark themes.',
+    title: i18next.t('help.gutter_theme_button_title', 'Theme'),
+    body: i18next.t('help.gutter_theme_button_body', 'Switch between light and dark themes.'),
   },
   'gutter-feedback-button': {
-    title: 'Send Feedback',
-    body: 'Share feedback or report issues with the team.',
+    title: i18next.t('help.gutter_feedback_button_title', 'Send Feedback'),
+    body: i18next.t('help.gutter_feedback_button_body', 'Share feedback or report issues with the team.'),
   },
   'gutter-user-button': {
-    title: 'User Menu',
-    body: 'Open user menu to access User Settings, Project Settings, Team Settings, and account info.',
+    title: i18next.t('help.gutter_user_button_title', 'User Menu'),
+    body: i18next.t('help.gutter_user_button_body', 'Open user menu to access User Settings, Project Settings, Team Settings, and account info.'),
   },
   'terminal-panel-button': {
-    title: 'Terminal',
-    body: 'Toggle the terminal panel for running commands.',
+    title: i18next.t('help.terminal_panel_button_title', 'Terminal'),
+    body: i18next.t('help.terminal_panel_button_body', 'Toggle the terminal panel for running commands.'),
     shortcut: KeyboardShortcuts.view.toggleTerminalPanel,
   },
   'tracker-mode-button': {
-    title: 'Trackers',
-    body: 'Switch to Tracker mode for a full project management view with table and kanban layouts.',
+    title: i18next.t('help.tracker_mode_button_title', 'Trackers'),
+    body: i18next.t('help.tracker_mode_button_body', 'Switch to Tracker mode for a full project management view with table and kanban layouts.'),
     shortcut: KeyboardShortcuts.view.trackerMode,
   },
   'collab-mode-button': {
-    title: 'Shared Documents',
-    body: 'Browse and edit documents shared with your team in real-time. Collaborate on markdown, spreadsheets, and diagrams.',
+    title: i18next.t('help.collab_mode_button_title', 'Shared Documents'),
+    body: i18next.t('help.collab_mode_button_body', 'Browse and edit documents shared with your team in real-time. Collaborate on markdown, spreadsheets, and diagrams.'),
     shortcut: KeyboardShortcuts.view.collabMode,
   },
   'org-mode-button': {
-    title: 'Organization',
-    body: "Your organization's inbox, rooms and direct messages, for the organization this project belongs to.",
+    title: i18next.t('help.org_mode_button_title', 'Organization'),
+    body: i18next.t('help.org_mode_button_body', "Your organization's inbox, rooms and direct messages, for the organization this project belongs to."),
     shortcut: KeyboardShortcuts.view.orgMode,
   },
   'pr-review-mode-button': {
-    title: 'GitHub',
-    body: 'Work this project\'s GitHub without leaving the app: browse pull requests and issues, read diffs and conversation, and hand either to an agent.',
+    title: i18next.t('help.pr_review_mode_button_title', 'GitHub'),
+    body: i18next.t('help.pr_review_mode_button_body', "Work this project's GitHub without leaving the app: browse pull requests and issues, read diffs and conversation, and hand either to an agent."),
     shortcut: KeyboardShortcuts.view.prReviewMode,
   },
 
@@ -394,20 +395,20 @@ export const HelpContent: Record<string, HelpEntry> = {
   // ============================================================================
 
   'settings-project-tab': {
-    title: 'Project Settings',
-    body: 'Settings specific to this project. Stored in the project folder.',
+    title: i18next.t('help.settings_project_tab_title', 'Project Settings'),
+    body: i18next.t('help.settings_project_tab_body', 'Settings specific to this project. Stored in the project folder.'),
   },
   'settings-global-tab': {
-    title: 'Global Settings',
-    body: 'Settings that apply to all projects.',
+    title: i18next.t('help.settings_global_tab_title', 'Global Settings'),
+    body: i18next.t('help.settings_global_tab_body', 'Settings that apply to all projects.'),
   },
   'settings-walkthroughs-toggle': {
-    title: 'Feature Guides',
-    body: 'Show helpful guides for new features. Guides appear automatically as you use the app.',
+    title: i18next.t('help.settings_walkthroughs_toggle_title', 'Feature Guides'),
+    body: i18next.t('help.settings_walkthroughs_toggle_body', 'Show helpful guides for new features. Guides appear automatically as you use the app.'),
   },
   'settings-walkthroughs-reset': {
-    title: 'Reset Guides',
-    body: 'Show all feature guides again, even ones you have already seen.',
+    title: i18next.t('help.settings_walkthroughs_reset_title', 'Reset Guides'),
+    body: i18next.t('help.settings_walkthroughs_reset_body', 'Show all feature guides again, even ones you have already seen.'),
   },
 
   // ============================================================================
@@ -415,12 +416,12 @@ export const HelpContent: Record<string, HelpEntry> = {
   // ============================================================================
 
   'project-manager-open': {
-    title: 'Open Project',
-    body: 'Open a project folder from your computer.',
+    title: i18next.t('help.project_manager_open_title', 'Open Project'),
+    body: i18next.t('help.project_manager_open_body', 'Open a project folder from your computer.'),
   },
   'project-manager-recent': {
-    title: 'Recent Projects',
-    body: 'Your recently opened projects for quick access.',
+    title: i18next.t('help.project_manager_recent_title', 'Recent Projects'),
+    body: i18next.t('help.project_manager_recent_body', 'Your recently opened projects for quick access.'),
   },
 };
 
