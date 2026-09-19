@@ -124,5 +124,32 @@
       "unreadable": "ファイルを読み込めませんでした。",
       "default": "このファイルは使用できませんでした。"
     }
+  },
+  "themes": {
+    "title": "テーマ",
+    "description": "エディタのカラーテーマを管理します",
+    "refresh": "更新",
+    "loading": "テーマを読み込み中...",
+    "active_theme": "アクティブなテーマ",
+    "no_theme_selected": "テーマが選択されていません",
+    "no_description": "説明はありません",
+    "status_active": "アクティブ",
+    "apply": "適用",
+    "built_in_themes": "ビルトインテーマ",
+    "user_themes": "ユーザーテーマ",
+    "extension_themes": "拡張機能テーマ",
+    "installed_themes": "インストール済みテーマ",
+    "empty_title": "ユーザーまたは拡張機能のテーマはまだインストールされていません",
+    "empty_description": "ファイル、マーケットプレイス、またはテーマ拡張機能からテーマをインストールできます",
+    "version": "バージョン:",
+    "author": "作成者:",
+    "type": "種類:",
+    "dark": "ダーク",
+    "light": "ライト",
+    "tags": "タグ:",
+    "license": "ライセンス:",
+    "colors": "カラー",
+    "more_colors": "+他 {{count}} 色",
+    "fallback_notice": "テーマ {{missing}} は利用できなくなりました。{{applied}} に切り替えました。"
   }
 }
