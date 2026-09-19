@@ -636,5 +636,23 @@
     "recent_activity": "最近のアクティビティ",
     "no_recent_activity": "このセッションではまだ特権機能の呼び出しが記録されていません。",
     "load_failed": "特権拡張機能の読み込みに失敗しました"
+  },
+  "mcp_servers": {
+    "title": "MCP サーバー",
+    "description_user": "すべてのプロジェクトで利用可能なグローバル MCP サーバーを設定します。",
+    "description_project": "プロジェクト固有の MCP サーバーを設定します（.mcp.json に保存されます）。",
+    "servers": "サーバー",
+    "add": "追加",
+    "add_new_aria": "新しい MCP サーバーを追加",
+    "empty_state": "MCP サーバーが設定されていません",
+    "add_first_server": "+ 最初のサーバーを追加",
+    "add_first_server_aria": "最初の MCP サーバーを追加",
+    "claude_scope_note": "Claude 向けにサーバーをオフにすると、このプロジェクトの claude CLI でもオフになります。Nimbalyst は独自の設定を上書きする代わりに、Claude Code 自体の無効化サーバーリストに書き込みます。",
+    "all_providers": "すべて",
+    "not_authorized": "未承認",
+    "no_selection": "サーバーを選択するか、「追加」をクリックして新しく作成してください",
+    "unable_to_load": "MCP サーバーを読み込めませんでした",
+    "unexpected_error": "MCP サーバーパネルの読み込み中に予期しないエラーが発生しました。アプリケーションを再読み込みしてください。",
+    "reload_app": "アプリケーションを再読み込み"
   }
 }
