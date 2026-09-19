@@ -368,24 +368,21 @@ export function AgentFeaturesPanel() {
         <div className="flex items-start gap-2 p-3 mb-3 rounded border border-[var(--nim-warning)]/30 bg-[var(--nim-warning)]/10">
           <MaterialSymbol icon="science" size={16} className="text-[var(--nim-warning)] shrink-0 mt-0.5" />
           <p className="m-0 text-[13px] text-[var(--nim-text)] leading-snug">
-            These features may change, regress, or be removed. Some require a restart to take full effect.
+            {t('agent_features.experimental_notice', 'These features may change, regress, or be removed. Some require a restart to take full effect.')}
           </p>
         </div>
 
         <div className="claude-api-upstream mb-4 rounded border border-[var(--nim-border)] bg-[var(--nim-bg-secondary)] p-3">
           <h5 className="text-sm font-semibold mb-1.5 text-[var(--nim-text)]">
-            Custom Claude API upstream
+            {t('agent_features.custom_upstream', 'Custom Claude API upstream')}
           </h5>
           <p className="text-xs leading-relaxed text-[var(--nim-text-muted)] mb-2">
-            Route the Claude Code CLI's API traffic through a local proxy (e.g. a token-compression
-            layer, gateway, or cache) before it reaches Anthropic. Leave blank to connect directly.
-            A base path is honored — e.g. <code>http://127.0.0.1:8787/anthropic</code>.
+            {t('agent_features.custom_upstream_desc', { example: 'http://127.0.0.1:8787/anthropic', defaultValue: "Route the Claude Code CLI's API traffic through a local proxy (e.g. a token-compression layer, gateway, or cache) before it reaches Anthropic. Leave blank to connect directly. A base path is honored — e.g. http://127.0.0.1:8787/anthropic." })}
           </p>
           <div className="flex items-start gap-2 p-2 mb-2 rounded border border-[var(--nim-warning)]/30 bg-[var(--nim-warning)]/10">
             <MaterialSymbol icon="lock" size={14} className="text-[var(--nim-warning)] shrink-0 mt-0.5" />
             <p className="m-0 text-[12px] text-[var(--nim-text)] leading-snug">
-              This host receives your subscription token and full prompt content, so only loopback
-              addresses (<code>127.0.0.1</code>, <code>localhost</code>) are allowed. Restart sessions to apply.
+              {t('agent_features.upstream_warning', 'This host receives your subscription token and full prompt content, so only loopback addresses (127.0.0.1, localhost) are allowed. Restart sessions to apply.')}
             </p>
           </div>
           <input
@@ -410,10 +407,10 @@ export function AgentFeaturesPanel() {
 
         <div className="mb-4 rounded border border-[var(--nim-border)] bg-[var(--nim-bg-secondary)] p-3">
           <h5 className="text-sm font-semibold mb-1.5 text-[var(--nim-text)]">
-            Agent skills and commands compatibility
+            {t('agent_features.skills_compat_title', 'Agent skills and commands compatibility')}
           </h5>
           <p className="text-xs leading-relaxed text-[var(--nim-text-muted)] mb-2">
-            Control which command and skill sources feed the shared picker and which generated compatibility exports are written for Claude Code and Codex.
+            {t('agent_features.skills_compat_desc', 'Control which command and skill sources feed the shared picker and which generated compatibility exports are written for Claude Code and Codex.')}
           </p>
 
           <div className="border-b border-[var(--nim-border)] mb-2">
@@ -421,29 +418,29 @@ export function AgentFeaturesPanel() {
               checked={workflowSourceSettings.workspaceClaudeCompatibilityEnabled}
               onChange={(checked) => handleWorkflowSourceToggle('workspaceClaudeCompatibilityEnabled', checked)}
               disabled={workflowSettingsLoading}
-              name="Workspace Claude compatibility"
-              description="Import project and user .claude commands and skills into the shared workflow registry."
+              name={t('agent_features.workspace_claude_compat', 'Workspace Claude compatibility')}
+              description={t('agent_features.workspace_claude_compat_desc', 'Import project and user .claude commands and skills into the shared workflow registry.')}
             />
             <SettingsToggle
               checked={workflowSourceSettings.includeProjectClaudeSources}
               onChange={(checked) => handleWorkflowSourceToggle('includeProjectClaudeSources', checked)}
               disabled={workflowSettingsLoading || !workflowSourceSettings.workspaceClaudeCompatibilityEnabled}
-              name="Project .claude sources"
-              description="Include .claude/commands and .claude/skills from the current workspace."
+              name={t('agent_features.project_claude_sources', 'Project .claude sources')}
+              description={t('agent_features.project_claude_sources_desc', 'Include .claude/commands and .claude/skills from the current workspace.')}
             />
             <SettingsToggle
               checked={workflowSourceSettings.includeUserClaudeSources}
               onChange={(checked) => handleWorkflowSourceToggle('includeUserClaudeSources', checked)}
               disabled={workflowSettingsLoading || !workflowSourceSettings.workspaceClaudeCompatibilityEnabled}
-              name="User .claude sources"
-              description="Include ~/.claude commands and skills when you want user-level compatibility in the picker and exports."
+              name={t('agent_features.user_claude_sources', 'User .claude sources')}
+              description={t('agent_features.user_claude_sources_desc', 'Include ~/.claude commands and skills when you want user-level compatibility in the picker and exports.')}
             />
             <SettingsToggle
               checked={workflowSourceSettings.extensionWorkflowsEnabled}
               onChange={(checked) => handleWorkflowSourceToggle('extensionWorkflowsEnabled', checked)}
               disabled={workflowSettingsLoading}
-              name="Extension workflows"
-              description="Load provider-neutral agentWorkflows contributions and legacy Claude plugin workflows from enabled extensions."
+              name={t('agent_features.extension_workflows', 'Extension workflows')}
+              description={t('agent_features.extension_workflows_desc', 'Load provider-neutral agentWorkflows contributions and legacy Claude plugin workflows from enabled extensions.')}
             />
           </div>
 
@@ -452,15 +449,15 @@ export function AgentFeaturesPanel() {
               checked={workflowExportSettings.codexEnabled}
               onChange={(checked) => handleWorkflowExportToggle('codexEnabled', checked)}
               disabled={workflowSettingsLoading}
-              name="Codex generated skills"
-              description="Export registry workflows into .agents/skills/.nimbalyst-generated before Codex turns."
+              name={t('agent_features.codex_generated_skills', 'Codex generated skills')}
+              description={t('agent_features.codex_generated_skills_desc', 'Export registry workflows into .agents/skills/.nimbalyst-generated before Codex turns.')}
             />
             <SettingsToggle
               checked={workflowExportSettings.claudeGeneratedExtensionWorkflowsEnabled}
               onChange={(checked) => handleWorkflowExportToggle('claudeGeneratedExtensionWorkflowsEnabled', checked)}
               disabled={workflowSettingsLoading}
-              name="Claude generated extension workflows"
-              description="Generate Claude plugin shims for extension agentWorkflows under .claude/plugins/.nimbalyst-generated."
+              name={t('agent_features.claude_generated_ext_workflows', 'Claude generated extension workflows')}
+              description={t('agent_features.claude_generated_ext_workflows_desc', 'Generate Claude plugin shims for extension agentWorkflows under .claude/plugins/.nimbalyst-generated.')}
             />
           </div>
         </div>
@@ -478,37 +475,37 @@ export function AgentFeaturesPanel() {
         <SettingsToggle
           checked={chatShowToolCalls}
           onChange={(checked) => updateAIDebugSettings({ chatShowToolCalls: checked })}
-          name="Show Tool Calls in Chat"
-          description="Display tool call rows in the AI chat view. Turn off to hide tool activity and see only the conversational messages."
+          name={t('agent_features.show_tool_calls_chat', 'Show Tool Calls in Chat')}
+          description={t('agent_features.show_tool_calls_chat_desc', 'Display tool call rows in the AI chat view. Turn off to hide tool activity and see only the conversational messages.')}
         />
       </div>
 
       {isDevelopment && (
         <div className="provider-panel-section py-4 mt-4 border-t border-[var(--nim-border)]">
-          <h4 className="provider-panel-section-title text-base font-semibold mb-2 text-[var(--nim-text)]">Developer Options</h4>
+          <h4 className="provider-panel-section-title text-base font-semibold mb-2 text-[var(--nim-text)]">{t('agent_features.dev_options', 'Developer Options')}</h4>
           <p className="text-sm leading-relaxed text-[var(--nim-text-muted)] mb-2">
-            Only available in development mode.
+            {t('agent_features.dev_options_desc', 'Only available in development mode.')}
           </p>
 
           <SettingsToggle
             checked={showToolCalls}
             onChange={(checked) => updateAIDebugSettings({ showToolCalls: checked })}
-            name="Show All Tool Calls"
-            description="Display all MCP tool calls in the AI chat sidebar, including Edit/applyDiff calls."
+            name={t('agent_features.show_all_tool_calls', 'Show All Tool Calls')}
+            description={t('agent_features.show_all_tool_calls_desc', 'Display all MCP tool calls in the AI chat sidebar, including Edit/applyDiff calls.')}
           />
 
           <SettingsToggle
             checked={aiDebugLogging}
             onChange={(checked) => updateAIDebugSettings({ aiDebugLogging: checked })}
-            name="AI Debug Logging"
-            description="Capture detailed logs of all AI editing operations including LLM requests/responses."
+            name={t('agent_features.ai_debug_logging', 'AI Debug Logging')}
+            description={t('agent_features.ai_debug_logging_desc', 'Capture detailed logs of all AI editing operations including LLM requests/responses.')}
           />
 
           <SettingsToggle
             checked={showPromptAdditions}
             onChange={(checked) => updateAIDebugSettings({ showPromptAdditions: checked })}
-            name="Show Prompt Additions"
-            description="Display system prompt additions and context that Nimbalyst appends to Claude Code requests."
+            name={t('agent_features.show_prompt_additions', 'Show Prompt Additions')}
+            description={t('agent_features.show_prompt_additions_desc', 'Display system prompt additions and context that Nimbalyst appends to Claude Code requests.')}
           />
         </div>
       )}
