@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ProviderConfig } from '../../Settings/SettingsView';
 import { SettingsToggle } from '../SettingsToggle';
 import { AlphaBadge, SETTINGS_ALPHA_TOOLTIP } from '../../common/AlphaBadge';
@@ -55,6 +56,7 @@ export function OpenCodePanel({
   onModelVisibilityToggle,
   onSetVisibilityForModels,
 }: OpenCodePanelProps) {
+  const { t } = useTranslation();
   const [cliStatus, setCLIStatus] = useState<CLIStatus>('checking');
   const [cliVersion, setCLIVersion] = useState<string | null>(null);
   const [installError, setInstallError] = useState<string | null>(null);
@@ -101,7 +103,7 @@ export function OpenCodePanel({
         setOpenCodeConfig(response.config ?? null);
         setConfigError(null);
       } else {
-        setConfigError(response.error ?? 'Failed to read OpenCode config');
+        setConfigError(response.error ?? t('opencode.config_read_failed', 'Failed to read OpenCode config'));
       }
     } catch (err) {
       setConfigError(err instanceof Error ? err.message : String(err));
@@ -133,7 +135,7 @@ export function OpenCodePanel({
         setConfigError(null);
         return true;
       }
-      setConfigError(response.error ?? 'Failed to update OpenCode config');
+      setConfigError(response.error ?? t('opencode.config_update_failed', 'Failed to update OpenCode config'));
       return false;
     } catch (err) {
       setConfigError(err instanceof Error ? err.message : String(err));
@@ -170,11 +172,11 @@ export function OpenCodePanel({
         setLmStudioStatus('success');
         const count = response.modelIds?.length ?? 0;
         setLmStudioMessage(
-          `Configured ${count} ${count === 1 ? 'model' : 'models'} from LM Studio. Use "Discover models" above to add them to the picker.`
+          t('opencode.lmstudio_configured_message', { count, defaultValue: `Configured ${count} ${count === 1 ? 'model' : 'models'} from LM Studio. Use "Discover models" above to add them to the picker.` })
         );
       } else {
         setLmStudioStatus('error');
-        setLmStudioMessage(response.error ?? 'Failed to configure LM Studio bridge');
+        setLmStudioMessage(response.error ?? t('opencode.lmstudio_configure_failed', 'Failed to configure LM Studio bridge'));
       }
     } catch (err) {
       setLmStudioStatus('error');
@@ -192,7 +194,7 @@ export function OpenCodePanel({
         setLmStudioMessage(null);
       } else {
         setLmStudioStatus('error');
-        setLmStudioMessage(response.error ?? 'Failed to remove LM Studio bridge');
+        setLmStudioMessage(response.error ?? t('opencode.lmstudio_remove_failed', 'Failed to remove LM Studio bridge'));
       }
     } catch (err) {
       setLmStudioStatus('error');
@@ -211,27 +213,26 @@ export function OpenCodePanel({
     <div className="provider-panel flex flex-col">
       <div className="provider-panel-header mb-6 pb-4 border-b border-[var(--nim-border)]">
         <h3 className="provider-panel-title text-xl font-semibold leading-tight mb-2 text-[var(--nim-text)] flex items-center gap-2">
-          OpenCode
+          {t('opencode.title', 'OpenCode')}
           <AlphaBadge size="sm" tooltip={SETTINGS_ALPHA_TOOLTIP} />
         </h3>
         <p className="provider-panel-description text-sm leading-relaxed text-[var(--nim-text-muted)]">
-          Open source coding agent with multi-model support. Works with Claude, OpenAI, Gemini,
-          and local models through a unified interface.
+          {t('opencode.description', 'Open source coding agent with multi-model support. Works with Claude, OpenAI, Gemini, and local models through a unified interface.')}
         </p>
       </div>
 
       <div className="provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)]">
-        <h4 className="provider-panel-section-title text-base font-semibold mb-3 text-[var(--nim-text)]">OpenCode CLI</h4>
+        <h4 className="provider-panel-section-title text-base font-semibold mb-3 text-[var(--nim-text)]">{t('opencode.cli_title', 'OpenCode CLI')}</h4>
 
         {cliStatus === 'checking' && (
-          <p className="text-[13px] text-[var(--nim-text-muted)]">Checking for OpenCode CLI...</p>
+          <p className="text-[13px] text-[var(--nim-text-muted)]">{t('opencode.checking', 'Checking for OpenCode CLI...')}</p>
         )}
 
         {cliStatus === 'installed' && (
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[var(--nim-success)] shrink-0" />
             <span className="text-[13px] text-[var(--nim-text)]">
-              Installed{cliVersion ? ` (${cliVersion})` : ''}
+              {t('opencode.installed', { version: cliVersion ? ` (${cliVersion})` : '', defaultValue: `Installed${cliVersion ? ` (${cliVersion})` : ''}` })}
             </span>
           </div>
         )}
@@ -239,19 +240,19 @@ export function OpenCodePanel({
         {(cliStatus === 'not-installed' || cliStatus === 'install-error') && (
           <div>
             <p className="text-[13px] text-[var(--nim-text-muted)] mb-3 leading-relaxed">
-              The OpenCode CLI is required to run the agent.
+              {t('opencode.cli_required', 'The OpenCode CLI is required to run the agent.')}
             </p>
             <button
               className="inline-flex items-center justify-center py-2 px-4 rounded-md text-sm font-medium cursor-pointer transition-all bg-[var(--nim-primary)] text-white border border-[var(--nim-primary)] hover:opacity-90"
               onClick={handleInstall}
             >
-              Install OpenCode CLI
+              {t('opencode.install_cli', 'Install OpenCode CLI')}
             </button>
             {installError && (
               <div className="text-xs mt-2 text-[var(--nim-error)]">
                 {installError}
                 <p className="mt-1 text-[var(--nim-text-muted)]">
-                  Try running manually: <code className="text-[var(--nim-code-text)] bg-[var(--nim-code-bg)] px-1 rounded">npm i -g opencode-ai</code>
+                  {t('opencode.manual_install_hint', { cmd: 'npm i -g opencode-ai', defaultValue: 'Try running manually: npm i -g opencode-ai' })}
                 </p>
               </div>
             )}
@@ -260,27 +261,27 @@ export function OpenCodePanel({
 
         {cliStatus === 'installing' && (
           <div className="flex items-center gap-2">
-            <span className="text-[13px] text-[var(--nim-text-muted)]">Installing OpenCode CLI...</span>
+            <span className="text-[13px] text-[var(--nim-text-muted)]">{t('opencode.installing', 'Installing OpenCode CLI...')}</span>
           </div>
         )}
 
         <p className="text-[13px] text-[var(--nim-text-muted)] mt-3 leading-relaxed">
-          See the{' '}
+          {t('opencode.docs_prefix', 'See the')}{' '}
           <a
             href="https://github.com/sst/opencode"
             target="_blank"
             rel="noopener noreferrer"
             className="text-[var(--nim-primary)] hover:underline"
           >
-            OpenCode documentation
+            {t('opencode.docs_link', 'OpenCode documentation')}
           </a>
-          {' '}for more details.
+          {' '}{t('opencode.docs_suffix', 'for more details.')}
         </p>
       </div>
 
       <SettingsToggle
         variant="enable"
-        name="Enable OpenCode"
+        name={t('opencode.enable', 'Enable OpenCode')}
         checked={config.enabled || false}
         onChange={onToggle}
       />
@@ -297,11 +298,9 @@ export function OpenCodePanel({
           />
 
           <div className="provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)]">
-            <h4 className="provider-panel-section-title text-base font-semibold mb-3 text-[var(--nim-text)]">LM Studio integration</h4>
+            <h4 className="provider-panel-section-title text-base font-semibold mb-3 text-[var(--nim-text)]">{t('opencode.lmstudio_integration', 'LM Studio integration')}</h4>
             <p className="text-[13px] text-[var(--nim-text-muted)] mb-3 leading-relaxed">
-              Point at a running LM Studio server and Nimbalyst will query <code className="text-[var(--nim-code-text)] bg-[var(--nim-code-bg)] px-1 rounded">/v1/models</code>,
-              then write a <code className="text-[var(--nim-code-text)] bg-[var(--nim-code-bg)] px-1 rounded">provider.lmstudio</code> block into your <code className="text-[var(--nim-code-text)] bg-[var(--nim-code-bg)] px-1 rounded">opencode.json</code>.
-              You don't need to enable LM Studio as a separate Nimbalyst chat provider.
+              {t('opencode.lmstudio_desc', { endpoint: '/v1/models', block: 'provider.lmstudio', config: 'opencode.json', defaultValue: "Point at a running LM Studio server and Nimbalyst will query /v1/models, then write a provider.lmstudio block into your opencode.json. You don't need to enable LM Studio as a separate Nimbalyst chat provider." })}
             </p>
             <div className="flex items-center gap-2 flex-wrap mb-2">
               <input
@@ -319,7 +318,7 @@ export function OpenCodePanel({
                 onClick={handleConnectLMStudio}
                 disabled={lmStudioStatus === 'configuring' || !lmStudioBaseUrl.trim()}
               >
-                {lmStudioStatus === 'configuring' ? 'Configuring...' : (lmStudioBridgeConfigured ? 'Refresh' : 'Connect')}
+                {lmStudioStatus === 'configuring' ? t('opencode.configuring', 'Configuring...') : (lmStudioBridgeConfigured ? t('opencode.refresh', 'Refresh') : t('opencode.connect', 'Connect'))}
               </button>
               {lmStudioBridgeConfigured && (
                 <button
@@ -328,13 +327,13 @@ export function OpenCodePanel({
                   onClick={handleDisconnectLMStudio}
                   disabled={lmStudioStatus === 'configuring'}
                 >
-                  Remove
+                  {t('opencode.remove', 'Remove')}
                 </button>
               )}
             </div>
             {lmStudioBridgeConfigured && (
               <p className="text-xs text-[var(--nim-text-muted)]">
-                Bridge active with {lmStudioBridgeModelCount} {lmStudioBridgeModelCount === 1 ? 'model' : 'models'}. Select one above to use it as the default.
+                {t('opencode.bridge_active', { count: lmStudioBridgeModelCount, defaultValue: `Bridge active with ${lmStudioBridgeModelCount} ${lmStudioBridgeModelCount === 1 ? 'model' : 'models'}. Select one above to use it as the default.` })}
               </p>
             )}
             {lmStudioMessage && (
@@ -345,24 +344,22 @@ export function OpenCodePanel({
           </div>
 
           <div className="provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)]">
-            <h4 className="provider-panel-section-title text-base font-semibold mb-3 text-[var(--nim-text)]">Updates</h4>
+            <h4 className="provider-panel-section-title text-base font-semibold mb-3 text-[var(--nim-text)]">{t('opencode.updates', 'Updates')}</h4>
             <SettingsToggle
               variant="enable"
-              name="Disable OpenCode auto-update"
+              name={t('opencode.disable_auto_update', 'Disable OpenCode auto-update')}
               checked={autoUpdateOptedOut}
               onChange={(checked) => handleAutoUpdateToggle(!checked)}
             />
             <p className="text-xs text-[var(--nim-text-muted)] mt-2 leading-relaxed">
-              When on, OpenCode will not auto-upgrade itself between sessions. Useful if you want
-              version stability while debugging.
+              {t('opencode.disable_auto_update_desc', 'When on, OpenCode will not auto-upgrade itself between sessions. Useful if you want version stability while debugging.')}
             </p>
           </div>
 
           <div className="provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)] last:border-b-0 last:mb-0 last:pb-0">
-            <h4 className="provider-panel-section-title text-base font-semibold mb-3 text-[var(--nim-text)]">API Configuration <span className="text-xs font-normal text-[var(--nim-text-muted)]">(optional)</span></h4>
+            <h4 className="provider-panel-section-title text-base font-semibold mb-3 text-[var(--nim-text)]">{t('opencode.api_config', 'API Configuration')} <span className="text-xs font-normal text-[var(--nim-text-muted)]">{t('opencode.optional', '(optional)')}</span></h4>
             <p className="text-[13px] text-[var(--nim-text-muted)] mb-3 leading-relaxed">
-              OpenCode reads provider API keys from its own config and from environment variables.
-              Setting a key here is optional and is only used by Nimbalyst's connection test.
+              {t('opencode.api_config_desc', "OpenCode reads provider API keys from its own config and from environment variables. Setting a key here is optional and is only used by Nimbalyst's connection test.")}
             </p>
             <div className="api-key-section mt-4">
               <div className="api-key-row flex gap-2 items-center">
@@ -371,7 +368,7 @@ export function OpenCodePanel({
                   value={apiKeys['opencode'] || ''}
                   onChange={(e) => onApiKeyChange('opencode', e.target.value)}
                   onFocus={(e) => e.target.select()}
-                  placeholder="API key (optional)"
+                  placeholder={t('opencode.api_key_placeholder', 'API key (optional)')}
                   className="api-key-input flex-1 py-2 px-3 rounded-md bg-[var(--nim-bg-secondary)] border border-[var(--nim-border)] text-[var(--nim-text)] outline-none font-mono focus:border-[var(--nim-primary)]"
                 />
                 <button
@@ -383,9 +380,9 @@ export function OpenCodePanel({
                   onClick={onTestConnection}
                   disabled={config.testStatus === 'testing'}
                 >
-                  {config.testStatus === 'testing' ? 'Testing...' :
-                   config.testStatus === 'success' ? 'Connected' :
-                   config.testStatus === 'error' ? 'Failed' : 'Test'}
+                  {config.testStatus === 'testing' ? t('opencode.testing', 'Testing...') :
+                   config.testStatus === 'success' ? t('opencode.connected', 'Connected') :
+                   config.testStatus === 'error' ? t('opencode.failed', 'Failed') : t('opencode.test', 'Test')}
                 </button>
               </div>
               {config.testMessage && config.testStatus === 'error' && (
