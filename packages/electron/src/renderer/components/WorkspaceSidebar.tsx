@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useRef, useEffect, useCallback, useSyncExternalStore } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { setTitleBarCreateMenuAtom } from '../store/atoms/titleBarCreate';
 import { FlatFileTree } from './FlatFileTree';
@@ -104,6 +105,7 @@ export function WorkspaceSidebar({
   onSelectedFolderChange,
   currentAISessionId
 }: WorkspaceSidebarProps) {
+  const { t } = useTranslation();
   // Names the organization in the empty-folder state, so a project opened from
   // one explains where its shared work actually is.
   const { org: projectOrg } = useProjectOrg(workspacePath);
@@ -966,10 +968,10 @@ export function WorkspaceSidebar({
       : 0;
   const shouldShowFilterHint = isAISessionFilter && (!hasActiveClaudeSession || activeClaudeFilterCount === 0);
   const aiFilterHintText = !hasActiveClaudeSession
-    ? 'Open a Claude Agent session to see which files the agent reads or writes.'
+    ? t('workspace_sidebar.filter_hint_no_session', 'Open a Claude Agent session to see which files the agent reads or writes.')
     : fileTreeFilter === 'ai-read'
-      ? 'No files have been read by this Claude Agent session yet.'
-      : 'No files have been written by this Claude Agent session yet.';
+      ? t('workspace_sidebar.filter_hint_no_read', 'No files have been read by this Claude Agent session yet.')
+      : t('workspace_sidebar.filter_hint_no_written', 'No files have been written by this Claude Agent session yet.');
 
   // Check if filtered tree is empty
   const isFilteredTreeEmpty = filteredFileTree.length === 0;
@@ -979,46 +981,46 @@ export function WorkspaceSidebar({
     switch (fileTreeFilter) {
       case 'markdown':
         return {
-          title: 'No Markdown Files',
-          description: 'No .md or .markdown files found in this workspace.'
+          title: t('workspace_sidebar.filter_no_markdown_title', 'No Markdown Files'),
+          description: t('workspace_sidebar.filter_no_markdown_desc', 'No .md or .markdown files found in this workspace.')
         };
       case 'known':
         return {
-          title: 'No Known File Types',
-          description: 'No files with recognized extensions found. Showing files with extensions like .md, .txt, .json, .js, .ts, etc.'
+          title: t('workspace_sidebar.filter_no_known_title', 'No Known File Types'),
+          description: t('workspace_sidebar.filter_no_known_desc', 'No files with recognized extensions found. Showing files with extensions like .md, .txt, .json, .js, .ts, etc.')
         };
       case 'git-uncommitted':
         return {
-          title: 'No Uncommitted Changes',
+          title: t('workspace_sidebar.filter_no_uncommitted_title', 'No Uncommitted Changes'),
           description: isGitRepo
-            ? 'No uncommitted files found in this git repository.'
-            : 'This workspace is not a git repository.'
+            ? t('workspace_sidebar.filter_no_uncommitted_desc_git', 'No uncommitted files found in this git repository.')
+            : t('workspace_sidebar.filter_no_uncommitted_desc_not_git', 'This workspace is not a git repository.')
         };
       case 'git-worktree':
         return {
-          title: 'No Worktree Changes',
+          title: t('workspace_sidebar.filter_no_worktree_title', 'No Worktree Changes'),
           description: isGitWorktree
-            ? 'No files modified in this git worktree.'
-            : 'This workspace is not a git worktree.'
+            ? t('workspace_sidebar.filter_no_worktree_desc_git', 'No files modified in this git worktree.')
+            : t('workspace_sidebar.filter_no_worktree_desc_not_git', 'This workspace is not a git worktree.')
         };
       case 'ai-read':
         return {
-          title: 'No Files Read',
+          title: t('workspace_sidebar.filter_no_read_title', 'No Files Read'),
           description: hasActiveClaudeSession
-            ? 'No files have been read by this Claude Agent session yet.'
-            : 'Open a Claude Agent session to see which files the agent reads.'
+            ? t('workspace_sidebar.filter_no_read_desc_active', 'No files have been read by this Claude Agent session yet.')
+            : t('workspace_sidebar.filter_no_read_desc_inactive', 'Open a Claude Agent session to see which files the agent reads.')
         };
       case 'ai-written':
         return {
-          title: 'No Files Written',
+          title: t('workspace_sidebar.filter_no_written_title', 'No Files Written'),
           description: hasActiveClaudeSession
-            ? 'No files have been written by this Claude Agent session yet.'
-            : 'Open a Claude Agent session to see which files the agent writes.'
+            ? t('workspace_sidebar.filter_no_written_desc_active', 'No files have been written by this Claude Agent session yet.')
+            : t('workspace_sidebar.filter_no_written_desc_inactive', 'Open a Claude Agent session to see which files the agent writes.')
         };
       default:
         return {
-          title: 'No Files',
-          description: 'No files match the current filter.'
+          title: t('workspace_sidebar.filter_no_files_title', 'No Files'),
+          description: t('workspace_sidebar.filter_no_files_desc', 'No files match the current filter.')
         };
     }
   };
@@ -1152,8 +1154,8 @@ export function WorkspaceSidebar({
                     data-testid="file-tree-refresh-button"
                     className="workspace-action-button bg-transparent border-none p-1.5 cursor-pointer rounded text-[var(--nim-text-faint)] flex items-center justify-center transition-all duration-200 relative hover:bg-[var(--nim-bg-hover)] hover:text-[var(--nim-text)]"
                     onClick={handleRefreshFileTree}
-                    title="Refresh file tree"
-                    aria-label="Refresh file tree"
+                    title={t('workspace_sidebar.refresh_tooltip', 'Refresh file tree')}
+                    aria-label={t('workspace_sidebar.refresh_aria', 'Refresh file tree')}
                   >
                     <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
                       refresh
@@ -1166,7 +1168,7 @@ export function WorkspaceSidebar({
                       data-testid="file-tree-quick-open-button"
                       className="workspace-action-button bg-transparent border-none p-1.5 cursor-pointer rounded text-[var(--nim-text-faint)] flex items-center justify-center transition-all duration-200 relative hover:bg-[var(--nim-bg-hover)] hover:text-[var(--nim-text)]"
                       onClick={onOpenQuickSearch}
-                      aria-label="Search files"
+                      aria-label={t('workspace_sidebar.search_aria', 'Search files')}
                     >
                       <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
                         search
@@ -1180,13 +1182,13 @@ export function WorkspaceSidebar({
                     data-testid="file-tree-filter-button"
                     className="workspace-action-button bg-transparent border-none p-1.5 cursor-pointer rounded text-[var(--nim-text-faint)] flex items-center justify-center transition-all duration-200 relative hover:bg-[var(--nim-bg-hover)] hover:text-[var(--nim-text)]"
                     onClick={handleFilterButtonClick}
-                    aria-label="Filter files"
+                    aria-label={t('workspace_sidebar.filter_aria', 'Filter files')}
                   >
                     <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>
                       filter_alt
                     </span>
                     {fileTreeFilter !== 'all' && (
-                      <span className="filter-active-indicator text-[var(--nim-primary)] font-bold text-base leading-none absolute top-0.5 right-0.5" title="Filter active">•</span>
+                      <span className="filter-active-indicator text-[var(--nim-primary)] font-bold text-base leading-none absolute top-0.5 right-0.5" title={t('workspace_sidebar.filter_active_title', 'Filter active')}>•</span>
                     )}
                   </button>
                 </HelpTooltip>
@@ -1198,7 +1200,7 @@ export function WorkspaceSidebar({
 
       {currentView === 'files' ? (
         <>
-          <div className="workspace-section-label nim-section-label py-1.5 px-3 border-b border-[var(--nim-border)] bg-[var(--nim-bg-secondary)] shrink-0">Files</div>
+          <div className="workspace-section-label nim-section-label py-1.5 px-3 border-b border-[var(--nim-border)] bg-[var(--nim-bg-secondary)] shrink-0">{t('workspace_sidebar.files_label', 'Files')}</div>
           <div className={`workspace-file-tree nim-scrollbar flex-1 overflow-y-auto overflow-x-hidden py-2 relative transition-colors duration-200 ${isDragOverRoot ? 'drag-over-root bg-[var(--nim-accent-subtle)] border-2 border-dashed border-[var(--nim-primary)] !py-1.5' : ''}`}>
             {shouldShowFilterHint && (
               <div className="file-tree-filter-hint py-2 px-3 text-xs text-[var(--nim-text-faint)] leading-relaxed border-b border-[var(--nim-border)] mb-1">
@@ -1208,7 +1210,7 @@ export function WorkspaceSidebar({
             {isFilteredTreeEmpty && fileTreeFilter === 'all' && !fileTreeLoaded ? (
               <div className="flex items-center gap-2 px-4 py-3 text-[13px] text-[var(--nim-text-muted)]">
                 <span className="material-symbols-outlined text-base animate-spin">progress_activity</span>
-                Loading files...
+                {t('workspace_sidebar.loading_files', 'Loading files...')}
               </div>
             ) : isFilteredTreeEmpty && fileTreeFilter === 'all' ? (
               // A project opened from an organization starts as an empty
@@ -1222,11 +1224,11 @@ export function WorkspaceSidebar({
                 <span className="material-symbols-outlined file-tree-empty-icon text-5xl text-[var(--nim-text-faint)] opacity-50 mb-4">
                   folder_open
                 </span>
-                <h3 className="file-tree-empty-title m-0 mb-2 text-base font-semibold text-[var(--nim-text)]">This folder is empty</h3>
+                <h3 className="file-tree-empty-title m-0 mb-2 text-base font-semibold text-[var(--nim-text)]">{t('workspace_sidebar.empty_title', 'This folder is empty')}</h3>
                 <p className="file-tree-empty-description m-0 text-[13px] text-[var(--nim-text-muted)] leading-normal max-w-[280px]">
                   {projectOrg
-                    ? `Shared documents and tracker items for ${projectOrg.name} open from the sidebar, not from this folder. Files you add here stay on this computer.`
-                    : 'Files you add to this folder will show up here.'}
+                    ? t('workspace_sidebar.empty_desc_org', { org: projectOrg.name, defaultValue: `Shared documents and tracker items for ${projectOrg.name} open from the sidebar, not from this folder. Files you add here stay on this computer.` })
+                    : t('workspace_sidebar.empty_desc_default', 'Files you add to this folder will show up here.')}
                 </p>
               </div>
             ) : isFilteredTreeEmpty && fileTreeFilter !== 'all' ? (
@@ -1240,7 +1242,7 @@ export function WorkspaceSidebar({
                   className="file-tree-clear-filter-btn nim-btn-primary px-4 py-2 rounded-md text-[13px] font-medium hover:opacity-90 hover:-translate-y-px active:translate-y-0 transition-all duration-200"
                   onClick={() => handleFilterChange('all')}
                 >
-                  Clear Filter
+                  {t('workspace_sidebar.clear_filter', 'Clear Filter')}
                 </button>
               </div>
             ) : (
