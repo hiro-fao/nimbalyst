@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { ProviderConfig } from '../../Settings/SettingsView';
 import { HeadlessCliProviderPanel } from './HeadlessCliProviderPanel';
 
@@ -8,13 +9,14 @@ interface CursorAgentPanelProps {
 }
 
 export function CursorAgentPanel({ config, onToggle }: CursorAgentPanelProps) {
+  const { t } = useTranslation();
   return (
     <HeadlessCliProviderPanel
       config={config}
       onToggle={onToggle}
       toolId="cursor-agent"
-      title="Cursor Agent"
-      description="The Cursor coding agent, run headlessly against your project. Uses your existing Cursor CLI login."
+      title={t('cursor_agent.title', 'Cursor Agent')}
+      description={t('cursor_agent.description', 'The Cursor coding agent, run headlessly against your project. Uses your existing Cursor CLI login.')}
       commandName="Cursor"
       loginCommand="cursor-agent login"
       docsUrl="https://cursor.com/docs/cli/using"
