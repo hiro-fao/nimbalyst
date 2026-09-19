@@ -1362,5 +1362,21 @@
     "project_manager_open_body": "コンピューター上のプロジェクトフォルダーを開きます。",
     "project_manager_recent_title": "最近のプロジェクト",
     "project_manager_recent_body": "すばやくアクセスできる、最近開いたプロジェクトです。"
+  },
+  "new_file_dialog": {
+    "title": "新しいファイル",
+    "type_label": "タイプ",
+    "location_label": "場所",
+    "name_label": "名前",
+    "workspace_root": "{{name}}（ルート）",
+    "name_placeholder_any": "document.txt",
+    "name_placeholder_default": "document",
+    "error_name_required": "ファイル名を入力してください",
+    "error_invalid_chars": "ファイル名に / または \\ を含めることはできません",
+    "cancel": "キャンセル",
+    "create": "作成",
+    "type_markdown": "Markdown",
+    "type_mockup": "モックアップ",
+    "type_other": "その他"
   }
 }
