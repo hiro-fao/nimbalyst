@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { usePostHog } from 'posthog-js/react';
 import { useAtomValue } from 'jotai';
 import { MaterialSymbol } from '@nimbalyst/runtime/ui/icons/MaterialSymbol';
@@ -647,6 +648,7 @@ interface MCPServersPanelProps {
 }
 
 function MCPServersPanelInner({ scope = 'user', workspacePath }: MCPServersPanelProps = {}) {
+  const { t } = useTranslation();
   const posthog = usePostHog();
   const { theme } = useTheme();
   const isDark = theme === 'dark' || theme === 'crystal-dark';
@@ -2458,11 +2460,11 @@ function MCPServersPanelInner({ scope = 'user', workspacePath }: MCPServersPanel
   return (
     <div className="provider-panel flex flex-col">
       <div className="provider-panel-header mb-6 pb-4 border-b border-[var(--nim-border)]">
-        <h3 className="provider-panel-title text-xl font-semibold leading-tight mb-2 text-[var(--nim-text)]">MCP Servers</h3>
+        <h3 className="provider-panel-title text-xl font-semibold leading-tight mb-2 text-[var(--nim-text)]">{t('mcp_servers.title', 'MCP Servers')}</h3>
         <p className="provider-panel-description text-sm leading-relaxed text-[var(--nim-text-muted)]">
           {scope === 'user'
-            ? 'Configure global MCP servers available in all projects.'
-            : 'Configure project-specific MCP servers (saved to .mcp.json).'}
+            ? t('mcp_servers.description_user', 'Configure global MCP servers available in all projects.')
+            : t('mcp_servers.description_project', 'Configure project-specific MCP servers (saved to .mcp.json).')}
         </p>
       </div>
 
@@ -2471,14 +2473,14 @@ function MCPServersPanelInner({ scope = 'user', workspacePath }: MCPServersPanel
         {viewState === 'list' && (
           <aside className="mcp-servers-sidebar flex-[0_0_280px] min-w-[220px] max-w-[350px] flex flex-col border border-[var(--nim-border)] rounded-md overflow-hidden @[max-width:600px]:flex-[0_0_100%] @[max-width:600px]:max-w-full" aria-label="MCP servers list">
             <div className="mcp-servers-header flex justify-between items-center px-4 py-3 border-b border-[var(--nim-border)] bg-[var(--nim-bg-secondary)]">
-              <h4 className="m-0 text-sm font-semibold text-[var(--nim-text)]">Servers</h4>
+              <h4 className="m-0 text-sm font-semibold text-[var(--nim-text)]">{t('mcp_servers.servers', 'Servers')}</h4>
               <button
                 onClick={handleNewServer}
                 className="mcp-add-server-button flex items-center gap-1.5 px-3 py-1.5 rounded-md border-none bg-[var(--nim-primary)] text-white text-[0.8125rem] font-medium cursor-pointer transition-opacity duration-150 hover:opacity-90"
-                aria-label="Add new MCP server"
+                aria-label={t('mcp_servers.add_new_aria', 'Add new MCP server')}
               >
                 <span className="mcp-add-icon text-base leading-none" aria-hidden="true">+</span>
-                <span>Add</span>
+                <span>{t('mcp_servers.add', 'Add')}</span>
               </button>
             </div>
 
@@ -2503,20 +2505,20 @@ function MCPServersPanelInner({ scope = 'user', workspacePath }: MCPServersPanel
             */}
             {servers.length > 0 && visibleMcpProviders.includes(MCP_PROVIDER_IDS.CLAUDE_AGENT) && (
               <div className="mcp-claude-scope-note px-4 py-2 border-b border-[var(--nim-border)] text-[0.6875rem] leading-snug text-[var(--nim-text-faint)] select-text">
-                Turning a server off for Claude also turns it off for the <code>claude</code> CLI in this project — Nimbalyst writes Claude Code&apos;s own disabled-server list instead of overriding its configuration.
+                {t('mcp_servers.claude_scope_note', { cmd: 'claude', defaultValue: "Turning a server off for Claude also turns it off for the claude CLI in this project — Nimbalyst writes Claude Code's own disabled-server list instead of overriding its configuration." })}
               </div>
             )}
 
             <div className="mcp-servers-list flex-1 overflow-y-auto" role="list">
               {servers.length === 0 ? (
                 <div className="mcp-empty-state px-4 py-8 text-center text-[var(--nim-text-faint)] text-sm flex flex-col items-center gap-4" role="status">
-                  <span className="mcp-empty-state-text text-[var(--nim-text-muted)]">No MCP servers configured</span>
+                  <span className="mcp-empty-state-text text-[var(--nim-text-muted)]">{t('mcp_servers.empty_state', 'No MCP servers configured')}</span>
                   <button
                     onClick={handleNewServer}
                     className="mcp-empty-state-cta px-5 py-2.5 rounded-md border-2 border-dashed border-[var(--nim-primary)] bg-transparent text-[var(--nim-primary)] text-sm font-medium cursor-pointer transition-all duration-150 hover:bg-[color-mix(in_srgb,var(--nim-primary)_10%,transparent)]"
-                    aria-label="Add your first MCP server"
+                    aria-label={t('mcp_servers.add_first_server_aria', 'Add your first MCP server')}
                   >
-                    + Add Your First Server
+                    {t('mcp_servers.add_first_server', '+ Add Your First Server')}
                   </button>
                 </div>
               ) : (
@@ -2591,7 +2593,7 @@ function MCPServersPanelInner({ scope = 'user', workspacePath }: MCPServersPanel
                       </div>
                       {isOAuthServer(server) && serverOAuthStatuses[server.name] === 'not-authorized' && (
                         <div className={`mcp-server-status-icon mcp-server-status-not-authorized flex items-center justify-center shrink-0 ${isActive ? 'text-[#fbbf24]' : 'text-[#f39c12]'}`}>
-                          <MaterialSymbol icon="error" size={16} title="Not authorized" />
+                          <MaterialSymbol icon="error" size={16} title={t('mcp_servers.not_authorized', 'Not authorized')} />
                         </div>
                       )}
                     </div>
@@ -2610,7 +2612,7 @@ function MCPServersPanelInner({ scope = 'user', workspacePath }: MCPServersPanel
 
           {viewState === 'list' && !selectedServer && (
             <div className="mcp-no-selection flex items-center justify-center h-full text-[var(--nim-text-faint)] text-sm">
-              Select a server or click "Add" to create a new one
+              {t('mcp_servers.no_selection', 'Select a server or click "Add" to create a new one')}
             </div>
           )}
 
@@ -2622,21 +2624,21 @@ function MCPServersPanelInner({ scope = 'user', workspacePath }: MCPServersPanel
 }
 
 export function MCPServersPanel(props: MCPServersPanelProps) {
+  const { t: t2 } = useTranslation();
   return (
     <ErrorBoundary
       fallback={
         <div className="provider-panel flex flex-col" role="alert" aria-live="assertive">
           <div className="mcp-error p-8 text-center text-[#e74c3c]">
-            <h3 className="mt-0 mb-4">Unable to load MCP Servers</h3>
+            <h3 className="mt-0 mb-4">{t2('mcp_servers.unable_to_load', 'Unable to load MCP Servers')}</h3>
             <p className="mb-6 text-[var(--nim-text-muted)]">
-              An unexpected error occurred while loading the MCP servers panel.
-              Please try refreshing the application.
+              {t2('mcp_servers.unexpected_error', 'An unexpected error occurred while loading the MCP servers panel. Please try refreshing the application.')}
             </p>
             <button
               onClick={() => window.location.reload()}
               className="mcp-retry-button px-4 py-2 bg-[var(--nim-primary)] text-white border-none rounded-md cursor-pointer"
             >
-              Reload Application
+              {t2('mcp_servers.reload_app', 'Reload Application')}
             </button>
           </div>
         </div>
