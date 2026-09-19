@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useAtomValue } from "jotai";
 import {
   providerCredentialsAtom,
@@ -19,6 +20,7 @@ export function ProviderCredentialsPanel({
   name?: string;
   compact?: boolean;
 }) {
+  const { t } = useTranslation();
   const snapshot = useAtomValue(providerCredentialsAtom);
   const error = useAtomValue(providerCredentialErrorAtom);
   const [busy, setBusy] = useState<string | null>(null);
@@ -40,8 +42,8 @@ export function ProviderCredentialsPanel({
       });
       setNotice(
         credential.name === "openai" && !credential.workspacePath
-          ? "Cleared on this device. Mobile removal is requested and will be retried when devices reconnect."
-          : "API key cleared."
+          ? t('provider_credentials.cleared_device', 'Cleared on this device. Mobile removal is requested and will be retried when devices reconnect.')
+          : t('provider_credentials.cleared_key', 'API key cleared.')
       );
     } catch {
       /* The shared error atom exposes the failure. */
@@ -60,13 +62,11 @@ export function ProviderCredentialsPanel({
   return (
     <section className="provider-credentials-panel mb-5 rounded border border-[var(--nim-border)] p-4">
       <h3 className="font-semibold text-[var(--nim-text)]">
-        {compact ? "Saved API key" : "Saved API keys"}
+        {compact ? t('provider_credentials.title_compact', 'Saved API key') : t('provider_credentials.title', 'Saved API keys')}
       </h3>
       {!compact && (
         <p className="mt-2 text-sm text-[var(--nim-text-muted)]">
-          Manage keys for enabled, disabled, and removed providers. Clearing a
-          global OpenAI key also affects voice and its mobile copy; reconnect
-          mobile devices to receive the change.
+          {t('provider_credentials.description', 'Manage keys for enabled, disabled, and removed providers. Clearing a global OpenAI key also affects voice and its mobile copy; reconnect mobile devices to receive the change.')}
         </p>
       )}
       {(error || snapshot?.message) && (
@@ -89,7 +89,7 @@ export function ProviderCredentialsPanel({
             );
           }}
         >
-          Retry secure storage
+          {t('provider_credentials.retry_storage', 'Retry secure storage')}
         </button>
       )}
       {entries.map((credential) => {
@@ -101,12 +101,12 @@ export function ProviderCredentialsPanel({
           >
             <div className="min-w-0">
               <p className="text-sm font-medium">
-                {credential.name} — API key saved
+                {t('provider_credentials.api_key_saved', { name: credential.name, defaultValue: `${credential.name} — API key saved` })}
               </p>
               <p className="break-all text-xs text-[var(--nim-text-muted)]">
                 {credential.workspacePath
-                  ? `${credential.workspacePath} · Clearing restores global-key inheritance`
-                  : "Global key"}
+                  ? t('provider_credentials.workspace_key', { path: credential.workspacePath, defaultValue: `${credential.workspacePath} · Clearing restores global-key inheritance` })
+                  : t('provider_credentials.global_key', 'Global key')}
               </p>
             </div>
             <button
@@ -117,14 +117,14 @@ export function ProviderCredentialsPanel({
                 void clear(credential);
               }}
             >
-              {busy === id ? "Clearing…" : "Clear key"}
+              {busy === id ? t('provider_credentials.clearing', 'Clearing…') : t('provider_credentials.clear_key', 'Clear key')}
             </button>
           </div>
         );
       })}
       {!compact && snapshot?.state === "available" && !entries.length && (
         <p className="mt-3 text-sm text-[var(--nim-text-muted)]">
-          No API keys saved.
+          {t('provider_credentials.no_keys', 'No API keys saved.')}
         </p>
       )}
     </section>
