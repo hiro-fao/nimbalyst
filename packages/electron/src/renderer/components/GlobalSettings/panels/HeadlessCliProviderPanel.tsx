@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ProviderConfig } from '../../Settings/SettingsView';
 import { SettingsToggle } from '../SettingsToggle';
 import { AlphaBadge, SETTINGS_ALPHA_TOOLTIP } from '../../common/AlphaBadge';
@@ -53,6 +54,12 @@ const FIDELITY_COPY: Record<FileChangeFidelity, string> = {
     + 'project folder, so diff review is approximate.',
 };
 
+const FIDELITY_I18N_KEYS: Record<FileChangeFidelity, string> = {
+  structured: 'headless_cli.fidelity_structured',
+  'tool-args': 'headless_cli.fidelity_tool_args',
+  none: 'headless_cli.fidelity_none',
+};
+
 export function HeadlessCliProviderPanel({
   config,
   onToggle,
@@ -65,6 +72,7 @@ export function HeadlessCliProviderPanel({
   docsLabel,
   fileChangeFidelity,
 }: HeadlessCliProviderPanelProps) {
+  const { t } = useTranslation();
   const [cliStatus, setCLIStatus] = useState<CLIStatus>('checking');
   const [cliVersion, setCLIVersion] = useState<string | null>(null);
   const [installCommand, setInstallCommand] = useState<string | null>(null);
@@ -128,18 +136,18 @@ export function HeadlessCliProviderPanel({
 
       <div className="provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)]">
         <h4 className="provider-panel-section-title text-base font-semibold mb-3 text-[var(--nim-text)]">
-          {commandName} CLI
+          {t('headless_cli.cli_title', { name: commandName, defaultValue: `${commandName} CLI` })}
         </h4>
 
         {cliStatus === 'checking' && (
-          <p className="text-[13px] text-[var(--nim-text-muted)]">Checking for the {commandName} CLI...</p>
+          <p className="text-[13px] text-[var(--nim-text-muted)]">{t('headless_cli.checking', { name: commandName, defaultValue: `Checking for the ${commandName} CLI...` })}</p>
         )}
 
         {cliStatus === 'installed' && (
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[var(--nim-success)] shrink-0" />
             <span className="text-[13px] text-[var(--nim-text)]">
-              Installed and signed in{cliVersion ? ` (${cliVersion})` : ''}
+              {t('headless_cli.installed_signed_in', { version: cliVersion ? ` (${cliVersion})` : '', defaultValue: `Installed and signed in${cliVersion ? ` (${cliVersion})` : ''}` })}
             </span>
           </div>
         )}
@@ -149,19 +157,17 @@ export function HeadlessCliProviderPanel({
             <div className="flex items-center gap-2 mb-2">
               <span className="w-2 h-2 rounded-full bg-[var(--nim-warning)] shrink-0" />
               <span className="text-[13px] text-[var(--nim-text)]">
-                Installed{cliVersion ? ` (${cliVersion})` : ''}, but not signed in
+                {t('headless_cli.installed_not_signed_in', { version: cliVersion ? ` (${cliVersion})` : '', defaultValue: `Installed${cliVersion ? ` (${cliVersion})` : ''}, but not signed in` })}
               </span>
             </div>
             <p className="text-[13px] text-[var(--nim-text-muted)] leading-relaxed">
-              Run{' '}
-              <code className="text-[var(--nim-code-text)] bg-[var(--nim-code-bg)] px-1 rounded select-text">{loginCommand}</code>{' '}
-              in your terminal, then check again.
+              {t('headless_cli.run_login_hint', { cmd: loginCommand, defaultValue: `Run ${loginCommand} in your terminal, then check again.` })}
             </p>
             <button
               className="mt-3 inline-flex items-center justify-center py-2 px-4 rounded-md text-sm font-medium cursor-pointer transition-all bg-[var(--nim-surface)] text-[var(--nim-text)] border border-[var(--nim-border)] hover:bg-[var(--nim-surface-hover)]"
               onClick={() => void checkCLI()}
             >
-              Check again
+              {t('headless_cli.check_again', 'Check again')}
             </button>
           </div>
         )}
@@ -169,8 +175,7 @@ export function HeadlessCliProviderPanel({
         {cliStatus === 'not-installed' && (
           <div>
             <p className="text-[13px] text-[var(--nim-text-muted)] mb-3 leading-relaxed">
-              The {commandName} CLI is required to run this agent. Nimbalyst does not install it
-              for you — run the vendor&apos;s installer in your terminal:
+              {t('headless_cli.cli_required', { name: commandName, defaultValue: `The ${commandName} CLI is required to run this agent. Nimbalyst does not install it for you — run the vendor's installer in your terminal:` })}
             </p>
             {installCommand && (
               <code className="block text-[13px] text-[var(--nim-code-text)] bg-[var(--nim-code-bg)] px-3 py-2 rounded mb-3 select-text">
@@ -181,13 +186,13 @@ export function HeadlessCliProviderPanel({
               className="inline-flex items-center justify-center py-2 px-4 rounded-md text-sm font-medium cursor-pointer transition-all bg-[var(--nim-surface)] text-[var(--nim-text)] border border-[var(--nim-border)] hover:bg-[var(--nim-surface-hover)]"
               onClick={() => void checkCLI()}
             >
-              Check again
+              {t('headless_cli.check_again', 'Check again')}
             </button>
           </div>
         )}
 
         <p className="text-[13px] text-[var(--nim-text-muted)] mt-3 leading-relaxed">
-          See the{' '}
+          {t('headless_cli.docs_prefix', 'See the')}{' '}
           <a
             href={docsUrl}
             target="_blank"
@@ -196,46 +201,42 @@ export function HeadlessCliProviderPanel({
           >
             {docsLabel}
           </a>
-          {' '}for installation and authentication details.
+          {' '}{t('headless_cli.docs_suffix', 'for installation and authentication details.')}
         </p>
       </div>
 
       <SettingsToggle
         variant="enable"
-        name={`Enable ${title}`}
+        name={t('headless_cli.enable', { title, defaultValue: `Enable ${title}` })}
         checked={config.enabled || false}
         onChange={onToggle}
       />
 
       {cliStatus === 'installed' && (
         <p className="text-[13px] text-[var(--nim-text-muted)] mt-2 leading-relaxed">
-          On by default because the {commandName} CLI is installed and signed in. Turning it
-          off here is remembered.
+          {t('headless_cli.default_on_note', { name: commandName, defaultValue: `On by default because the ${commandName} CLI is installed and signed in. Turning it off here is remembered.` })}
         </p>
       )}
 
       {config.enabled && (
         <>
           <div className="provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)]">
-            <h4 className="provider-panel-section-title text-base font-semibold mb-3 text-[var(--nim-text)]">Authentication</h4>
+            <h4 className="provider-panel-section-title text-base font-semibold mb-3 text-[var(--nim-text)]">{t('headless_cli.authentication', 'Authentication')}</h4>
             <p className="text-[13px] text-[var(--nim-text-muted)] mb-3 leading-relaxed">
-              {title} uses its own CLI login. Run{' '}
-              <code className="text-[var(--nim-code-text)] bg-[var(--nim-code-bg)] px-1 rounded select-text">{loginCommand}</code>{' '}
-              in your terminal to authenticate.
+              {t('headless_cli.auth_desc', { title, cmd: loginCommand, defaultValue: `${title} uses its own CLI login. Run ${loginCommand} in your terminal to authenticate.` })}
             </p>
             <p className="text-[13px] text-[var(--nim-text-muted)]">
-              No API key is required, and Nimbalyst never reads one from your environment.
+              {t('headless_cli.no_api_key', 'No API key is required, and Nimbalyst never reads one from your environment.')}
             </p>
           </div>
 
           <div className="provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)] last:border-b-0 last:mb-0 last:pb-0">
-            <h4 className="provider-panel-section-title text-base font-semibold mb-3 text-[var(--nim-text)]">File tracking</h4>
+            <h4 className="provider-panel-section-title text-base font-semibold mb-3 text-[var(--nim-text)]">{t('headless_cli.file_tracking', 'File tracking')}</h4>
             <p className="text-[13px] text-[var(--nim-text-muted)] leading-relaxed">
-              {FIDELITY_COPY[fileChangeFidelity]}
+              {t(FIDELITY_I18N_KEYS[fileChangeFidelity], FIDELITY_COPY[fileChangeFidelity])}
             </p>
             <p className="text-[13px] text-[var(--nim-text-muted)] mt-3 leading-relaxed">
-              This agent cannot pause a turn to ask permission for an individual tool, so a
-              session requires the &ldquo;Allow Edits&rdquo; workspace permission mode.
+              {t('headless_cli.permission_note', 'This agent cannot pause a turn to ask permission for an individual tool, so a session requires the "Allow Edits" workspace permission mode.')}
             </p>
           </div>
         </>
