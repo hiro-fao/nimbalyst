@@ -2,6 +2,7 @@ import { refreshOrganizationDirectory } from '../../../store/listeners/stytchAut
 import { organizationDirectoryStateAtom } from '../../../store/atoms/settingsDomains';
 import { DeviceInventoryPanel } from './DeviceInventoryPanel';
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { usePostHog } from 'posthog-js/react';
 import { useAtom, useAtomValue } from 'jotai';
 import { MaterialSymbol } from '@nimbalyst/runtime/ui/icons/MaterialSymbol';
@@ -36,6 +37,7 @@ interface Project {
 export type PersonalSyncSection = 'accounts' | 'mobile' | 'devices';
 
 export function SyncPanel({ section }: { section: PersonalSyncSection }) {
+  const { t } = useTranslation();
   const posthog = usePostHog();
   const { confirm } = useDialog();
   const isDevelopment = import.meta.env.DEV;
@@ -374,10 +376,10 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
   const sectionClass = (target: PersonalSyncSection) =>
     section === target ? '' : 'hidden';
   const heading = section === 'accounts'
-    ? ['Accounts', 'Manage signed-in personal accounts and choose the one used for personal/mobile sync.']
+    ? [t('sync_panel.heading_accounts', 'Accounts'), t('sync_panel.heading_accounts_desc', 'Manage signed-in personal accounts and choose the one used for personal/mobile sync.')]
     : section === 'devices'
-      ? ['Devices', 'View devices paired to the active personal sync account.']
-      : ['Mobile App', 'Pair your phone and choose which projects it can reach. Personal sync stays zero-knowledge encrypted.'];
+      ? [t('sync_panel.heading_devices', 'Devices'), t('sync_panel.heading_devices_desc', 'View devices paired to the active personal sync account.')]
+      : [t('sync_panel.heading_mobile', 'Mobile App'), t('sync_panel.heading_mobile_desc', 'Pair your phone and choose which projects it can reach. Personal sync stays zero-knowledge encrypted.')];
 
   return (
     <div className="personal-sync-panel provider-panel flex flex-col" data-component="SyncPanel" data-testid={`personal-sync-${section}`}>
@@ -391,7 +393,7 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
           With a single account there is no "which", so the card is noise. */}
       {section === 'mobile' && allAccounts.length > 1 && config.personalSyncProfiles && Object.keys(config.personalSyncProfiles).length > 0 && (
         <section className="personal-sync-profile-groups mb-4 rounded-lg border border-[var(--nim-border)] bg-[var(--nim-bg-secondary)] p-3" data-testid="personal-sync-profile-groups">
-          <h4 className="m-0 mb-2 text-sm font-semibold">Projects by personal account</h4>
+          <h4 className="m-0 mb-2 text-sm font-semibold">{t('sync_panel.projects_by_account', 'Projects by personal account')}</h4>
           <div className="flex flex-col gap-2">
             {Object.entries(config.personalSyncProfiles).map(([personalOrgId, profile]) => {
               const account = allAccounts.find((candidate) => candidate.personalOrgId === personalOrgId);
@@ -400,12 +402,12 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
                 <article key={personalOrgId} className="personal-sync-profile-group rounded border border-[var(--nim-border)] bg-[var(--nim-bg)] p-2.5" data-testid="personal-sync-profile-group">
                   <div className="flex items-center justify-between gap-2 text-xs">
                     <span className="truncate font-medium">{account?.email ?? personalOrgId}</span>
-                    <span className="text-[var(--nim-text-muted)]">{isActive ? 'Active sync account' : 'Profile retained'}</span>
+                    <span className="text-[var(--nim-text-muted)]">{isActive ? t('sync_panel.active_sync_account', 'Active sync account') : t('sync_panel.profile_retained', 'Profile retained')}</span>
                   </div>
                   <p className="m-0 mt-1 text-xs text-[var(--nim-text-muted)]">
                     {profile.enabledProjects.length > 0
                       ? profile.enabledProjects.map((projectPath) => projectPath.split(/[\\/]/).filter(Boolean).pop() ?? projectPath).join(', ')
-                      : 'No mobile projects selected'}
+                      : t('sync_panel.no_mobile_projects', 'No mobile projects selected')}
                   </p>
                 </article>
               );
@@ -453,15 +455,15 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
       <div className={`sync-account-section provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)] last:border-b-0 last:mb-0 last:pb-0 ${sectionClass('accounts')}`}>
         {allAccounts.length === 0 && organizationDirectoryState.status !== 'signed-out' && !organizationDirectoryState.complete && (
           <div className="sync-account-directory-status mb-3 text-sm text-nim-muted" role="status">
-            {refreshingOrganizations ? 'Loading accounts and organizations…' : organizationDirectoryState.error}
-            {!refreshingOrganizations && <button type="button" className="ml-2" onClick={handleRefreshOrganizations}>Retry</button>}
+            {refreshingOrganizations ? t('sync_panel.loading_accounts', 'Loading accounts and organizations…') : organizationDirectoryState.error}
+            {!refreshingOrganizations && <button type="button" className="ml-2" onClick={handleRefreshOrganizations}>{t('sync_panel.retry', 'Retry')}</button>}
           </div>
         )}
         {allAccounts.length > 0 ? (
           <div className="sync-account-list flex flex-col gap-2" data-single-account={isSingleAccount || undefined}>
             <div className="sync-account-list-header flex items-center justify-between">
               <h4 className="m-0 text-[13px] font-semibold text-[var(--nim-text)]">
-                {isSingleAccount ? 'Account and organizations' : 'Accounts and organizations'}
+                {isSingleAccount ? t('sync_panel.accounts_and_orgs_single', 'Account and organizations') : t('sync_panel.accounts_and_orgs_plural', 'Accounts and organizations')}
               </h4>
               <button
                 type="button"
@@ -470,7 +472,7 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
                 className="rounded border border-[var(--nim-border)] bg-transparent px-2 py-0.5 text-[11px] text-[var(--nim-text-muted)] hover:bg-[var(--nim-bg-hover)] disabled:cursor-wait"
                 data-testid="sync-organizations-refresh"
               >
-                {refreshingOrganizations ? 'Refreshing…' : 'Refresh'}
+                {refreshingOrganizations ? t('sync_panel.refreshing', 'Refreshing…') : t('sync_panel.refresh', 'Refresh')}
               </button>
             </div>
             {allAccounts.map((account, accountIndex) => {
@@ -504,7 +506,7 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
                       <div className="truncate text-[13px] text-[var(--nim-text)]">
                         {isSingleAccount ? (
                           <>
-                            <span className="text-[var(--nim-text-muted)]">Signed in as </span>
+                            <span className="text-[var(--nim-text-muted)]">{t('sync_panel.signed_in_as', 'Signed in as ')}</span>
                             <span className="font-medium">{account.email}</span>
                           </>
                         ) : (
@@ -515,12 +517,12 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
                         <div className="mt-0.5 flex flex-wrap items-center gap-1.5 text-[11px] text-[var(--nim-text-muted)]">
                           {showsSyncAccountEmphasis && (
                             <span className="rounded-full bg-[var(--nim-primary)] px-1.5 py-0.5 text-[10px] font-semibold text-[var(--nim-on-primary)]">
-                              Used for sync
+                              {t('sync_panel.used_for_sync', 'Used for sync')}
                             </span>
                           )}
                           {isExpired && (
                             <span className="rounded-full bg-[var(--nim-warning-bg)] px-1.5 py-0.5 text-[10px] font-semibold text-[var(--nim-warning)]">
-                              Session expired
+                              {t('sync_panel.session_expired', 'Session expired')}
                             </span>
                           )}
                         </div>
@@ -533,7 +535,7 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
                           onClick={() => dialogRef.current?.open(DIALOG_IDS.ACCOUNT_LOGIN, { mode: 'reauth', account })}
                           className="rounded border border-[var(--nim-warning)] bg-transparent px-2.5 py-1.5 text-xs text-[var(--nim-warning)] hover:bg-[var(--nim-bg-hover)]"
                         >
-                          Reconnect
+                          {t('sync_panel.reconnect', 'Reconnect')}
                         </button>
                       )}
                       {!isSyncAccount && account.sessionStatus !== 'expired' && (
@@ -548,7 +550,7 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
                           }}
                           className="rounded border border-[var(--nim-border)] bg-transparent px-2.5 py-1.5 text-xs text-[var(--nim-text)] hover:bg-[var(--nim-bg-hover)]"
                         >
-                          Set as sync account
+                          {t('sync_panel.set_as_sync_account', 'Set as sync account')}
                         </button>
                       )}
                       <button
@@ -556,7 +558,7 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
                         onClick={() => handleRemoveAccount(account.personalOrgId)}
                         className="rounded border border-[var(--nim-border)] bg-transparent px-2.5 py-1.5 text-xs text-[var(--nim-text-muted)] hover:bg-[var(--nim-bg-hover)]"
                       >
-                        Sign out
+                        {t('sync_panel.sign_out', 'Sign out')}
                       </button>
                     </div>
                   </div>
@@ -576,7 +578,7 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
                 className="sync-add-account-button self-start border-none bg-transparent p-0 text-[11px] text-[var(--nim-text-muted)] underline-offset-2 hover:text-[var(--nim-text)] hover:underline"
                 data-testid="sync-add-account"
               >
-                Add another account
+                {t('sync_panel.add_another_account', 'Add another account')}
               </button>
             ) : (
               <button
@@ -586,7 +588,7 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
                 data-testid="sync-add-account"
               >
                 <MaterialSymbol icon="person_add" size={16} />
-                Add account
+                {t('sync_panel.add_account', 'Add account')}
               </button>
             )}
           </div>
@@ -594,14 +596,14 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
           <AccountLoginForm mode="first-sign-in" />
         ) : (
           <div className="sync-auth-unavailable rounded-lg bg-[var(--nim-bg-secondary)] p-4 text-center text-xs text-[var(--nim-text-muted)]">
-            Restart the app to enable authentication.
+            {t('sync_panel.auth_unavailable', 'Restart the app to enable authentication.')}
           </div>
         )}
       </div>
       {/* Mobile App - compact card combining app info + QR pairing */}
       {stytchAuth.isAuthenticated && (
           <div className={`sync-mobile-section provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)] last:border-b-0 last:mb-0 last:pb-0 ${sectionClass('mobile')}`}>
-            <h4 className="provider-panel-section-title text-[15px] font-semibold mb-3 text-[var(--nim-text)]">Pair a device</h4>
+            <h4 className="provider-panel-section-title text-[15px] font-semibold mb-3 text-[var(--nim-text)]">{t('sync_panel.pair_device', 'Pair a device')}</h4>
             <div className="flex gap-3.5 p-3.5 bg-nim-secondary rounded-lg">
               <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-blue-500 to-blue-700 flex items-center justify-center shrink-0">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
@@ -667,9 +669,9 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
         <div className={`sync-mobile-section provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)] last:border-b-0 last:mb-0 last:pb-0 ${sectionClass('mobile')}`}>
           <div className="flex items-center justify-between">
             <div className="flex-1 mr-3">
-              <h4 className="text-[13px] font-medium text-nim m-0">Prevent sleep while syncing</h4>
+              <h4 className="text-[13px] font-medium text-nim m-0">{t('sync_panel.prevent_sleep', 'Prevent sleep while syncing')}</h4>
               <p className="text-[11px] text-nim-muted mt-0.5 mb-0">
-                Keeps your computer awake so you can send prompts from your phone. Display can still turn off.
+                {t('sync_panel.prevent_sleep_desc', 'Keeps your computer awake so you can send prompts from your phone. Display can still turn off.')}
               </p>
             </div>
             <select
@@ -681,9 +683,9 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
               }}
               className="bg-nim-secondary border border-nim rounded px-2 py-1 text-[12px] text-nim cursor-pointer shrink-0"
             >
-              <option value="off">Off</option>
-              <option value="always">Always</option>
-              <option value="pluggedIn">When plugged in</option>
+              <option value="off">{t('sync_panel.sleep_off', 'Off')}</option>
+              <option value="always">{t('sync_panel.sleep_always', 'Always')}</option>
+              <option value="pluggedIn">{t('sync_panel.sleep_plugged_in', 'When plugged in')}</option>
             </select>
           </div>
           {(config.preventSleepMode ?? (config.preventSleepWhenSyncing ? 'always' : 'off')) === 'off' && enabledProjectCount > 0 && (
@@ -691,7 +693,7 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
               <svg className="shrink-0" width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
                 <path d="M8 1a7 7 0 100 14A7 7 0 008 1zM7 5a1 1 0 112 0v3a1 1 0 11-2 0V5zm1 7a1 1 0 100-2 1 1 0 000 2z" />
               </svg>
-              <span>Your computer may sleep and disconnect from sync. Enable sleep prevention to keep the connection alive.</span>
+              <span>{t('sync_panel.sleep_warning', 'Your computer may sleep and disconnect from sync. Enable sleep prevention to keep the connection alive.')}</span>
             </div>
           )}
         </div>
@@ -700,7 +702,7 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
       {/* Projects on mobile: one multi-select list, bulk-selectable */}
       <div className={`sync-mobile-section provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)] last:border-b-0 last:mb-0 last:pb-0 ${sectionClass('mobile')}`}>
         <div className="flex items-center justify-between mb-1">
-          <h4 className="provider-panel-section-title text-[15px] font-semibold text-[var(--nim-text)] m-0">Projects accessible on mobile</h4>
+          <h4 className="provider-panel-section-title text-[15px] font-semibold text-[var(--nim-text)] m-0">{t('sync_panel.mobile_projects_title', 'Projects accessible on mobile')}</h4>
           {projects.length > 0 && (
             <button
               type="button"
@@ -708,20 +710,20 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
               className="rounded border border-nim bg-transparent px-2 py-0.5 text-[11px] text-nim-muted hover:bg-nim-hover hover:text-nim"
               data-testid="sync-project-select-all"
             >
-              {mobileSelection === 'all' ? 'Deselect all' : 'Select all'}
+              {mobileSelection === 'all' ? t('sync_panel.deselect_all', 'Deselect all') : t('sync_panel.select_all', 'Select all')}
             </button>
           )}
         </div>
         <p className="m-0 mb-2 text-[11px] text-nim-faint">
           {enabledProjectCount === 0
-            ? 'No projects selected.'
-            : `${enabledProjectCount} of ${projects.length} selected.`}
-          {isAlpha && ' Docs also syncs each project\u2019s .md files.'}
+            ? t('sync_panel.no_projects_selected', 'No projects selected.')
+            : t('sync_panel.projects_selected_count', { count: enabledProjectCount, total: projects.length, defaultValue: `${enabledProjectCount} of ${projects.length} selected.` })}
+          {isAlpha && t('sync_panel.docs_sync_note', " Docs also syncs each project's .md files.")}
         </p>
 
         {projects.length === 0 ? (
           <p className="m-0 rounded-lg border border-dashed border-nim px-3 py-2 text-[12px] text-nim-faint">
-            No projects yet. Open a project to make it available on mobile.
+            {t('sync_panel.no_projects_yet', 'No projects yet. Open a project to make it available on mobile.')}
           </p>
         ) : (
           <ul className="sync-project-select-list m-0 list-none overflow-hidden rounded-lg bg-nim-secondary p-0" data-testid="sync-project-select-list">
@@ -793,18 +795,18 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
 
         {/* Idle timeout */}
         <div className="flex items-center justify-between mt-2">
-          <span className="text-[11px] text-nim-faint">Push notification delay</span>
+          <span className="text-[11px] text-nim-faint">{t('sync_panel.push_delay', 'Push notification delay')}</span>
           <select
             value={config.idleTimeoutMinutes ?? 5}
             onChange={(e) => handleFieldChange('idleTimeoutMinutes', Number(e.target.value))}
             className="px-1.5 py-0.5 text-[11px] bg-nim-secondary border border-nim rounded text-nim-muted cursor-pointer"
           >
-            <option value={1}>1 min</option>
-            <option value={2}>2 min</option>
-            <option value={5}>5 min</option>
-            <option value={10}>10 min</option>
-            <option value={15}>15 min</option>
-            <option value={30}>30 min</option>
+            <option value={1}>{`1 ${t('sync_panel.min', 'min')}`}</option>
+            <option value={2}>{`2 ${t('sync_panel.min', 'min')}`}</option>
+            <option value={5}>{`5 ${t('sync_panel.min', 'min')}`}</option>
+            <option value={10}>{`10 ${t('sync_panel.min', 'min')}`}</option>
+            <option value={15}>{`15 ${t('sync_panel.min', 'min')}`}</option>
+            <option value={30}>{`30 ${t('sync_panel.min', 'min')}`}</option>
           </select>
         </div>
       </div>
@@ -820,16 +822,16 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
               <path d="M7 11V7a5 5 0 0110 0v4" />
             </svg>
             <span className="text-[13px] font-semibold text-nim-success">
-              End-to-End Encryption
+              {t('sync_panel.e2e_title', 'End-to-End Encryption')}
             </span>
           </div>
           <p className="m-0 mb-2 text-[12px] text-nim-muted leading-relaxed">
-            The QR code securely transfers your encryption key directly between devices.
+            {t('sync_panel.e2e_desc', 'The QR code securely transfers your encryption key directly between devices.')}
           </p>
           <ul className="m-0 pl-5 text-[12px] text-nim leading-7">
-            <li>Your encryption keys never touch our servers</li>
-            <li>Only your devices can decrypt your data</li>
-            <li>Sign in with the same account on both devices</li>
+            <li>{t('sync_panel.e2e_bullet1', 'Your encryption keys never touch our servers')}</li>
+            <li>{t('sync_panel.e2e_bullet2', 'Only your devices can decrypt your data')}</li>
+            <li>{t('sync_panel.e2e_bullet3', 'Sign in with the same account on both devices')}</li>
           </ul>
         </div>
       </div>
@@ -837,7 +839,7 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
       {/* Delete Account */}
       {stytchAuth.isAuthenticated && (
         <div className={`sync-account-section provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)] last:border-b-0 last:mb-0 last:pb-0 ${sectionClass('accounts')}`}>
-          <h4 className="provider-panel-section-title text-[15px] font-semibold mb-2 text-[var(--nim-text)]">Danger Zone</h4>
+          <h4 className="provider-panel-section-title text-[15px] font-semibold mb-2 text-[var(--nim-text)]">{t('sync_panel.danger_zone', 'Danger Zone')}</h4>
           {!showDeleteConfirm ? (
             <button
               onClick={() => {
@@ -847,15 +849,15 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
               }}
               className="px-4 py-2 text-[13px] bg-transparent border border-red-500/40 rounded-md text-red-500 cursor-pointer hover:bg-red-500/10"
             >
-              Delete Account
+              {t('sync_panel.delete_account', 'Delete Account')}
             </button>
           ) : (
             <div className="p-4 bg-nim-secondary rounded-lg border border-red-500/30">
               <p className="text-[13px] text-nim-muted m-0 mb-3">
-                This will permanently delete the selected personal account{config.personalOrgId ? ` (${config.personalOrgId})` : ''} and its synced data, including sessions, shared links, and device pairings. Team organization data is separate. This cannot be undone.
+                {t('sync_panel.delete_confirm_text', { org: config.personalOrgId ? ` (${config.personalOrgId})` : '', defaultValue: `This will permanently delete the selected personal account${config.personalOrgId ? ` (${config.personalOrgId})` : ''} and its synced data, including sessions, shared links, and device pairings. Team organization data is separate. This cannot be undone.` })}
               </p>
               <p className="text-[12px] text-nim-faint m-0 mb-2">
-                Type <strong className="text-nim">DELETE</strong> to confirm:
+                {t('sync_panel.type_delete_confirm', { cmd: 'DELETE', defaultValue: 'Type DELETE to confirm:' })}
               </p>
               <input
                 type="text"
@@ -879,7 +881,7 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
                       : 'bg-red-600/40 cursor-not-allowed'
                   }`}
                 >
-                  {deleteLoading ? 'Deleting...' : 'Delete Account'}
+                  {deleteLoading ? t('sync_panel.deleting', 'Deleting...') : t('sync_panel.delete_account', 'Delete Account')}
                 </button>
                 <button
                   onClick={() => {
@@ -890,7 +892,7 @@ export function SyncPanel({ section }: { section: PersonalSyncSection }) {
                   disabled={deleteLoading}
                   className="px-4 py-2 text-[13px] bg-transparent border border-nim rounded-md text-nim-muted cursor-pointer hover:bg-nim-hover"
                 >
-                  Cancel
+                  {t('sync_panel.cancel', 'Cancel')}
                 </button>
               </div>
             </div>
