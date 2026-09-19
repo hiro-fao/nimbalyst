@@ -538,5 +538,27 @@
   "cursor_agent": {
     "title": "Cursor エージェント",
     "description": "Cursor コーディングエージェントを、プロジェクトに対してヘッドレスで実行します。既存の Cursor CLI ログインを使用します。"
+  },
+  "gemini": {
+    "title": "Gemini",
+    "description": "Antigravity 内に組み込まれた言語サーバーを通じて実行される、Google の Gemini モデルです。すでに Antigravity でサインインしているアカウントを使用します。",
+    "antigravity": "Antigravity",
+    "checking": "Antigravity を検索中...",
+    "installed": "インストール済み",
+    "not_found": "見つかりません",
+    "not_installed_desc": "Antigravity をインストールして一度サインインしてください。Nimbalyst は自動インストールを行わず、Antigravity を開いたままにする必要もありません。使用するのは内部の言語サーバーのみです。",
+    "check_again": "再確認",
+    "docs_prefix": "詳細は",
+    "docs_link": "antigravity.google",
+    "docs_suffix": "でダウンロードとサインインの方法をご覧ください。",
+    "enable": "Gemini を有効にする",
+    "default_on_note": "Antigravity がインストールされているため、デフォルトで有効になっています。ここでオフにすると記憶されます。",
+    "authentication": "認証",
+    "auth_desc1": "Antigravity 内でサインインしてください。言語サーバーはそのログインを使用するため、ここで入力する項目はありません。",
+    "auth_desc2": "API キーは不要で、Nimbalyst は環境変数からキーを読み取ることもありません。",
+    "file_tracking": "ファイル追跡",
+    "file_tracking_desc": "Nimbalyst がこのエージェントの書き込みを自身で実行するため、すべての編集で変更前のファイル内容を正確に記録し、差分レビューは正確です。削除・リネームはシェルコマンド経由で行われるため、Nimbalyst がプロジェクトフォルダを監視して検出しますが、稀に誤ったターンに紐づくことがあります。",
+    "context_usage": "コンテキスト使用量",
+    "context_usage_desc": "Antigravity はトークン数を報告しないため、Nimbalyst は Gemini に対して不正確なコンテキストメーターを表示せず、代わりに残りのクォータを利用状況インジケーターに表示します。"
   }
 }
