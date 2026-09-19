@@ -797,5 +797,30 @@
     "type_delete_confirm": "確認のため「DELETE」と入力してください:",
     "deleting": "削除中...",
     "cancel": "キャンセル"
+  },
+  "shared_links": {
+    "title": "共有リンク",
+    "description": "ファイルやセッションのために共有したリンクを管理します。リンクを持つ人は誰でもコンテンツを閲覧できます。",
+    "refresh": "更新",
+    "loading": "共有リンクを読み込み中...",
+    "signin_prompt": "ファイルやセッションを共有するにはサインインしてください。",
+    "signin_hint": "アカウントの設定は「アカウント & 同期」で行えます。",
+    "retry": "再試行",
+    "empty_title": "共有リンクはまだありません。",
+    "empty_hint": "ファイルやセッションを右クリックして「共有リンク」を選択すると作成できます。",
+    "untitled": "無題",
+    "kind_file": "ファイル",
+    "kind_session": "セッション",
+    "view_singular": "回表示",
+    "view_plural": "回表示",
+    "created_by": "作成者: {{email}}",
+    "unknown_account": "不明なアカウント",
+    "no_expiration": "期限なし",
+    "expired": "期限切れ",
+    "expires_tomorrow": "明日期限切れ",
+    "expires_in_days": "{{days}} 日後に期限切れ",
+    "copy_link": "リンクをコピー",
+    "delete_link": "共有リンクを削除",
+    "load_failed": "共有リンクの読み込みに失敗しました"
   }
 }
