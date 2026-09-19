@@ -467,8 +467,8 @@ export function AgentFeaturesPanel() {
             key={feature.tag}
             checked={alphaFeatures[feature.tag] ?? false}
             onChange={(checked) => handleAlphaToggle(feature.tag, checked)}
-            name={feature.name}
-            description={feature.description}
+            name={t(`alpha_features.${feature.tag}.name`, feature.name)}
+            description={t(`alpha_features.${feature.tag}.description`, feature.description)}
           />
         ))}
 
