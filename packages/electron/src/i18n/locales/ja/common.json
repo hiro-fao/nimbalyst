@@ -1,0 +1,9 @@
+{
+  "settings": {
+    "title": "設定",
+    "agent_providers": "エージェントプロバイダー",
+    "agent_providers_desc": "エージェントはツールやプロジェクトファイルを使用して、マルチステップの作業を行うことができます。",
+    "chat_providers": "チャットプロバイダー",
+    "chat_providers_desc": "チャットプロバイダーは、焦点を絞った会話のためにモデルを直接呼び出します。"
+  }
+}
