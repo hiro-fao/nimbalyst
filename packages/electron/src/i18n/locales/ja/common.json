@@ -491,5 +491,23 @@
     "test": "テスト",
     "config_read_failed": "OpenCode の設定の読み込みに失敗しました",
     "config_update_failed": "OpenCode の設定の更新に失敗しました"
+  },
+  "copilot_cli": {
+    "title": "GitHub Copilot",
+    "description": "ACP（Agent Communication Protocol）サーバーモード経由の GitHub Copilot コーディングエージェントです。認証には既存の Copilot CLI ログインを使用します。",
+    "cli_title": "Copilot CLI",
+    "checking": "Copilot CLI を確認中...",
+    "installed": "インストール済み{{version}}",
+    "cli_required": "エージェントを実行するには GitHub Copilot CLI が必要です。以下でインストールしてください:",
+    "install_cli": "Copilot CLI をインストール",
+    "manual_install_hint": "手動で実行する場合: {{cmd}}",
+    "installing": "Copilot CLI をインストール中...",
+    "docs_prefix": "インストールと認証の詳細は",
+    "docs_link": "Copilot CLI のドキュメント",
+    "docs_suffix": "をご覧ください。",
+    "enable": "GitHub Copilot を有効にする",
+    "authentication": "認証",
+    "auth_desc1": "GitHub Copilot は既存のログインを認証に使用します。{{cmd}} を実行し、{{login}} コマンドで認証してください。",
+    "auth_desc2": "モデルの選択は Copilot によって管理されます。追加の API キーは不要です。"
   }
 }
