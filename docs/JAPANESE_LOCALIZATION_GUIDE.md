@@ -13,17 +13,17 @@
 ## 3. 実装タスクリスト
 
 ### Phase 1: 翻訳基盤の導入 (Foundation)
-- [ ] `i18next` および `react-i18next` ライブラリの導入
-- [ ] `packages/electron/src/i18n/index.ts` の作成（初期化設定）
-- [ ] `packages/electron/src/renderer/App.tsx` への i18n インポート追加
+- [x] `i18next` および `react-i18next` ライブラリの導入
+- [x] `packages/electron/src/i18n/index.ts` の作成（初期化設定）
+- [x] `packages/electron/src/renderer/App.tsx` への i18n インポート追加
 
 ### Phase 2: 翻訳リソースの構築 (Resources)
-- [ ] `packages/electron/src/i18n/locales/ja/common.json` の作成
-- [ ] 主要な設定項目の英語 $\rightarrow$ 日本語 翻訳マップの定義
+- [x] `packages/electron/src/i18n/locales/ja/common.json` の作成
+- [x] 主要な設定項目の英語 $\rightarrow$ 日本語 翻訳マップの定義
 
 ### Phase 3: UI の日本語化実装 (Implementation)
-- [ ] `SettingsView.tsx` のヘッダーおよびスコープ切替タブの翻訳
-- [ ] `SettingsSidebar.tsx` のグループ見出しおよびルートラベルの翻訳
+- [x] `SettingsView.tsx` のヘッダーおよびスコープ切替タブの翻訳
+- [x] `SettingsSidebar.tsx` のグループ見出しおよびルートラベルの翻訳
 - [ ] 各設定パネル（Claude, OpenAI, Gemini 等）の内部文言の翻訳
 
 ### Phase 4: 検証と調整 (Verification)
