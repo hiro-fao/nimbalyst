@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { MaterialSymbol } from '@nimbalyst/runtime/ui/icons/MaterialSymbol';
 import type { ThemeManifest } from '@nimbalyst/extension-sdk';
@@ -19,6 +20,7 @@ interface ThemeWithState extends ThemeManifest {
 }
 
 export const ThemesPanel: React.FC<ThemesPanelProps> = ({ scope, workspacePath }) => {
+  const { t } = useTranslation();
   const { themeId } = useTheme();
   const [themes, setThemes] = useState<ThemeWithState[]>([]);
   const [loading, setLoading] = useState(true);
@@ -155,7 +157,7 @@ export const ThemesPanel: React.FC<ThemesPanelProps> = ({ scope, workspacePath }
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64">
-        <div className="text-nim-muted">Loading themes...</div>
+        <div className="text-nim-muted">{t('themes.loading', 'Loading themes...')}</div>
       </div>
     );
   }
@@ -165,9 +167,9 @@ export const ThemesPanel: React.FC<ThemesPanelProps> = ({ scope, workspacePath }
       {/* Header */}
       <div className="flex items-center justify-between mb-4 pb-4 border-b border-nim">
         <div>
-          <h2 className="text-lg font-semibold text-nim">Themes</h2>
+          <h2 className="text-lg font-semibold text-nim">{t('themes.title', 'Themes')}</h2>
           <p className="text-sm text-nim-muted mt-1">
-            Manage color themes for the editor
+            {t('themes.description', 'Manage color themes for the editor')}
           </p>
         </div>
         <button
@@ -176,7 +178,7 @@ export const ThemesPanel: React.FC<ThemesPanelProps> = ({ scope, workspacePath }
           title="Refresh theme list"
         >
           <MaterialSymbol icon="refresh" size={18} />
-          <span>Refresh</span>
+          <span>{t('themes.refresh', 'Refresh')}</span>
         </button>
       </div>
 
@@ -207,11 +209,11 @@ export const ThemesPanel: React.FC<ThemesPanelProps> = ({ scope, workspacePath }
 
       {/* Active theme section */}
       <div className="mb-6">
-        <h3 className="text-sm font-medium text-nim mb-3">Active Theme</h3>
+        <h3 className="text-sm font-medium text-nim mb-3">{t('themes.active_theme', 'Active Theme')}</h3>
         <div className="flex items-center gap-3 p-3 bg-nim-secondary border border-nim rounded-md">
           {(() => {
             const activeTheme = themes.find(t => t.isActive);
-            if (!activeTheme) return <div className="text-nim-muted text-sm">No theme selected</div>;
+            if (!activeTheme) return <div className="text-nim-muted text-sm">{t('themes.no_theme_selected', 'No theme selected')}</div>;
 
             return (
               <>
@@ -220,11 +222,11 @@ export const ThemesPanel: React.FC<ThemesPanelProps> = ({ scope, workspacePath }
                 </div>
                 <div className="flex-1">
                   <div className="text-sm font-medium text-nim">{activeTheme.name}</div>
-                  <div className="text-xs text-nim-muted">{activeTheme.description || 'No description'}</div>
+                  <div className="text-xs text-nim-muted">{activeTheme.description || t('themes.no_description', 'No description')}</div>
                 </div>
                 <div className="flex items-center gap-1 px-2 py-1 bg-nim-primary/20 text-nim-primary text-xs rounded">
                   <MaterialSymbol icon="check" size={14} />
-                  <span>Active</span>
+                  <span>{t('themes.status_active', 'Active')}</span>
                 </div>
               </>
             );
@@ -236,7 +238,7 @@ export const ThemesPanel: React.FC<ThemesPanelProps> = ({ scope, workspacePath }
       <div className="flex-1 overflow-auto">
         {/* Built-in themes */}
         <div className="mb-6">
-          <h3 className="text-sm font-medium text-nim mb-3">Built-in Themes</h3>
+          <h3 className="text-sm font-medium text-nim mb-3">{t('themes.built_in_themes', 'Built-in Themes')}</h3>
           <div className="space-y-2">
             {builtInThemes.map((theme) => (
               <div
@@ -279,7 +281,7 @@ export const ThemesPanel: React.FC<ThemesPanelProps> = ({ scope, workspacePath }
         {/* User themes */}
         {userThemes.length > 0 && (
           <div className="mb-6">
-            <h3 className="text-sm font-medium text-nim mb-3">User Themes</h3>
+            <h3 className="text-sm font-medium text-nim mb-3">{t('themes.user_themes', 'User Themes')}</h3>
             <div className="space-y-2">
               {userThemes.map((theme) => (
                 <div
@@ -335,7 +337,7 @@ export const ThemesPanel: React.FC<ThemesPanelProps> = ({ scope, workspacePath }
         {/* Extension themes */}
         {extensionThemes.length > 0 && (
           <div className="extension-themes-section mb-6">
-            <h3 className="text-sm font-medium text-nim mb-3">Extension Themes</h3>
+            <h3 className="text-sm font-medium text-nim mb-3">{t('themes.extension_themes', 'Extension Themes')}</h3>
             <div className="space-y-2">
               {extensionThemes.map((theme) => (
                 <div
@@ -370,7 +372,7 @@ export const ThemesPanel: React.FC<ThemesPanelProps> = ({ scope, workspacePath }
                       }}
                       className="px-3 py-1 text-xs text-nim-muted hover:text-nim hover:bg-nim-hover rounded transition-colors"
                     >
-                      Apply
+                      {t('themes.apply', 'Apply')}
                     </button>
                   )}
                 </div>
@@ -382,14 +384,14 @@ export const ThemesPanel: React.FC<ThemesPanelProps> = ({ scope, workspacePath }
         {/* Empty state when no installed themes (user or extension) */}
         {userThemes.length === 0 && extensionThemes.length === 0 && (
           <div className="mb-6">
-            <h3 className="text-sm font-medium text-nim mb-3">Installed Themes</h3>
+            <h3 className="text-sm font-medium text-nim mb-3">{t('themes.installed_themes', 'Installed Themes')}</h3>
             <div className="flex flex-col items-center justify-center p-8 bg-nim-secondary border border-nim border-dashed rounded-md">
               <MaterialSymbol icon="palette" size={32} className="text-nim-muted mb-2" />
               <p className="text-sm text-nim-muted text-center">
-                No user or extension themes installed yet
+                {t('themes.empty_title', 'No user or extension themes installed yet')}
               </p>
               <p className="text-xs text-nim-faint text-center mt-1">
-                Install themes from files, the marketplace, or via theme extensions
+                {t('themes.empty_description', 'Install themes from files, the marketplace, or via theme extensions')}
               </p>
             </div>
           </div>
@@ -415,22 +417,22 @@ export const ThemesPanel: React.FC<ThemesPanelProps> = ({ scope, workspacePath }
           {/* Theme metadata */}
           <div className="space-y-2 text-xs">
             <div className="flex items-center justify-between">
-              <span className="text-nim-muted">Version:</span>
+              <span className="text-nim-muted">{t('themes.version', 'Version:')}</span>
               <span className="text-nim">{selectedTheme.version}</span>
             </div>
             {selectedTheme.author && (
               <div className="flex items-center justify-between">
-                <span className="text-nim-muted">Author:</span>
+                <span className="text-nim-muted">{t('themes.author', 'Author:')}</span>
                 <span className="text-nim">{selectedTheme.author}</span>
               </div>
             )}
             <div className="flex items-center justify-between">
-              <span className="text-nim-muted">Type:</span>
-              <span className="text-nim">{selectedTheme.isDark ? 'Dark' : 'Light'}</span>
+              <span className="text-nim-muted">{t('themes.type', 'Type:')}</span>
+              <span className="text-nim">{selectedTheme.isDark ? t('themes.dark', 'Dark') : t('themes.light', 'Light')}</span>
             </div>
             {selectedTheme.tags && selectedTheme.tags.length > 0 && (
               <div className="flex items-start justify-between">
-                <span className="text-nim-muted">Tags:</span>
+                <span className="text-nim-muted">{t('themes.tags', 'Tags:')}</span>
                 <div className="flex flex-wrap gap-1 justify-end">
                   {selectedTheme.tags.map(tag => (
                     <span key={tag} className="px-1.5 py-0.5 bg-nim-tertiary text-nim-muted rounded text-xs">
@@ -442,7 +444,7 @@ export const ThemesPanel: React.FC<ThemesPanelProps> = ({ scope, workspacePath }
             )}
             {(['solarized-dark', 'solarized-light', 'monokai'].includes(selectedTheme.id)) && (
               <div className="flex items-start justify-between pt-2 border-t border-nim mt-2">
-                <span className="text-nim-muted">License:</span>
+                <span className="text-nim-muted">{t('themes.license', 'License:')}</span>
                 <span className="text-nim text-right max-w-[60%]">
                   {selectedTheme.id.startsWith('solarized')
                     ? 'MIT License © 2011 Ethan Schoonover'
@@ -454,7 +456,7 @@ export const ThemesPanel: React.FC<ThemesPanelProps> = ({ scope, workspacePath }
 
           {/* Color preview */}
           <div className="mt-4">
-            <div className="text-xs font-medium text-nim mb-2">Colors</div>
+            <div className="text-xs font-medium text-nim mb-2">{t('themes.colors', 'Colors')}</div>
             <div className="grid grid-cols-4 gap-2">
               {Object.entries(selectedTheme.colors).slice(0, 8).map(([key, value]) => (
                 <div key={key} className="flex flex-col items-center gap-1">
@@ -469,7 +471,7 @@ export const ThemesPanel: React.FC<ThemesPanelProps> = ({ scope, workspacePath }
             </div>
             {Object.keys(selectedTheme.colors).length > 8 && (
               <div className="text-xs text-nim-muted text-center mt-2">
-                +{Object.keys(selectedTheme.colors).length - 8} more colors
+                {t('themes.more_colors', { count: Object.keys(selectedTheme.colors).length - 8, defaultValue: `+${Object.keys(selectedTheme.colors).length - 8} more colors` })}
               </div>
             )}
           </div>
