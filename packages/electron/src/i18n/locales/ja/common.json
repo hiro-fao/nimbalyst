@@ -181,5 +181,28 @@
     "generate_summary": "概要を生成",
     "generating": "生成中...",
     "summary_path": "保存先パス: {{path}}"
+  },
+  "agent_features": {
+    "title": "エージェント機能",
+    "description": "エージェントセッションの動作を制御する設定です。",
+    "auto_commit": "コミットの自動承認",
+    "auto_commit_desc": "Claude が git コミットを提案したときに自動的に承認します。",
+    "external_follow": "外部エージェントセッションを追跡",
+    "external_follow_desc": "開いているワークスペースおよびそのワークツリー内の Claude Code および Codex CLI セッションを自動的に追跡します（デフォルトはオフ）。",
+    "mcp_status": "MCP サーバーのステータスを表示",
+    "mcp_status_desc": "セッションヘッダーにチップを表示し、接続されている MCP サーバーを一覧表示します。",
+    "preferred_language": "エージェントの優先言語",
+    "preferred_language_desc": "AI が生成するセッション名の優先言語（例: 「Japanese」「ja」）。空欄にすると会話に基づいて自動選択されます。",
+    "preferred_language_placeholder": "例: ja",
+    "attachment_staging": "添付ファイル配置ディレクトリ",
+    "attachment_staging_desc": "エージェントが読み取る前にファイルを配置する場所を選択します。OS の一時ストレージは現在の動作を維持し、ワークスペースストレージは AppData の拒否ルールを回避します。",
+    "attachment_temp": "OS の一時ディレクトリ",
+    "attachment_workspace": "各ワークスペース内の nimbalyst-local/attachments/",
+    "attachment_custom": "カスタム絶対パス",
+    "attachment_gitignore": "このワークスペースの .gitignore に nimbalyst-local/attachments/ を追加する",
+    "attachment_apply": "ワークスペース配置を適用",
+    "experimental": "実験的機能",
+    "upstream_url": "API アップストリーム URL",
+    "upstream_url_desc": "プロキシまたはエンタープライズエンドポイント経由で Claude Code リクエストをルーティングするためのローカルループバック URL。"
   }
 }
