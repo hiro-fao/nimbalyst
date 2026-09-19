@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { usePostHog } from 'posthog-js/react';
 import { MaterialSymbol, createExtensionStorage } from '@nimbalyst/runtime';
 import type { ExtensionManifest, SettingsPanelProps } from '@nimbalyst/runtime';
@@ -61,6 +62,7 @@ export const InstalledExtensionsPanel: React.FC<InstalledExtensionsPanelProps> =
   scope,
   workspacePath,
 }) => {
+  const { t } = useTranslation();
   const posthog = usePostHog();
   const { theme } = useTheme();
   const [extensions, setExtensions] = useState<ExtensionWithState[]>([]);
@@ -372,7 +374,7 @@ export const InstalledExtensionsPanel: React.FC<InstalledExtensionsPanelProps> =
     >
       {/* Header */}
       <div className="provider-panel-header mb-5 pb-4 border-b border-[var(--nim-border)] flex-shrink-0">
-        <h3 className="provider-panel-title text-xl font-semibold leading-tight mb-2 text-[var(--nim-text)]">Installed Extensions</h3>
+        <h3 className="provider-panel-title text-xl font-semibold leading-tight mb-2 text-[var(--nim-text)]">{t('installed_extensions.title', 'Installed Extensions')}</h3>
 
       </div>
 
@@ -386,10 +388,9 @@ export const InstalledExtensionsPanel: React.FC<InstalledExtensionsPanelProps> =
       {totalCount === 0 ? (
         <div className="flex flex-col items-center justify-center py-12 text-center text-[var(--nim-text-muted)]">
           <MaterialSymbol icon="extension" size={48} />
-          <h3 className="mt-4 mb-2 text-lg font-medium text-[var(--nim-text)]">No Extensions Installed</h3>
+          <h3 className="mt-4 mb-2 text-lg font-medium text-[var(--nim-text)]">{t('installed_extensions.no_extensions', 'No Extensions Installed')}</h3>
           <p className="text-sm">
-            Extensions are installed in the extensions folder. Check the documentation for
-            instructions on how to install extensions.
+            {t('installed_extensions.no_extensions_desc', 'Extensions are installed in the extensions folder. Check the documentation for instructions on how to install extensions.')}
           </p>
         </div>
       ) : (
@@ -398,11 +399,11 @@ export const InstalledExtensionsPanel: React.FC<InstalledExtensionsPanelProps> =
           {/* Left: Extension list */}
           <div className="w-[260px] flex-shrink-0 flex flex-col bg-[var(--nim-bg-secondary)] border border-[var(--nim-border)] rounded-lg overflow-hidden">
             <div className="px-3 py-2.5 border-b border-[var(--nim-border)] flex items-center justify-between flex-shrink-0">
-              <span className="text-xs font-semibold text-[var(--nim-text-muted)] uppercase tracking-wide">Extensions</span>
+              <span className="text-xs font-semibold text-[var(--nim-text-muted)] uppercase tracking-wide">{t('installed_extensions.extensions_label', 'Extensions')}</span>
               <span className="text-xs text-[var(--nim-text-faint)]">
                 {enabledCount}/{totalCount}
                 {updateCount > 0 && (
-                  <span className="ml-2 text-[var(--nim-primary)]">{updateCount} update{updateCount > 1 ? 's' : ''}</span>
+                  <span className="ml-2 text-[var(--nim-primary)]">{t('installed_extensions.updates_available', { count: updateCount, defaultValue: `${updateCount} update${updateCount > 1 ? 's' : ''}` })}</span>
                 )}
               </span>
             </div>
@@ -417,15 +418,15 @@ export const InstalledExtensionsPanel: React.FC<InstalledExtensionsPanelProps> =
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search extensions..."
-                  aria-label="Search installed extensions"
+                  placeholder={t('installed_extensions.search_placeholder', 'Search extensions...')}
+                  aria-label={t('installed_extensions.search_aria', 'Search installed extensions')}
                   data-testid="installed-extensions-search"
                   className="w-full py-1.5 pl-8 pr-7 rounded border border-[var(--nim-border)] bg-[var(--nim-bg)] text-[var(--nim-text)] text-sm outline-none focus:border-[var(--nim-primary)] placeholder:text-[var(--nim-text-faint)]"
                 />
                 {searchQuery && (
                   <button
                     type="button"
-                    aria-label="Clear search"
+                    aria-label={t('installed_extensions.clear_search_aria', 'Clear search')}
                     data-testid="installed-extensions-search-clear"
                     className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center justify-center text-[var(--nim-text-muted)] hover:text-[var(--nim-text)]"
                     onClick={() => setSearchQuery('')}
@@ -438,7 +439,7 @@ export const InstalledExtensionsPanel: React.FC<InstalledExtensionsPanelProps> =
             <div className="flex-1 overflow-y-auto min-h-0">
               {filteredExtensions.length === 0 ? (
                 <div className="px-3 py-6 text-center text-xs text-[var(--nim-text-faint)]">
-                  No extensions match &ldquo;{searchQuery}&rdquo;
+                  {t('installed_extensions.no_match', { query: searchQuery, defaultValue: `No extensions match "${searchQuery}"` })}
                 </div>
               ) : filteredExtensions.map((ext) => (
                 <div
@@ -502,7 +503,7 @@ export const InstalledExtensionsPanel: React.FC<InstalledExtensionsPanelProps> =
                         {sourceLabel(selectedExtension.source)}
                       </span>
                       {selectedExtension.installedAt && (
-                        <span>Installed {new Date(selectedExtension.installedAt).toLocaleDateString()}</span>
+                        <span>{t('installed_extensions.installed_on', { date: new Date(selectedExtension.installedAt).toLocaleDateString(), defaultValue: `Installed ${new Date(selectedExtension.installedAt).toLocaleDateString()}` })}</span>
                       )}
                       {selectedExtension.availableUpdate && (
                         <span className="text-[var(--nim-primary)]">
@@ -518,7 +519,7 @@ export const InstalledExtensionsPanel: React.FC<InstalledExtensionsPanelProps> =
                           disabled={processingId === selectedExtension.id}
                           data-testid={`installed-update-${selectedExtension.id}`}
                         >
-                          {processingId === selectedExtension.id ? 'Updating...' : `Update to v${selectedExtension.availableUpdate.availableVersion}`}
+                          {processingId === selectedExtension.id ? t('installed_extensions.updating', 'Updating...') : t('installed_extensions.update_to_version', { version: selectedExtension.availableUpdate.availableVersion, defaultValue: `Update to v${selectedExtension.availableUpdate.availableVersion}` })}
                         </button>
                       )}
                       {(selectedExtension.manifest.marketplace?.repositoryUrl || selectedExtension.registryEntry?.repositoryUrl) && (
@@ -529,7 +530,7 @@ export const InstalledExtensionsPanel: React.FC<InstalledExtensionsPanelProps> =
                             if (url) window.electronAPI.openExternal(url);
                           }}
                         >
-                          Repository
+                          {t('installed_extensions.repository', 'Repository')}
                         </button>
                       )}
                       <button
@@ -537,7 +538,7 @@ export const InstalledExtensionsPanel: React.FC<InstalledExtensionsPanelProps> =
                         onClick={() => handleReveal(selectedExtension.path)}
                         data-testid={`installed-reveal-${selectedExtension.id}`}
                       >
-                        Reveal
+                        {t('installed_extensions.reveal', 'Reveal')}
                       </button>
                       {selectedExtension.source !== 'built-in' && (
                         <button
@@ -546,7 +547,7 @@ export const InstalledExtensionsPanel: React.FC<InstalledExtensionsPanelProps> =
                           disabled={processingId === selectedExtension.id}
                           data-testid={`installed-uninstall-${selectedExtension.id}`}
                         >
-                          Uninstall
+                          {t('installed_extensions.uninstall', 'Uninstall')}
                         </button>
                       )}
                     </div>
@@ -577,7 +578,7 @@ export const InstalledExtensionsPanel: React.FC<InstalledExtensionsPanelProps> =
                   {/* Claude Plugin */}
                   {selectedExtension.manifest.contributions?.claudePlugin && (
                     <div className="mb-5">
-                      <div className="text-xs font-semibold text-[var(--nim-text-muted)] uppercase tracking-wide mb-2.5">Claude Agent Plugin</div>
+                      <div className="text-xs font-semibold text-[var(--nim-text-muted)] uppercase tracking-wide mb-2.5">{t('installed_extensions.claude_agent_plugin', 'Claude Agent Plugin')}</div>
                       <div className="bg-[var(--nim-bg)] border border-[var(--nim-border)] rounded-md p-3">
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-1.5 text-xs font-medium text-[var(--nim-text)]">
@@ -613,7 +614,7 @@ export const InstalledExtensionsPanel: React.FC<InstalledExtensionsPanelProps> =
 
                   {selectedExtension.manifest.contributions?.agentWorkflows && (
                     <div className="mb-5">
-                      <div className="text-xs font-semibold text-[var(--nim-text-muted)] uppercase tracking-wide mb-2.5">Agent Workflows</div>
+                      <div className="text-xs font-semibold text-[var(--nim-text-muted)] uppercase tracking-wide mb-2.5">{t('installed_extensions.agent_workflows', 'Agent Workflows')}</div>
                       <div className="bg-[var(--nim-bg)] border border-[var(--nim-border)] rounded-md p-3">
                         <div className="flex items-center justify-between mb-2">
                           <div className="flex items-center gap-1.5 text-xs font-medium text-[var(--nim-text)]">
@@ -640,14 +641,14 @@ export const InstalledExtensionsPanel: React.FC<InstalledExtensionsPanelProps> =
 
                   {/* Extension Info */}
                   <div className="mb-5">
-                    <div className="text-xs font-semibold text-[var(--nim-text-muted)] uppercase tracking-wide mb-2.5">Extension Info</div>
+                    <div className="text-xs font-semibold text-[var(--nim-text-muted)] uppercase tracking-wide mb-2.5">{t('installed_extensions.extension_info', 'Extension Info')}</div>
                     <div className="space-y-1.5">
                       <div className="flex gap-2">
                         <span className="text-xs text-[var(--nim-text-faint)] w-10">ID</span>
                         <span className="text-xs text-[var(--nim-text-muted)] font-mono">{selectedExtension.id}</span>
                       </div>
                       <div className="flex gap-2">
-                        <span className="text-xs text-[var(--nim-text-faint)] w-10">Path</span>
+                        <span className="text-xs text-[var(--nim-text-faint)] w-10">{t('installed_extensions.path', 'Path')}</span>
                         <span className="text-xs text-[var(--nim-text-muted)] font-mono truncate" title={selectedExtension.path}>
                           {selectedExtension.path.replace(/^.*?\/extensions\//, '~/extensions/')}
                         </span>
@@ -658,7 +659,7 @@ export const InstalledExtensionsPanel: React.FC<InstalledExtensionsPanelProps> =
                   {/* Contributions */}
                   {selectedExtension.manifest.contributions && (
                     <div className="mb-5">
-                      <div className="text-xs font-semibold text-[var(--nim-text-muted)] uppercase tracking-wide mb-2.5">Contributions</div>
+                      <div className="text-xs font-semibold text-[var(--nim-text-muted)] uppercase tracking-wide mb-2.5">{t('installed_extensions.contributions', 'Contributions')}</div>
                       <div className="flex flex-wrap gap-1.5">
                         {selectedExtension.manifest.contributions.customEditors?.map((editor, idx) => (
                           <span key={`editor-${idx}`} className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs bg-[var(--nim-bg-tertiary)] text-[var(--nim-text-muted)]">
@@ -699,7 +700,7 @@ export const InstalledExtensionsPanel: React.FC<InstalledExtensionsPanelProps> =
                   {/* Permissions */}
                   {selectedExtension.manifest.permissions && (
                     <div className="mb-5">
-                      <div className="text-xs font-semibold text-[var(--nim-text-muted)] uppercase tracking-wide mb-2.5">Permissions</div>
+                      <div className="text-xs font-semibold text-[var(--nim-text-muted)] uppercase tracking-wide mb-2.5">{t('installed_extensions.permissions', 'Permissions')}</div>
                       <div className="flex flex-wrap gap-2">
                         {selectedExtension.manifest.permissions.filesystem && (
                           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded text-xs bg-[var(--nim-bg-tertiary)] text-[var(--nim-text-muted)]">
@@ -749,8 +750,8 @@ export const InstalledExtensionsPanel: React.FC<InstalledExtensionsPanelProps> =
             ) : (
               <div className="flex-1 flex flex-col items-center justify-center text-[var(--nim-text-muted)] text-center p-5">
                 <span className="material-symbols-outlined text-5xl opacity-50 mb-3">extension</span>
-                <div className="text-sm font-medium text-[var(--nim-text)]">No Extension Selected</div>
-                <div className="text-xs">Select an extension from the list to view details</div>
+                <div className="text-sm font-medium text-[var(--nim-text)]">{t('installed_extensions.no_extension_selected', 'No Extension Selected')}</div>
+                <div className="text-xs">{t('installed_extensions.select_extension_hint', 'Select an extension from the list to view details')}</div>
               </div>
             )}
           </div>
