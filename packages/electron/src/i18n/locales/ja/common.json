@@ -1,9 +1,54 @@
 {
   "settings": {
     "title": "設定",
-    "agent_providers": "エージェントプロバイダー",
-    "agent_providers_desc": "エージェントはツールやプロジェクトファイルを使用して、マルチステップの作業を行うことができます。",
-    "chat_providers": "チャットプロバイダー",
-    "chat_providers_desc": "チャットプロバイダーは、焦点を絞った会話のためにモデルを直接呼び出します。"
+    "groups": {
+      "Application": "アプリケーション",
+      "Agent Providers": "エージェントプロバイダー",
+      "Chat Providers": "チャットプロバイダー",
+      "Extensions": "拡張機能",
+      "Account": "アカウント",
+      "Project": "プロジェクト"
+    },
+    "group_descriptions": {
+      "Agent Providers": "エージェントはツールやプロジェクトファイルを使用して、マルチステップの作業を行うことができます。",
+      "Chat Providers": "チャットプロバイダーは、焦点を絞った会話のためにモデルを直接呼び出します。"
+    },
+    "labels": {
+      "Notifications": "通知",
+      "Themes": "テーマ",
+      "Voice Mode": "ボイスモード",
+      "Agent Features": "エージェント機能",
+      "Cloudflare Sandboxes": "Cloudflare サンドボックス",
+      "Advanced": "詳細設定",
+      "Database": "データベース",
+      "Beta Features": "ベータ機能",
+      "Saved API keys": "保存済み API キー",
+      "Claude Agent": "Claude エージェント",
+      "OpenAI Codex": "OpenAI Codex",
+      "OpenCode": "OpenCode",
+      "GitHub Copilot": "GitHub Copilot",
+      "Grok Build": "Grok Build",
+      "Cursor Agent": "Cursor エージェント",
+      "Gemini": "Gemini",
+      "Claude Chat": "Claude チャット",
+      "OpenAI": "OpenAI",
+      "LM Studio": "LM Studio",
+      "Marketplace": "マーケットプレイス",
+      "Installed": "インストール済み",
+      "Privileged Capabilities": "特権機能",
+      "Claude Plugins": "Claude プラグイン",
+      "MCP Servers": "MCP サーバー",
+      "Tools & Token Cost": "ツール & トークンコスト",
+      "Accounts": "アカウント",
+      "Mobile App": "モバイルアプリ",
+      "Devices": "デバイス",
+      "Shared Links": "共有リンク",
+      "Sharing": "共有",
+      "Agent Permissions": "エージェント権限",
+      "Trackers": "トラッカー",
+      "AI Providers": "AI プロバイダー",
+      "GitHub": "GitHub",
+      "Extensions": "拡張機能"
+    }
   }
 }
