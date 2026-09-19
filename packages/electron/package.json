@@ -100,6 +100,7 @@
     "highlight.js": "11.11.1",
     "html2canvas": "^1.4.1",
     "ignore": "^7.0.5",
+    "i18next": "^23.11.5",
     "jimp": "^1.6.0",
     "jotai": "^2.16.1",
     "jotai-family": "^1.1.0",
@@ -123,6 +124,7 @@
     "react": "^19.2.7",
     "react-diff-view": "^3.3.3",
     "react-dom": "^19.2.7",
+    "react-i18next": "^14.1.2",
     "react-is": "^19.2.4",
     "react-virtuoso": "^4.18.11",
     "recharts": "^3.5.0",
@@ -253,7 +255,11 @@
       {
         "from": "../cloudflare-sandbox/dist",
         "to": "cloudflare-sandbox",
-        "filter": ["worker.mjs", "manifest.json", "rpc-helper.mjs"]
+        "filter": [
+          "worker.mjs",
+          "manifest.json",
+          "rpc-helper.mjs"
+        ]
       },
       {
         "from": "../../node_modules/node-pty",
