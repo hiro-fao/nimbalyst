@@ -11,6 +11,7 @@ import { store } from '@nimbalyst/runtime/store';
 import { syncConfigAtom, setSyncConfigAtom } from '../../store/atoms/appSettings';
 import { openSettingsCommandAtom } from '../../store/atoms/settingsNavigation';
 import type { TipDefinition } from '../types';
+import i18next from 'i18next';
 
 const PowerIcon = (
   <svg
@@ -46,10 +47,10 @@ export const mobileKeepAwakeTip: TipDefinition = {
   },
   content: {
     icon: PowerIcon,
-    title: 'Keep your computer awake for mobile prompts',
-    body: 'Your computer going to sleep will disconnect mobile sync. Enable keep-awake while plugged in to prevent this.',
+    title: i18next.t('tip_mobile_keep_awake.title', 'Keep your computer awake for mobile prompts'),
+    body: i18next.t('tip_mobile_keep_awake.body', 'Your computer going to sleep will disconnect mobile sync. Enable keep-awake while plugged in to prevent this.'),
     action: {
-      label: 'Enable Keep-Awake',
+      label: i18next.t('tip_mobile_keep_awake.enable', 'Enable Keep-Awake'),
       onClick: () => {
         window.electronAPI.invoke('sync:set-prevent-sleep', 'pluggedIn');
         // Update local atom so the condition immediately reflects the change
@@ -59,7 +60,7 @@ export const mobileKeepAwakeTip: TipDefinition = {
       variant: 'primary',
     },
     secondaryAction: {
-      label: 'Sync Settings',
+      label: i18next.t('tip_mobile_keep_awake.sync_settings', 'Sync Settings'),
       onClick: () => {
         store.set(openSettingsCommandAtom, { category: 'sync', timestamp: Date.now() });
       },
