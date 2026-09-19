@@ -158,7 +158,7 @@
     "enable_title": "ボイスモードを有効にする",
     "api_key_desc": "ボイスモードに必要です。platform.openai.com から取得してください。",
     "show_button": "ボイスモードボタンを表示",
-    "show_button_desc": "チャット入力エリアにマイクボタンを表示します。",
+    "show_button_desc": "AI 入力エリアにマイクボタンを表示します",
     "mic_not_granted": "マイクへのアクセスが許可されていません",
     "voice_settings": "音声設定",
     "turn_detection": "発話検出 (Turn Detection)",
@@ -180,7 +180,13 @@
     "speed": "再生速度",
     "generate_summary": "概要を生成",
     "generating": "生成中...",
-    "summary_path": "保存先パス: {{path}}"
+    "summary_path": "保存先パス: {{path}}",
+    "description_2": "自然な言葉で話しかけてコマンドを実行し、音声での応答を受け取れます。",
+    "mic_denied": "ボイスモードにはマイクへのアクセスが必要です。{{settings}} で有効にしてから、下で再確認してください。",
+    "mic_restricted": "このデバイスではマイクへのアクセスが制限されています（保護者による制限や MDM など）。ボイスモードは音声を取得できません。",
+    "mic_needed": "ボイスモードにはマイクへのアクセスが必要です。{{settings}} を開いて許可してください。",
+    "windows_settings": "Windows の設定",
+    "system_settings": "システム設定"
   },
   "agent_features": {
     "title": "エージェント機能",
@@ -320,5 +326,19 @@
     "restore_projects_desc_on": "オンの場合、前回終了時に開いていたすべてのプロジェクトでプロジェクトレールが復元されます。オフの場合、起動画面で選択したプロジェクトのみが開きます。",
     "restore_projects_desc_off": "マルチプロジェクトモードが有効な場合のみ機能します。",
     "multi_project_confirm": "{{count}} 個のプロジェクトがレールで開いています。マルチプロジェクトモードを無効にしますか？他のプロジェクトは閉じられます（保存されていない作業はディスクに残ります）。"
+  },
+  "alpha_features": {
+    "super-loops": {
+      "name": "スーパーループ",
+      "description": "専用のワークツリーで反復的なエージェントワークフローを行うスーパーループを有効にします。"
+    },
+    "blitz": {
+      "name": "ブリッツ (Blitz)",
+      "description": "同じプロンプトを複数の独立したワークツリーで実行し、タスクに対して複数回の試行を行います。"
+    },
+    "meta-agent": {
+      "name": "メタエージェント",
+      "description": "子セッションへの作業のオーケストレーションと委任を行うメタエージェントセッションを有効にします。"
+    }
   }
 }
