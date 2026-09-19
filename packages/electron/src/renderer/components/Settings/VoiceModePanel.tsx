@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { MaterialSymbol } from '@nimbalyst/runtime/ui/icons/MaterialSymbol';
 import { ModelIdentifier } from '@nimbalyst/runtime/ai/server/types';
@@ -281,23 +282,23 @@ export const VoiceModePanel: React.FC<VoiceModePanelProps> = ({
     <div className="provider-panel flex flex-col">
       <div className="provider-panel-header mb-6 pb-4 border-b border-[var(--nim-border)]">
         <h3 className="provider-panel-title text-xl font-semibold leading-tight mb-2 text-[var(--nim-text)] flex items-center gap-2">
-          Voice Mode
+          {t('voice_mode.title', 'Voice Mode')}
           <AlphaBadge size="sm" tooltip={SETTINGS_ALPHA_TOOLTIP} />
         </h3>
         <p className="provider-panel-description text-sm leading-relaxed text-[var(--nim-text-muted)]">
-          Use OpenAI's Advanced Voice Mode to control Claude Code with your voice.
+          {t('voice_mode.description', "Use OpenAI's Advanced Voice Mode to control Claude Code with your voice.")}
           Speak naturally to give commands, and receive spoken responses.
         </p>
       </div>
 
       <div className="provider-panel-section mb-6">
-        <h4 className="provider-panel-section-title text-base font-medium mb-4 text-[var(--nim-text)]">Enable Voice Mode</h4>
+        <h4 className="provider-panel-section-title text-base font-medium mb-4 text-[var(--nim-text)]">{t('voice_mode.enable_title', 'Enable Voice Mode')}</h4>
 
         <div className="setting-item py-3 mb-3">
           <div className="setting-text flex flex-col gap-0.5">
             <span className="setting-name text-sm font-medium text-[var(--nim-text)]">OpenAI API Key</span>
             <span className="setting-description text-xs text-[var(--nim-text-muted)]">
-              Required for Voice Mode. Get one from platform.openai.com.
+              {t('voice_mode.api_key_desc', 'Required for Voice Mode. Get one from platform.openai.com.')}
             </span>
           </div>
           <input
@@ -320,7 +321,7 @@ export const VoiceModePanel: React.FC<VoiceModePanelProps> = ({
               disabled={!hasOpenAIKey}
             />
             <div className="setting-text flex flex-col gap-0.5">
-              <span className="setting-name text-sm font-medium text-[var(--nim-text)]">Show Voice Mode Button</span>
+              <span className="setting-name text-sm font-medium text-[var(--nim-text)]">{t('voice_mode.show_button', 'Show Voice Mode Button')}</span>
               <span className="setting-description text-xs text-[var(--nim-text-muted)]">
                 Display the microphone button in the AI input area
               </span>
@@ -337,7 +338,7 @@ export const VoiceModePanel: React.FC<VoiceModePanelProps> = ({
           <div className="flex items-start gap-3">
             <MaterialSymbol icon="mic_off" size={20} className="mt-0.5 text-[var(--nim-warning)]" />
             <div className="flex-1">
-              <h4 className="text-sm font-medium text-[var(--nim-text)] mb-1">Microphone access not granted</h4>
+              <h4 className="text-sm font-medium text-[var(--nim-text)] mb-1">{t('voice_mode.mic_not_granted', 'Microphone access not granted')}</h4>
               <p className="text-xs text-[var(--nim-text-muted)] mb-3">
                 {micStatus === 'denied'
                   ? `Voice Mode needs microphone access. Enable it in ${micPlatform === 'win32' ? 'Windows Settings' : 'System Settings'}, then re-check below.`
@@ -420,7 +421,7 @@ export const VoiceModePanel: React.FC<VoiceModePanelProps> = ({
           </div>
 
           <div className="provider-panel-section mb-6">
-            <h4 className="provider-panel-section-title text-base font-medium mb-4 text-[var(--nim-text)]">Voice Settings</h4>
+            <h4 className="provider-panel-section-title text-base font-medium mb-4 text-[var(--nim-text)]">{t('voice_mode.voice_settings', 'Voice Settings')}</h4>
 
             <div className="setting-item py-3">
               <div className="setting-text flex flex-col gap-0.5">
@@ -480,7 +481,7 @@ export const VoiceModePanel: React.FC<VoiceModePanelProps> = ({
           </div>
 
           <div className="provider-panel-section mb-6">
-            <h4 className="provider-panel-section-title text-base font-medium mb-4 text-[var(--nim-text)]">Turn Detection</h4>
+            <h4 className="provider-panel-section-title text-base font-medium mb-4 text-[var(--nim-text)]">{t('voice_mode.turn_detection', 'Turn Detection')}</h4>
             <p className="provider-panel-hint text-sm text-[var(--nim-text-muted)] mb-4">
               Control how the assistant detects when you're speaking and when you're done.
             </p>
@@ -605,7 +606,7 @@ export const VoiceModePanel: React.FC<VoiceModePanelProps> = ({
           </div>
 
           <div className="provider-panel-section mb-6">
-            <h4 className="provider-panel-section-title text-base font-medium mb-4 text-[var(--nim-text)]">Command Submission</h4>
+            <h4 className="provider-panel-section-title text-base font-medium mb-4 text-[var(--nim-text)]">{t('voice_mode.command_submission', 'Command Submission')}</h4>
 
             {/* Submit Delay */}
             <div className="setting-item py-3 mb-4">
@@ -637,7 +638,7 @@ export const VoiceModePanel: React.FC<VoiceModePanelProps> = ({
           {/* Project Summary Section */}
           {workspacePath && (
             <div className="voice-mode-project-summary provider-panel-section mb-6">
-              <h4 className="provider-panel-section-title text-base font-medium mb-4 text-[var(--nim-text)]">Project Summary</h4>
+              <h4 className="provider-panel-section-title text-base font-medium mb-4 text-[var(--nim-text)]">{t('voice_mode.project_summary', 'Project Summary')}</h4>
               <p className="provider-panel-hint text-sm text-[var(--nim-text-muted)] mb-3">
                 The voice assistant uses an AI-generated summary of your project to understand context.
                 Stored in <code className="text-xs bg-[var(--nim-bg-secondary)] px-1 py-0.5 rounded">{VOICE_PROJECT_SUMMARY_PATH}</code>.
@@ -708,7 +709,7 @@ export const VoiceModePanel: React.FC<VoiceModePanelProps> = ({
           )}
 
           <div className="provider-panel-section mb-6">
-            <h4 className="provider-panel-section-title text-base font-medium mb-4 text-[var(--nim-text)]">Usage & Pricing</h4>
+            <h4 className="provider-panel-section-title text-base font-medium mb-4 text-[var(--nim-text)]">{t('voice_mode.usage_pricing', 'Usage & Pricing')}</h4>
             {activeEngine === 'live' ? (
               <>
                 <p className="provider-panel-hint text-sm text-[var(--nim-text-muted)]">
@@ -741,7 +742,7 @@ export const VoiceModePanel: React.FC<VoiceModePanelProps> = ({
           </div>
 
           <div className="provider-panel-section mb-6">
-            <h4 className="provider-panel-section-title text-base font-medium mb-4 text-[var(--nim-text)]">How It Works</h4>
+            <h4 className="provider-panel-section-title text-base font-medium mb-4 text-[var(--nim-text)]">{t('voice_mode.how_it_works', 'How It Works')}</h4>
             <p className="provider-panel-hint text-sm text-[var(--nim-text-muted)]">
               Voice Mode uses {activeEngine === 'live' ? 'GPT-Live' : 'GPT Realtime'} as an intelligent
               voice interface to your coding agent. You speak your coding requests naturally,
@@ -754,7 +755,7 @@ export const VoiceModePanel: React.FC<VoiceModePanelProps> = ({
           </div>
 
           <div className="provider-panel-section mb-6">
-            <h4 className="provider-panel-section-title text-base font-medium mb-4 text-[var(--nim-text)]">System Prompt Customization</h4>
+            <h4 className="provider-panel-section-title text-base font-medium mb-4 text-[var(--nim-text)]">{t('voice_mode.system_prompt', 'System Prompt Customization')}</h4>
             <p className="provider-panel-hint text-sm text-[var(--nim-text-muted)] mb-4">
               Customize the behavior of the voice agent and coding agent during voice mode sessions.
             </p>
