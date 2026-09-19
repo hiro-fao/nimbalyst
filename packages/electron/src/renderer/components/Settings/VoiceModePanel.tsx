@@ -52,6 +52,7 @@ type MicAccessStatus = 'not-determined' | 'granted' | 'denied' | 'restricted' | 
 export const VoiceModePanel: React.FC<VoiceModePanelProps> = ({
   workspacePath,
 }) => {
+  const { t } = useTranslation();
   // Subscribe to atoms directly - no props needed
   const [voiceModeSettings] = useAtom(voiceModeSettingsAtom);
   const [, updateVoiceModeSettings] = useAtom(setVoiceModeSettingsAtom);
