@@ -376,7 +376,7 @@ export const ProjectPermissionsPanel: React.FC<ProjectPermissionsPanelProps> = (
                 <div className="permissions-mode-option-text flex flex-col gap-0.5">
                   <span className="permissions-mode-option-title text-sm font-medium text-[var(--nim-text)]">{t('project_permissions.ask_every_time', 'Ask every time')}</span>
                   <span className="permissions-mode-option-description text-xs text-[var(--nim-text-muted)]">
-                    {PROJECT_TRUST_CHOICE_DESCRIPTIONS['ask-every-time']}
+                    {t('project_permissions.ask_desc', PROJECT_TRUST_CHOICE_DESCRIPTIONS['ask-every-time'])}
                   </span>
                 </div>
               </div>
@@ -399,7 +399,7 @@ export const ProjectPermissionsPanel: React.FC<ProjectPermissionsPanelProps> = (
                 <div className="permissions-mode-option-text flex flex-col gap-0.5">
                   <span className="permissions-mode-option-title text-sm font-medium text-[var(--nim-text)]">{t('project_permissions.allow_edits_only', 'Allow edits only')}</span>
                   <span className="permissions-mode-option-description text-xs text-[var(--nim-text-muted)]">
-                    {PROJECT_TRUST_CHOICE_DESCRIPTIONS['allow-edits-only']}
+                    {t('project_permissions.edits_desc', PROJECT_TRUST_CHOICE_DESCRIPTIONS['allow-edits-only'])}
                   </span>
                 </div>
               </div>
@@ -421,14 +421,16 @@ export const ProjectPermissionsPanel: React.FC<ProjectPermissionsPanelProps> = (
                 <span className="material-symbols-outlined text-[var(--nim-text-muted)]">check_circle</span>
                 <div className="permissions-mode-option-text flex flex-col gap-0.5">
                   <span className="permissions-mode-option-title text-sm font-medium text-[var(--nim-text)]">
-                    {PROJECT_TRUST_CHOICE_LABELS[
-                      getProjectTrustChoice('bypass-all', permissions.allowAllUsesClassifier)
-                    ]}
+                    {(() => {
+                      const choice = getProjectTrustChoice('bypass-all', permissions.allowAllUsesClassifier);
+                      return t(choice === 'agent-verified' ? 'project_permissions.agent_verified' : 'project_permissions.allow_everything', PROJECT_TRUST_CHOICE_LABELS[choice]);
+                    })()}
                   </span>
                   <span className="permissions-mode-option-description text-xs text-[var(--nim-text-muted)]">
-                    {PROJECT_TRUST_CHOICE_DESCRIPTIONS[
-                      getProjectTrustChoice('bypass-all', permissions.allowAllUsesClassifier)
-                    ]}
+                    {(() => {
+                      const choice = getProjectTrustChoice('bypass-all', permissions.allowAllUsesClassifier);
+                      return t(choice === 'agent-verified' ? 'project_permissions.agent_verified_desc' : 'project_permissions.allow_everything_desc', PROJECT_TRUST_CHOICE_DESCRIPTIONS[choice]);
+                    })()}
                   </span>
                 </div>
               </div>
