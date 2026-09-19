@@ -509,5 +509,34 @@
     "authentication": "認証",
     "auth_desc1": "GitHub Copilot は既存のログインを認証に使用します。{{cmd}} を実行し、{{login}} コマンドで認証してください。",
     "auth_desc2": "モデルの選択は Copilot によって管理されます。追加の API キーは不要です。"
+  },
+  "headless_cli": {
+    "fidelity_structured": "変更したすべてのファイルを直接報告し、編集前のファイル内容も含みます。差分レビューと編集済みファイル一覧は正確です。",
+    "fidelity_tool_args": "編集したファイルは報告されますが、削除・リネームしたファイルは報告されません（シェルコマンド経由のため）。Nimbalyst がプロジェクトフォルダを監視して検出しますが、差分が誤ったターンに紐づく場合があります。",
+    "fidelity_none": "変更したファイルを報告しません。Nimbalyst がプロジェクトフォルダを監視して推測するため、差分レビューは概算になります。",
+    "cli_title": "{{name}} CLI",
+    "checking": "{{name}} CLI を確認中...",
+    "installed_signed_in": "インストール済み、サインイン済み{{version}}",
+    "installed_not_signed_in": "インストール済み{{version}}（未サインイン）",
+    "run_login_hint": "ターミナルで {{cmd}} を実行してから、再確認してください。",
+    "check_again": "再確認",
+    "cli_required": "このエージェントを実行するには {{name}} CLI が必要です。Nimbalyst は自動インストールを行わないため、ターミナルでベンダーのインストーラーを実行してください:",
+    "docs_prefix": "詳細は",
+    "docs_suffix": "をご覧ください。",
+    "enable": "{{title}} を有効にする",
+    "default_on_note": "{{name}} CLI がインストール・サインイン済みのため、デフォルトで有効になっています。ここでオフにすると記憶されます。",
+    "authentication": "認証",
+    "auth_desc": "{{title}} は独自の CLI ログインを使用します。ターミナルで {{cmd}} を実行して認証してください。",
+    "no_api_key": "API キーは不要で、Nimbalyst は環境変数からキーを読み取ることもありません。",
+    "file_tracking": "ファイル追跡",
+    "permission_note": "このエージェントはツールごとに一時停止して許可を求めることができないため、セッションには「編集を許可」ワークスペース権限モードが必要です。"
+  },
+  "grok_build": {
+    "title": "Grok Build",
+    "description": "xAI の Grok Build コーディングエージェントを、プロジェクトに対してヘッドレスで実行します。既存の Grok CLI ログインを使用します。"
+  },
+  "cursor_agent": {
+    "title": "Cursor エージェント",
+    "description": "Cursor コーディングエージェントを、プロジェクトに対してヘッドレスで実行します。既存の Cursor CLI ログインを使用します。"
   }
 }
