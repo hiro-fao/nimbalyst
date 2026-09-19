@@ -623,5 +623,18 @@
     "status_connected_detail": "OpenCode が認証済みのプロバイダーから {{time}} に検出しました。",
     "provider_singular": "プロバイダー",
     "provider_plural": "プロバイダー"
+  },
+  "privileged_extensions": {
+    "title": "特権機能",
+    "description": "レンダラーの外でコードを実行する権限が付与された拡張機能です（例: プロセスの起動、ネットワーク接続の開始）。見覚えのないものは取り消してください。",
+    "api_not_loaded": "特権機能 API がまだ読み込まれていません。特権拡張機能を表示するには Nimbalyst を再起動してください。",
+    "no_grants": "現在、特権付与を持つ拡張機能はありません。",
+    "calls": "呼び出し回数:",
+    "denied": "拒否: {{count}}",
+    "revoke_workspace": "取り消す（このワークスペース）",
+    "revoke_global": "取り消す（すべてのワークスペース）",
+    "recent_activity": "最近のアクティビティ",
+    "no_recent_activity": "このセッションではまだ特権機能の呼び出しが記録されていません。",
+    "load_failed": "特権拡張機能の読み込みに失敗しました"
   }
 }
