@@ -898,5 +898,13 @@
     "desc_nimbalyst_extension_dev": "拡張機能の開発とデバッグ（開発者モード）",
     "desc_extension_tools": "{{name}} 拡張機能からの {{count}} 個のツール",
     "desc_user_server": "ユーザーが追加した MCP サーバー"
+  },
+  "project_sharing": {
+    "title": "共有",
+    "description": "選択したプロジェクトの組織への紐付けとアクセス権を管理します。",
+    "select_project": "共有を管理するには、プロジェクトを開くか選択してください。",
+    "remote_project": "リモート組織プロジェクト",
+    "organization_project": "組織 {{orgId}} · プロジェクト {{projectId}}",
+    "people_with_access": "アクセスできるユーザー"
   }
 }
