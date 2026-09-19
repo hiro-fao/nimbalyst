@@ -1,6 +1,7 @@
 import React from 'react';
 import { MaterialSymbol } from '@nimbalyst/runtime/ui/icons/MaterialSymbol';
 import type { TipDefinition } from '../types';
+import i18next from 'i18next';
 
 const AgentContextIcon = <MaterialSymbol icon="auto_awesome" size={20} />;
 
@@ -15,7 +16,7 @@ export const filesAgentContextTip: TipDefinition = {
   },
   content: {
     icon: AgentContextIcon,
-    title: 'The agent understands your open file',
-    body: 'Open a file, then ask the agent to **explain, revise, or extend it**. The active file is included as context automatically.',
+    title: i18next.t('tip_files_agent_context.title', 'The agent understands your open file'),
+    body: i18next.t('tip_files_agent_context.body', 'Open a file, then ask the agent to **explain, revise, or extend it**. The active file is included as context automatically.'),
   },
 };
