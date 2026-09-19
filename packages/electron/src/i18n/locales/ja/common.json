@@ -1159,5 +1159,37 @@
     "has_issued_note": "これを変更すると、このプロジェクトが発行済みの番号がリネームされます（番号自体は保持されます）。チームのプレフィックスは {{team}} です。",
     "not_assigned": "未割り当て",
     "no_issued_note": "このプロジェクトはまだローカル番号を発行していないため、プレフィックスを変更しても影響はありません。他のローカルプロジェクトは同じプレフィックスを使用できません。"
+  },
+  "workspace_welcome": {
+    "subtitle": "作業中のファイルは自動的に保存されます",
+    "new_file_aria": "新しいファイルを作成",
+    "new_file_title": "新しいファイル",
+    "new_file_desc": "Markdown ドキュメント、モックアップ、図、スプレッドシート、コードファイルを作成します。",
+    "quick_pick_markdown": "Markdown",
+    "quick_pick_mockup": "モックアップ",
+    "quick_pick_diagram": "図",
+    "ask_agent_aria": "エージェントのチャットにフォーカス",
+    "ask_agent_title": "エージェントに質問",
+    "ask_agent_desc": "右側のチャットに入力してください。エージェントがファイルを読み取り、編集、作成できます。",
+    "prompt_summarize": "このプロジェクトを要約",
+    "prompt_draft_plan": "計画を作成…"
+  },
+  "files_empty_tip": {
+    "next_tip": "次のヒント",
+    "all_tips": "すべてのヒント"
+  },
+  "tip_card": {
+    "overline": "ヒント",
+    "dismiss_aria": "ヒントを閉じる"
+  },
+  "tip_mobile_keep_awake": {
+    "title": "モバイルからの操作のためにコンピューターを起動したままにする",
+    "body": "コンピューターがスリープするとモバイル同期が切断されます。電源接続時にスリープを防止する設定を有効にしてください。",
+    "enable": "スリープ防止を有効にする",
+    "sync_settings": "同期設定"
+  },
+  "tip_files_agent_context": {
+    "title": "エージェントは開いているファイルを理解しています",
+    "body": "ファイルを開いて、エージェントに **説明・修正・拡張** を依頼してください。開いているファイルは自動的にコンテキストとして含まれます。"
   }
 }
