@@ -842,5 +842,32 @@
     "restore": "復元",
     "hide": "非表示",
     "update_failed": "デバイスの更新に失敗しました"
+  },
+  "qr_pairing": {
+    "title": "モバイルデバイスをペアリング",
+    "server_url_required": "サーバー URL が必要です",
+    "generate_failed": "QR コードの生成に失敗しました",
+    "dev_server_title": "ローカル開発サーバー",
+    "dev_server_desc": "お使いの電話は localhost の代わりに、ローカルネットワークの IP アドレス経由で接続する必要があります。",
+    "use_lan_ip": "LAN IP を使用: ",
+    "server_url_in_qr": "QR コード内のサーバー URL: ",
+    "try_again": "再試行",
+    "step1": "1. モバイルデバイスで Nimbalyst を開く",
+    "step2": "2. 設定を開き、「QR コードをスキャン」をタップ",
+    "step3": "3. このQRコードにカメラを向ける",
+    "step4": "4. デスクトップと同じアカウントでサインイン",
+    "e2e_title": "エンドツーエンド暗号化",
+    "e2e_desc": "この QR コードは暗号化キーを安全に転送します。キーは当社のサーバーに送信されず、自分のデバイスだけがデータを復号できます。",
+    "prevent_sleep": "同期中はスリープを防止",
+    "prevent_sleep_desc": "電話からプロンプトを送信できるよう、コンピューターを起動したままにします。ディスプレイはオフになる場合があります。",
+    "sleep_off": "オフ",
+    "sleep_always": "常に",
+    "sleep_plugged_in": "電源接続時",
+    "scan_warning": "自分のデバイスでのみスキャンしてください。これにより暗号化キーが共有されます。",
+    "regenerate": "QR コードを再生成",
+    "copied": "コピーしました！",
+    "copy_pairing_data": "ペアリングデータをコピー",
+    "manual_setup_hint": "スキャンできませんか？モバイルアプリの手動セットアップにこれを貼り付けてください",
+    "generating": "QR コードを生成中..."
   }
 }
