@@ -683,5 +683,30 @@
     "builtin": "組み込み",
     "view_installed": "インストール済み ({{count}})",
     "updates_available": "・{{count}} 件の更新"
+  },
+  "installed_extensions": {
+    "title": "インストール済み拡張機能",
+    "no_extensions": "拡張機能がインストールされていません",
+    "no_extensions_desc": "拡張機能は extensions フォルダにインストールされます。インストール方法についてはドキュメントを確認してください。",
+    "extensions_label": "拡張機能",
+    "updates_available": "{{count}} 件の更新",
+    "search_placeholder": "拡張機能を検索...",
+    "search_aria": "インストール済み拡張機能を検索",
+    "clear_search_aria": "検索をクリア",
+    "no_match": "「{{query}}」に一致する拡張機能はありません",
+    "installed_on": "インストール日: {{date}}",
+    "update_to_version": "v{{version}} に更新",
+    "updating": "更新中...",
+    "repository": "リポジトリ",
+    "reveal": "表示",
+    "uninstall": "アンインストール",
+    "claude_agent_plugin": "Claude エージェントプラグイン",
+    "agent_workflows": "エージェントワークフロー",
+    "extension_info": "拡張機能情報",
+    "path": "パス",
+    "contributions": "コントリビューション",
+    "permissions": "権限",
+    "no_extension_selected": "拡張機能が選択されていません",
+    "select_extension_hint": "リストから拡張機能を選択すると詳細が表示されます"
   }
 }
