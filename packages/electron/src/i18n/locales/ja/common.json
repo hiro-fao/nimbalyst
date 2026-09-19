@@ -708,5 +708,40 @@
     "permissions": "権限",
     "no_extension_selected": "拡張機能が選択されていません",
     "select_extension_hint": "リストから拡張機能を選択すると詳細が表示されます"
+  },
+  "claude_plugins": {
+    "title": "Claude プラグイン",
+    "description": "Claude Code の機能を拡張するプラグインを見つけてインストールできます。",
+    "loading": "Claude Code プラグインを読み込み中...",
+    "error_prefix": "エラー: {{error}}",
+    "retry": "再試行",
+    "search_placeholder": "プラグインを検索...",
+    "search_aria": "Claude Code プラグインを検索",
+    "clear_search": "検索をクリア",
+    "by_author": "作成者: {{author}}",
+    "installed": "インストール済み",
+    "installing": "インストール中...",
+    "install": "インストール",
+    "install_plugin": "プラグインをインストール",
+    "no_results": "「{{query}}」に一致するプラグインはありません",
+    "discover": "見つける",
+    "installed_tab": "インストール済み ({{count}})",
+    "no_plugins_installed": "まだプラグインがインストールされていません",
+    "browse_plugins": "プラグインを見る",
+    "unable_to_load": "Claude Code プラグインを読み込めませんでした",
+    "unexpected_error": "プラグインパネルの読み込み中に予期しないエラーが発生しました。アプリケーションを再読み込みしてください。",
+    "reload_app": "アプリケーションを再読み込み",
+    "categories": {
+      "development": "開発",
+      "productivity": "生産性",
+      "database": "データベース",
+      "testing": "テスト",
+      "security": "セキュリティ",
+      "learning": "学習",
+      "design": "デザイン",
+      "monitoring": "モニタリング",
+      "deployment": "デプロイ",
+      "external": "外部 / コミュニティ"
+    }
   }
 }
