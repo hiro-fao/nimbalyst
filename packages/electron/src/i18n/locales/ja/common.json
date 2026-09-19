@@ -560,5 +560,38 @@
     "file_tracking_desc": "Nimbalyst がこのエージェントの書き込みを自身で実行するため、すべての編集で変更前のファイル内容を正確に記録し、差分レビューは正確です。削除・リネームはシェルコマンド経由で行われるため、Nimbalyst がプロジェクトフォルダを監視して検出しますが、稀に誤ったターンに紐づくことがあります。",
     "context_usage": "コンテキスト使用量",
     "context_usage_desc": "Antigravity はトークン数を報告しないため、Nimbalyst は Gemini に対して不正確なコンテキストメーターを表示せず、代わりに残りのクォータを利用状況インジケーターに表示します。"
+  },
+  "chat_provider": {
+    "api_config": "API 設定",
+    "testing": "テスト中...",
+    "connected": "接続済み",
+    "failed": "失敗",
+    "test": "テスト",
+    "available_models": "利用可能なモデル",
+    "loading_models": "モデルを読み込み中...",
+    "select_hint": "有効にするモデルを選択:",
+    "select_all": "すべて選択",
+    "deselect_all": "選択解除",
+    "no_models": "利用可能なモデルがありません。API キーと接続を確認してください。"
+  },
+  "claude_chat": {
+    "title": "Claude チャット",
+    "description": "チャットモードは、現在開いているファイルの読み書きに限定した、より速く集中したツールです。ファイルをコンテキストとして添付した直接 API 呼び出しを使用するため、応答が速くなります。Anthropic の API キーが必要です。",
+    "enable": "Claude を有効にする"
+  },
+  "openai_chat": {
+    "title": "OpenAI",
+    "description": "GPT-5.4、GPT-5.3 Chat、GPT-5 mini/nano、GPT-4.1、GPT-4o などの最新の OpenAI モデルにアクセスできます。platform.openai.com の OpenAI API キーが必要です。",
+    "enable": "OpenAI を有効にする"
+  },
+  "lmstudio": {
+    "title": "LM Studio",
+    "description": "お使いのマシンで動作している LM Studio 上のローカル LLM に接続します。有効にする前に LM Studio を起動し、モデルを読み込んでください。",
+    "enable": "LM Studio を有効にする",
+    "server_config": "サーバー設定",
+    "loading_models": "LM Studio からモデルを読み込み中...",
+    "detected_models": "検出されたモデル:",
+    "no_models_found": "モデルが見つかりません。LM Studio が起動していて、モデルが読み込まれていることを確認してください。",
+    "refresh_models": "モデルを更新"
   }
 }
