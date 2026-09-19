@@ -2,6 +2,7 @@ import { SAVED_CREDENTIAL } from '../../../shared/providerCredentials';
 import { ProviderCredentialsPanel } from '../GlobalSettings/panels/ProviderCredentialsPanel';
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
+import { useTranslation } from 'react-i18next';
 import { usePostHog } from 'posthog-js/react';
 import { MaterialSymbol } from '@nimbalyst/runtime';
 import { getExtensionLoader } from '@nimbalyst/runtime';
@@ -273,6 +274,7 @@ export function SettingsView({
   marketplaceInstallRequest = null,
   onMarketplaceInstallRequestHandled,
 }: SettingsViewProps) {
+  const { t } = useTranslation();
   const posthog = usePostHog();
   const developerMode = useAtomValue(developerModeAtom);
   const teamsConfigured = useAtomValue(teamsConfiguredAtom);
@@ -1122,7 +1124,7 @@ export function SettingsView({
     <div className="settings-view flex flex-col h-full bg-[var(--nim-bg)] text-[var(--nim-text)]">
       {/* Settings Header */}
       <header className="settings-view-header h-[52px] bg-[var(--nim-bg-secondary)] border-b border-[var(--nim-border)] flex items-center px-5 gap-4 shrink-0">
-        <h1 className="settings-view-title text-base font-semibold text-[var(--nim-text)] m-0">Settings</h1>
+        <h1 className="settings-view-title text-base font-semibold text-[var(--nim-text)] m-0">{t('settings.title', 'Settings')}</h1>
 
         <div className="settings-scope-container flex items-center gap-3">
           <div className="settings-scope-tabs flex bg-[var(--nim-bg-tertiary)] p-1 rounded-lg">
@@ -1135,7 +1137,7 @@ export function SettingsView({
               onClick={() => handleScopeChange('application')}
               data-testid="settings-scope-application"
             >
-              Application
+              {t('settings.ui.scope_application', 'Application')}
             </button>
             <button
               className={`settings-scope-tab settings-scope-tab-account py-1.5 px-4 rounded-md text-xs font-medium cursor-pointer transition-all duration-150 border-none ${
@@ -1146,7 +1148,7 @@ export function SettingsView({
               onClick={() => handleScopeChange('account')}
               data-testid="settings-scope-account"
             >
-              Account
+              {t('settings.ui.scope_account', 'Account')}
             </button>
             <button
               className={`settings-scope-tab py-1.5 px-4 rounded-md text-xs font-medium cursor-pointer transition-all duration-150 border-none disabled:opacity-50 disabled:cursor-not-allowed ${
@@ -1156,18 +1158,18 @@ export function SettingsView({
               }`}
               onClick={() => handleScopeChange('project')}
               disabled={!workspacePath && !projectTarget}
-              title={!workspacePath && !projectTarget ? 'Open or select a project to access project settings' : undefined}
+              title={!workspacePath && !projectTarget ? t('settings.ui.scope_project_placeholder', 'Open or select a project to access project settings') : undefined}
               data-testid="settings-scope-project"
             >
-              Project
+              {t('settings.ui.scope_project', 'Project')}
             </button>
           </div>
           <span className="settings-scope-hint text-[13px] text-[var(--nim-text-muted)]">
             {scope === 'application'
-              ? 'These settings apply to all projects'
+              ? t('settings.ui.scope_application_desc', 'These settings apply to all projects')
               : scope === 'account'
-                ? 'Accounts, personal sync, devices, and shared links'
-                : `Settings for ${workspaceName || 'this project'}`}
+                ? t('settings.ui.scope_account_desc', 'Accounts, personal sync, devices, and shared links')
+                : t('settings.ui.scope_project_desc', { name: workspaceName || 'this project', defaultValue: `Settings for ${workspaceName || 'this project'}` })}
           </span>
         </div>
 
@@ -1178,9 +1180,9 @@ export function SettingsView({
           saveStatus === 'error' ? 'text-[var(--nim-error)]' :
           'text-[var(--nim-text-faint)]'
         }`}>
-          {saveStatus === 'saving' && 'Saving...'}
-          {saveStatus === 'saved' && 'Saved'}
-          {saveStatus === 'error' && 'Error saving'}
+          {saveStatus === 'saving' && t('settings.ui.save_saving', 'Saving...')}
+          {saveStatus === 'saved' && t('settings.ui.save_saved', 'Saved')}
+          {saveStatus === 'error' && t('settings.ui.save_error', 'Error saving')}
         </span>
       </header>
 
