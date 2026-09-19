@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { usePostHog } from 'posthog-js/react';
 import { MaterialSymbol } from '@nimbalyst/runtime/ui/icons/MaterialSymbol';
@@ -77,6 +78,7 @@ function DropdownRow({
  * Developer mode is a global app setting.
  */
 export function AdvancedPanel() {
+  const { t } = useTranslation();
   const posthog = usePostHog();
   // App-level advanced settings from Jotai atoms
   const [settings] = useAtom(advancedSettingsAtom);
@@ -195,16 +197,16 @@ export function AdvancedPanel() {
     <div className="provider-panel flex flex-col">
       <div className="provider-panel-header mb-6 pb-4 border-b border-[var(--nim-border)]">
         <h3 className="provider-panel-title text-xl font-semibold leading-tight mb-2 text-[var(--nim-text)]">
-          Advanced Settings
+          {t('advanced.title', 'Advanced Settings')}
         </h3>
         <p className="provider-panel-description text-sm leading-relaxed text-[var(--nim-text-muted)]">
-          Advanced configuration options for AI features.
+          {t('advanced.description', 'Advanced configuration options for AI features.')}
         </p>
       </div>
 
       {/* Application Mode - Always shown at the top */}
       <div className="provider-panel-section">
-          <h4 className="provider-panel-section-title" onClick={handleModeClick}>Application Mode</h4>
+          <h4 className="provider-panel-section-title" onClick={handleModeClick}>{t('advanced.app_mode', 'Application Mode')}</h4>
           <p className="provider-panel-hint">
             Choose between a simplified experience or full developer features for this project.
           </p>
@@ -258,7 +260,7 @@ export function AdvancedPanel() {
                   <span className="material-symbols-outlined text-nim-primary text-[32px]">
                     terminal
                   </span>
-                  <span className="text-base font-semibold text-nim">Developer Mode</span>
+                  <span className="text-base font-semibold text-nim">{t('advanced.dev_mode', 'Developer Mode')}</span>
                 </div>
                 <p className="m-0 text-[13px] leading-snug text-nim-muted">
                   Full development environment with git worktrees, terminal access, development specific features
@@ -294,7 +296,7 @@ export function AdvancedPanel() {
                   className="setting-checkbox"
                 />
                 <div className="setting-text">
-                  <span className="setting-name">All Developer Features</span>
+                  <span className="setting-name">{t('advanced.all_dev_features', 'All Developer Features')}</span>
                   <span className="setting-description">
                     Enable or disable all developer features at once
                   </span>
@@ -354,7 +356,7 @@ export function AdvancedPanel() {
 
       {/* ── Release Channel ── */}
       <div className="provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)] last:border-b-0 last:mb-0 last:pb-0">
-        <h4 className="provider-panel-section-title text-base font-semibold mb-3 text-[var(--nim-text)]">Release Channel</h4>
+        <h4 className="provider-panel-section-title text-base font-semibold mb-3 text-[var(--nim-text)]">{t('advanced.release_channel', 'Release Channel')}</h4>
         <p className="text-sm leading-relaxed text-[var(--nim-text-muted)] mb-4">
           Choose which release stream Nimbalyst pulls auto-updates from. Switching channels keeps your installed version until a newer release is available. Installing an older version requires a manual download and install. Alpha and beta features are configured separately on each feature&apos;s settings page.
         </p>
@@ -395,7 +397,7 @@ export function AdvancedPanel() {
 
       {/* ── General ── */}
       <div className="provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)] last:border-b-0 last:mb-0 last:pb-0">
-        <h4 className="provider-panel-section-title text-base font-semibold mb-2 text-[var(--nim-text)]">General</h4>
+        <h4 className="provider-panel-section-title text-base font-semibold mb-2 text-[var(--nim-text)]">{t('advanced.general', 'General')}</h4>
 
         <MultiProjectModeToggle />
 
@@ -441,7 +443,7 @@ export function AdvancedPanel() {
       {/* ── Tracker Automation ── */}
       <div className="provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)] last:border-b-0 last:mb-0 last:pb-0" data-testid="tracker-automation-section">
         <HelpTooltip testId="tracker-automation-section">
-          <h4 className="provider-panel-section-title text-base font-semibold mb-2 text-[var(--nim-text)] inline-block">Tracker Automation</h4>
+          <h4 className="provider-panel-section-title text-base font-semibold mb-2 text-[var(--nim-text)] inline-block">{t('advanced.tracker_automation', 'Tracker Automation')}</h4>
         </HelpTooltip>
 
         <SettingsToggle
@@ -463,7 +465,7 @@ export function AdvancedPanel() {
 
       {/* ── Tools & Environment ── */}
       <div className="provider-panel-section py-4 mb-4 border-b border-[var(--nim-border)] last:border-b-0 last:mb-0 last:pb-0">
-        <h4 className="provider-panel-section-title text-base font-semibold mb-2 text-[var(--nim-text)]">Tools & Environment</h4>
+        <h4 className="provider-panel-section-title text-base font-semibold mb-2 text-[var(--nim-text)]">{t('advanced.tools_environment', 'Tools & Environment')}</h4>
 
         <DropdownRow
           value={externalEditorType}
