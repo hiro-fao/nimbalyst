@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAtom, useAtomValue, useSetAtom } from 'jotai';
 import { usePostHog } from 'posthog-js/react';
 import { MaterialSymbol } from '@nimbalyst/runtime/ui/icons/MaterialSymbol';
@@ -35,6 +36,7 @@ interface WorkflowExportSettings {
 type AttachmentStagingMode = 'temp' | 'workspace' | 'custom';
 
 export function AgentFeaturesPanel() {
+  const { t } = useTranslation();
   const posthog = usePostHog();
   const [externalSessionFollowEnabled, setExternalSessionFollowEnabled] = useAtom(settingAtom('app.externalSessionFollowEnabled'));
   const [settings] = useAtom(advancedSettingsAtom);
@@ -233,10 +235,10 @@ export function AgentFeaturesPanel() {
     <div className="provider-panel flex flex-col">
       <div className="provider-panel-header mb-6 pb-4 border-b border-[var(--nim-border)]">
         <h3 className="provider-panel-title text-xl font-semibold leading-tight mb-2 text-[var(--nim-text)]">
-          Agent Features
+          {t('agent_features.title', 'Agent Features')}
         </h3>
         <p className="provider-panel-description text-sm leading-relaxed text-[var(--nim-text-muted)]">
-          Settings that control how agent sessions behave.
+          {t('agent_features.description', 'Settings that control how agent sessions behave.')}
         </p>
       </div>
 
@@ -247,33 +249,33 @@ export function AgentFeaturesPanel() {
             setAutoCommitEnabled(checked);
             posthog?.capture('auto_commit_toggled', { enabled: checked });
           }}
-          name="Auto-approve Commits"
-          description="Automatically approve when Claude proposes git commits."
+          name={t('agent_features.auto_commit', 'Auto-approve Commits')}
+          description={t('agent_features.auto_commit_desc', 'Automatically approve when Claude proposes git commits.')}
         />
 
         <SettingsToggle
           checked={externalSessionFollowEnabled}
           onChange={setExternalSessionFollowEnabled}
-          name="Follow external agent sessions"
-          description="Automatically follow Claude Code and Codex CLI sessions in open workspaces and their worktrees only. Off by default."
+          name={t('agent_features.external_follow', 'Follow external agent sessions')}
+          description={t('agent_features.external_follow_desc', 'Automatically follow Claude Code and Codex CLI sessions in open workspaces and their worktrees only. Off by default.')}
           testId="external-session-follow-setting"
         />
 
         <SettingsToggle
           checked={showMcpSessionStatus}
           onChange={(checked) => setShowMcpSessionStatus(checked)}
-          name="Show MCP Server Status"
-          description="Show a chip in the session header listing this session's MCP servers, which are connected, and which never reached it."
+          name={t('agent_features.mcp_status', 'Show MCP Server Status')}
+          description={t('agent_features.mcp_status_desc', "Show a chip in the session header listing this session's MCP servers, which are connected, and which never reached it.")}
           testId="show-mcp-session-status-toggle"
         />
 
         <div className="agent-preferred-language flex items-start justify-between gap-4 py-3">
           <div className="flex-1 min-w-0">
             <div className="text-sm font-medium text-[var(--nim-text)] leading-tight">
-              Preferred Agent Language
+              {t('agent_features.preferred_language', 'Preferred Agent Language')}
             </div>
             <div className="text-xs text-[var(--nim-text-muted)] leading-snug mt-0.5">
-              Preferred language for AI-generated session names (e.g. "Japanese", "ja", "Spanish"). Leave blank to let the agent pick based on the conversation.
+              {t('agent_features.preferred_language_desc', 'Preferred language for AI-generated session names (e.g. "Japanese", "ja", "Spanish"). Leave blank to let the agent pick based on the conversation.')}
             </div>
           </div>
           <input
@@ -290,9 +292,9 @@ export function AgentFeaturesPanel() {
           className="attachment-staging-settings mt-3 rounded border border-[var(--nim-border)] bg-[var(--nim-bg-secondary)] p-3"
           data-testid="attachment-staging-settings"
         >
-          <div className="text-sm font-semibold text-[var(--nim-text)]">Attachment staging directory</div>
+          <div className="text-sm font-semibold text-[var(--nim-text)]">{t('agent_features.attachment_staging', 'Attachment staging directory')}</div>
           <p className="mb-3 mt-1 text-xs leading-relaxed text-[var(--nim-text-muted)]">
-            Choose where files are placed before an agent reads them. OS temporary storage keeps current behavior; workspace storage avoids broad AppData deny rules.
+            {t('agent_features.attachment_staging_desc', 'Choose where files are placed before an agent reads them. OS temporary storage keeps current behavior; workspace storage avoids broad AppData deny rules.')}
           </p>
           <div className="flex flex-col gap-2">
             {([
@@ -348,7 +350,7 @@ export function AgentFeaturesPanel() {
                 className="nim-btn-primary mt-3"
                 onClick={() => void saveAttachmentStaging('workspace')}
               >
-                Apply workspace staging
+                {t('agent_features.attachment_apply', 'Apply workspace staging')}
               </button>
             )}
           {attachmentStagingError && (
@@ -359,7 +361,7 @@ export function AgentFeaturesPanel() {
 
       <div className="provider-panel-section">
         <div className="flex items-center gap-2 mb-2">
-          <h4 className="provider-panel-section-title text-base font-semibold text-[var(--nim-text)] m-0">Experimental</h4>
+          <h4 className="provider-panel-section-title text-base font-semibold text-[var(--nim-text)] m-0">{t('agent_features.experimental', 'Experimental')}</h4>
           <AlphaBadge size="sm" tooltip={SETTINGS_ALPHA_TOOLTIP} />
         </div>
 
