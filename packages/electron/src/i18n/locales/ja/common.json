@@ -1436,5 +1436,8 @@
     "assign_a_milestone": "マイルストーンを割り当て",
     "milestone_label": "マイルストーン: {{label}}",
     "remove_from_milestone": "マイルストーンから削除"
+  },
+  "tracker_detail_panel_resizable": {
+    "resize_aria": "詳細パネルのサイズを変更"
   }
 }
