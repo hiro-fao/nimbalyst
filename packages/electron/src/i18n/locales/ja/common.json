@@ -1418,5 +1418,17 @@
     "archive": "アーカイブ",
     "delete": "削除",
     "delete_confirm": "{{count}} 件のアイテムを削除しますか？元に戻せません。"
+  },
+  "kanban_selection_bar": {
+    "already_there": "すでにそこにあります",
+    "moved_with_failures": "{{written}} 件移動、{{failed}} 件失敗",
+    "moved": "{{written}} 件移動",
+    "selected_count": "{{count}} 件選択中",
+    "shift_click_hint": "Shiftクリックで範囲選択",
+    "assigning": "割り当て中…",
+    "assign_to_milestone": "マイルストーンに割り当て",
+    "clear": "クリア",
+    "assign_heading": "{{count}} 件のアイテムを割り当て先",
+    "remove_from_milestone": "マイルストーンから削除"
   }
 }
