@@ -646,7 +646,7 @@ export const TrackerSidebar: React.FC<TrackerSidebarProps> = ({
                 }
               }}
             >
-              <MaterialSymbol icon="delete" size={14} /> {t('tracker_sidebar.delete_folder_confirm', 'Delete folder "{{name}}"? Its tracker types will move to the root.', { name: folder.name })}
+              <MaterialSymbol icon="delete" size={14} /> {t('tracker_sidebar.delete_folder', 'Delete folder')}
             </button>
           </div>
         </FloatingPortal>
