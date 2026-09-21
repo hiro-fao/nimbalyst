@@ -1912,7 +1912,7 @@ export const TrackerItemDetail: React.FC<TrackerItemDetailProps> = ({
                 <div key={entry.id} className="flex items-start gap-2 text-[11px]">
                   <span className="text-nim-muted shrink-0">{entry.authorIdentity?.displayName || t('tracker_item_detail.unknown_author', 'Unknown')}</span>
                   <span className="text-nim-faint">
-                    {formatTrackerActivity(entry)}
+                    {formatTrackerActivity(entry, t)}
                   </span>
                   <span className="text-nim-faint ml-auto shrink-0">{getRelativeTimeString(entry.timestamp)}</span>
                 </div>
