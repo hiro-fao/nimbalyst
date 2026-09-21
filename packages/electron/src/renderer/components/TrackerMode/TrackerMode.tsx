@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { globalRegistry, loadBuiltinTrackers } from '@nimbalyst/runtime/plugins/TrackerPlugin/models';
 import { trackerItemsArrayAtom } from '@nimbalyst/runtime/plugins/TrackerPlugin';
@@ -64,6 +65,8 @@ export const TrackerMode: React.FC<TrackerModeProps> = ({
   isActive,
   onSwitchToFilesMode,
 }) => {
+  const { t } = useTranslation();
+
   // Track registry changes
   const [registryVersion, setRegistryVersion] = React.useState(0);
   useEffect(() => {
@@ -265,7 +268,7 @@ export const TrackerMode: React.FC<TrackerModeProps> = ({
     // Deleting a shared view removes it for the whole team and can't be undone,
     // so make the team-wide consequence explicit before acting.
     if (view.shared && !window.confirm(
-      `Delete “${view.name}” for the whole team? This can't be undone.`,
+      t('tracker_mode.delete_shared_view_confirm', 'Delete "{{name}}" for the whole team? This can\'t be undone.', { name: view.name }),
     )) {
       return;
     }
