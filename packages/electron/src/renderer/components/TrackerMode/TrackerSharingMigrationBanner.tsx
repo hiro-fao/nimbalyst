@@ -77,7 +77,7 @@ export const TrackerSharingMigrationBanner: React.FC<{
               <span className="font-medium">
                 {globalRegistry.get(change.trackerType)?.displayNamePlural ?? change.trackerType}
               </span>
-              <span className="text-nim-muted">{describeTrackerSharingOutcome(change)}</span>
+              <span className="text-nim-muted">{describeTrackerSharingOutcome(change, t)}</span>
               <TrackerOwnershipChip
                 ownership={change.sharing}
                 teamName={teamName}
