@@ -54,7 +54,7 @@ export const TrackerDocumentPanel: React.FC<TrackerDocumentPanelProps> = ({
     >
       <div className="tracker-document-panel-header flex shrink-0 items-center gap-1.5 border-b border-nim px-2 py-1.5">
         <MaterialSymbol icon={option.icon} size={15} className="text-nim-muted" />
-        <span className="min-w-0 flex-1 truncate text-[12px] font-medium text-nim">{option.label}</span>
+        <span className="min-w-0 flex-1 truncate text-[12px] font-medium text-nim">{t(option.labelKey, option.label)}</span>
       </div>
 
       <div className="min-h-0 flex-1 overflow-hidden">
