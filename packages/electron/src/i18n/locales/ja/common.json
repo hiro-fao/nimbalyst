@@ -1381,5 +1381,23 @@
   },
   "tracker_mode": {
     "delete_shared_view_confirm": "\"{{name}}\" をチーム全体から削除しますか？元に戻せません。"
+  },
+  "tracker_sidebar": {
+    "view_list_title": "リスト表示",
+    "view_table_title": "テーブル表示",
+    "view_kanban_title": "かんばん表示（アルファ版）",
+    "view_tag_board_title": "タグボード表示（アルファ版）",
+    "view_inbox_title": "受信トレイのトリアージ（アルファ版）",
+    "shared_folder_tooltip": "フォルダー構成はこのチームと共有されています",
+    "trackers_heading": "トラッカー",
+    "types_label": "タイプ",
+    "new_folder_title": "新しいトラッカーフォルダー",
+    "rename_folder": "フォルダー名を変更",
+    "delete_folder": "フォルダーを削除",
+    "delete_folder_confirm": "フォルダー \"{{name}}\" を削除しますか？このフォルダー内のトラッカータイプはルートに移動します。",
+    "collapse_folder_title": "フォルダーを折りたたむ",
+    "expand_folder_title": "フォルダーを展開",
+    "folder_name_placeholder": "フォルダー名",
+    "folder_actions_title": "フォルダー操作"
   }
 }
