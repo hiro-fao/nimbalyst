@@ -1430,5 +1430,11 @@
     "clear": "クリア",
     "assign_heading": "{{count}} 件のアイテムを割り当て先",
     "remove_from_milestone": "マイルストーンから削除"
+  },
+  "tracker_card_milestone_chip": {
+    "no_milestone": "マイルストーンなし",
+    "assign_a_milestone": "マイルストーンを割り当て",
+    "milestone_label": "マイルストーン: {{label}}",
+    "remove_from_milestone": "マイルストーンから削除"
   }
 }
