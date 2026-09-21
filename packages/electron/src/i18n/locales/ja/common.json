@@ -1399,5 +1399,24 @@
     "expand_folder_title": "フォルダーを展開",
     "folder_name_placeholder": "フォルダー名",
     "folder_actions_title": "フォルダー操作"
+  },
+  "kanban_board": {
+    "empty_message": "表示するアイテムがありません",
+    "selection_count": "{{count}} 件選択中",
+    "set_status_label": "ステータスを設定",
+    "set_priority_label": "優先度を設定",
+    "priority_critical": "緊急",
+    "priority_high": "高",
+    "priority_medium": "中",
+    "priority_low": "低",
+    "sessions_label": "セッション（{{count}}）",
+    "open_session_title": "セッションを開く: {{title}}",
+    "launch_session": "セッションを開始",
+    "launch_worktree": "ワークツリーを開始",
+    "open_document": "ドキュメントを開く",
+    "copy_link": "リンクをコピー",
+    "archive": "アーカイブ",
+    "delete": "削除",
+    "delete_confirm": "{{count}} 件のアイテムを削除しますか？元に戻せません。"
   }
 }
