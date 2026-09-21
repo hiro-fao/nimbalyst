@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   $createParagraphNode,
   $getRoot,
@@ -57,17 +58,17 @@ export function TrackerSavedDescription({
   editor: LexicalEditor | null;
   canInsert: boolean;
 }) {
+  const { t } = useTranslation();
   const [error, setError] = useState<string | null>(null);
   const saved = description.trim();
   if (!saved || (typeof currentBody === 'string' && currentBody.trim() === saved)) return null;
   return (
     <details className="tracker-saved-description rounded border border-nim px-3 py-2 text-xs">
       <summary className="cursor-pointer text-nim-muted">
-        Saved description
+        {t('tracker_saved_description.heading', 'Saved description')}
       </summary>
       <p className="mt-2 text-nim-muted">
-        This may contain text entered when the item was created. Copy it or
-        insert it at your cursor without replacing the current body.
+        {t('tracker_saved_description.explanation', 'This may contain text entered when the item was created. Copy it or insert it at your cursor without replacing the current body.')}
       </p>
       <pre className="select-text my-2 max-h-48 overflow-auto whitespace-pre-wrap font-sans">
         {description}
@@ -85,7 +86,7 @@ export function TrackerSavedDescription({
             }
           }}
         >
-          Copy
+          {t('tracker_saved_description.copy', 'Copy')}
         </button>
         <button
           type="button"
@@ -99,7 +100,7 @@ export function TrackerSavedDescription({
             }
           }}
         >
-          Insert into body
+          {t('tracker_saved_description.insert_into_body', 'Insert into body')}
         </button>
       </div>
       {error && (
