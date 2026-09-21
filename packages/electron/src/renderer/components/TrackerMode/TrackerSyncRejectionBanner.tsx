@@ -31,6 +31,7 @@
  */
 
 import React, { useCallback, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { MaterialSymbol } from '@nimbalyst/runtime/ui/icons/MaterialSymbol';
 import { trackerSyncDrainHoldAtom, trackerSyncRejectionAtom } from '../../store/atoms/trackerSync';
@@ -40,6 +41,7 @@ interface TrackerSyncRejectionBannerProps {
 }
 
 export const TrackerSyncRejectionBanner: React.FC<TrackerSyncRejectionBannerProps> = ({ workspacePath }) => {
+  const { t } = useTranslation();
   const state = useAtomValue(trackerSyncRejectionAtom);
   const setRejection = useSetAtom(trackerSyncRejectionAtom);
   const drainHoldState = useAtomValue(trackerSyncDrainHoldAtom);
@@ -97,10 +99,10 @@ export const TrackerSyncRejectionBanner: React.FC<TrackerSyncRejectionBannerProp
         <MaterialSymbol icon="cloud_off" size={16} className="text-nim-warning" />
         <span className="flex-1">
           {drainHold.rowsHeldBack === 1
-            ? "1 tracker item isn't syncing to your team yet."
-            : `${drainHold.rowsHeldBack} tracker items aren't syncing to your team yet.`}
+            ? t('tracker_sync_rejection_banner.drain_hold_singular', "1 tracker item isn't syncing to your team yet.")
+            : t('tracker_sync_rejection_banner.drain_hold_plural', "{{count}} tracker items aren't syncing to your team yet.", { count: drainHold.rowsHeldBack })}
           {' '}
-          Nimbalyst couldn't confirm which of your trackers are shared, so it left them alone rather than risk removing your team's copies. Reopening the project usually resolves it.
+          {t('tracker_sync_rejection_banner.drain_hold_explanation', "Nimbalyst couldn't confirm which of your trackers are shared, so it left them alone rather than risk removing your team's copies. Reopening the project usually resolves it.")}
         </span>
         <button
           type="button"
@@ -108,7 +110,7 @@ export const TrackerSyncRejectionBanner: React.FC<TrackerSyncRejectionBannerProp
           onClick={handleRetry}
           data-testid="tracker-sync-drain-hold-retry"
         >
-          Try again
+          {t('tracker_sync_rejection_banner.try_again', 'Try again')}
         </button>
       </div>
     );
@@ -130,21 +132,21 @@ export const TrackerSyncRejectionBanner: React.FC<TrackerSyncRejectionBannerProp
         <>
           <MaterialSymbol icon="key_off" size={16} className="text-nim-warning" />
           <span className="flex-1">
-            This organization's encryption isn't migrated, so your changes can't sync. Ask an organization admin to finish setting up the organization.
+            {t('tracker_sync_rejection_banner.custody_unavailable', "This organization's encryption isn't migrated, so your changes can't sync. Ask an organization admin to finish setting up the organization.")}
           </span>
         </>
       ) : isRotation ? (
         <>
           <MaterialSymbol icon="sync" size={16} className="text-nim-faint animate-spin" />
           <span className="flex-1">
-            Team key rotation in progress. Your changes will resume in a moment.
+            {t('tracker_sync_rejection_banner.rotation_locked', 'Team key rotation in progress. Your changes will resume in a moment.')}
           </span>
         </>
       ) : (
         <>
           <MaterialSymbol icon="key_off" size={16} className="text-nim-warning" />
           <span className="flex-1">
-            Your team's encryption key changed. Ask your team admin to share the new key envelope with you.
+            {t('tracker_sync_rejection_banner.stale_key_epoch', "Your team's encryption key changed. Ask your team admin to share the new key envelope with you.")}
           </span>
           <button
             type="button"
@@ -152,7 +154,7 @@ export const TrackerSyncRejectionBanner: React.FC<TrackerSyncRejectionBannerProp
             onClick={handleRetry}
             data-testid="tracker-sync-rejection-retry"
           >
-            Check again
+            {t('tracker_sync_rejection_banner.check_again', 'Check again')}
           </button>
         </>
       )}
@@ -160,7 +162,7 @@ export const TrackerSyncRejectionBanner: React.FC<TrackerSyncRejectionBannerProp
         type="button"
         className="text-nim-faint hover:text-nim p-0.5"
         onClick={handleDismiss}
-        aria-label="Dismiss"
+        aria-label={t('tracker_sync_rejection_banner.dismiss', 'Dismiss')}
         data-testid="tracker-sync-rejection-dismiss"
       >
         <MaterialSymbol icon="close" size={14} />
