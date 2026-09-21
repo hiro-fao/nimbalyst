@@ -39,9 +39,13 @@ export interface TrackerFieldWrite {
 }
 
 /** The board column a drop into `target` would resolve, so both paths share a writer. */
-function milestoneTargetColumn(target: MilestoneAssignTarget): TrackerBoardColumn {
+function milestoneTargetColumn(
+  target: MilestoneAssignTarget,
+  t?: (key: string, defaultValue: string) => string,
+): TrackerBoardColumn {
   if (target.itemId === null) {
-    return { key: 'milestone:empty', value: null, label: 'No milestone', empty: true };
+    const label = t ? t('tracker_bulk_assign.no_milestone', 'No milestone') : 'No milestone';
+    return { key: 'milestone:empty', value: null, label, empty: true };
   }
   const ref: TrackerRelationshipValue = {
     itemId: target.itemId,
@@ -72,8 +76,9 @@ function alreadyAssigned(item: TrackerRecord, target: MilestoneAssignTarget): bo
 export function resolveMilestoneAssignmentWrites(
   items: readonly TrackerRecord[],
   target: MilestoneAssignTarget,
+  t?: (key: string, defaultValue: string) => string,
 ): TrackerFieldWrite[] {
-  const column = milestoneTargetColumn(target);
+  const column = milestoneTargetColumn(target, t);
   const writes: TrackerFieldWrite[] = [];
 
   for (const item of items) {
