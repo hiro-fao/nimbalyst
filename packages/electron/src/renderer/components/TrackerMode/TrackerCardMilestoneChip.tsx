@@ -103,7 +103,7 @@ export const TrackerCardMilestoneChip: React.FC<TrackerCardMilestoneChipProps> =
    */
   const handleAssign = useCallback((target: MilestoneAssignTarget) => {
     setOpen(false);
-    const [write] = resolveMilestoneAssignmentWrites([item], target);
+    const [write] = resolveMilestoneAssignmentWrites([item], target, t);
     if (write) void saveTrackerFields(item, write.updates);
   }, [item]);
 
