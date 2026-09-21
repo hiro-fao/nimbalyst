@@ -12,6 +12,7 @@
  */
 
 import React, { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   FloatingPortal,
   autoUpdate,
@@ -45,6 +46,7 @@ export const KanbanBoardSelectionBar: React.FC<KanbanBoardSelectionBarProps> = (
   items,
   onClearSelection,
 }) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const [status, setStatus] = useState<string | null>(null);
   const [assigning, setAssigning] = useState(false);
@@ -76,15 +78,15 @@ export const KanbanBoardSelectionBar: React.FC<KanbanBoardSelectionBarProps> = (
     const writes = resolveMilestoneAssignmentWrites(items, target);
     setOpen(false);
     if (writes.length === 0) {
-      setStatus('Already there');
+      setStatus(t('kanban_selection_bar.already_there', 'Already there'));
       return;
     }
     setAssigning(true);
     const result = await saveTrackerFieldsBatch(writes);
     setAssigning(false);
     setStatus(result.failed > 0
-      ? `${result.written} moved, ${result.failed} failed`
-      : `${result.written} moved`);
+      ? t('kanban_selection_bar.moved_with_failures', '{{written}} moved, {{failed}} failed', { written: result.written, failed: result.failed })
+      : t('kanban_selection_bar.moved', '{{written}} moved', { written: result.written }));
   }, [items]);
 
   const count = items.length;
@@ -96,10 +98,10 @@ export const KanbanBoardSelectionBar: React.FC<KanbanBoardSelectionBarProps> = (
       data-component="KanbanBoardSelectionBar"
     >
       <span className="tracker-board-selection-bar-count">
-        {count} selected
+        {t('kanban_selection_bar.selected_count', '{{count}} selected', { count })}
       </span>
       <span className="tracker-board-selection-bar-hint">
-        Shift-click for a range
+        {t('kanban_selection_bar.shift_click_hint', 'Shift-click for a range')}
       </span>
 
       <button
@@ -114,7 +116,7 @@ export const KanbanBoardSelectionBar: React.FC<KanbanBoardSelectionBarProps> = (
         onClick={() => { setStatus(null); setOpen(value => !value); }}
       >
         <MaterialSymbol icon="flag" size={14} />
-        {assigning ? 'Assigning…' : 'Assign to milestone'}
+        {assigning ? t('kanban_selection_bar.assigning', 'Assigning…') : t('kanban_selection_bar.assign_to_milestone', 'Assign to milestone')}
       </button>
 
       {status && (
@@ -130,7 +132,7 @@ export const KanbanBoardSelectionBar: React.FC<KanbanBoardSelectionBarProps> = (
         onClick={onClearSelection}
       >
         <MaterialSymbol icon="close" size={14} />
-        Clear
+        {t('kanban_selection_bar.clear', 'Clear')}
       </button>
 
       {open && (
@@ -144,7 +146,7 @@ export const KanbanBoardSelectionBar: React.FC<KanbanBoardSelectionBarProps> = (
           >
             <TrackerMilestonePickerPanel
               items={items}
-              heading={`Assign ${count} item${count > 1 ? 's' : ''} to`}
+              heading={t('kanban_selection_bar.assign_heading', 'Assign {{count}} item to', { count })}
               onAssign={target => void assign(target)}
               onRequestClose={() => setOpen(false)}
               testIdBase="tracker-board-bulk-milestone"
@@ -156,7 +158,7 @@ export const KanbanBoardSelectionBar: React.FC<KanbanBoardSelectionBarProps> = (
                   onClick={() => void assign({ itemId: null })}
                 >
                   <MaterialSymbol icon="remove" size={14} />
-                  Remove from milestone
+                  {t('kanban_selection_bar.remove_from_milestone', 'Remove from milestone')}
                 </button>
               )}
             />
