@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { MaterialSymbol } from '@nimbalyst/runtime';
 import type { TrackerDataModel } from '@nimbalyst/runtime/plugins/TrackerPlugin/models';
 
@@ -22,6 +23,7 @@ export const TrackerQuickAddOverlay: React.FC<TrackerQuickAddOverlayProps> = ({
   onSubmit,
   onClose,
 }) => {
+  const { t } = useTranslation();
   const [title, setTitle] = React.useState('');
   const [priority, setPriority] = React.useState('medium');
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -65,7 +67,7 @@ export const TrackerQuickAddOverlay: React.FC<TrackerQuickAddOverlayProps> = ({
             // Prevent global keyboard shortcuts from intercepting while typing
             e.stopPropagation();
           }}
-          placeholder={`New ${displayName.toLowerCase()}...`}
+          placeholder={t('tracker_quick_add_overlay.title_placeholder', 'New {{type}}...', { type: displayName.toLowerCase() })}
           className="flex-1 min-w-0 px-3 py-1.5 bg-nim border border-nim rounded text-sm text-nim placeholder:text-nim-faint focus:outline-none focus:border-[var(--nim-primary)]"
           data-testid="tracker-quick-add-input"
         />
@@ -75,10 +77,10 @@ export const TrackerQuickAddOverlay: React.FC<TrackerQuickAddOverlayProps> = ({
           onChange={(e) => setPriority(e.target.value)}
           className="px-2 py-1.5 bg-nim border border-nim rounded text-sm text-nim focus:outline-none focus:border-[var(--nim-primary)] shrink-0"
         >
-          <option value="low">Low</option>
-          <option value="medium">Medium</option>
-          <option value="high">High</option>
-          <option value="critical">Critical</option>
+          <option value="low">{t('tracker_quick_add_overlay.priority_low', 'Low')}</option>
+          <option value="medium">{t('tracker_quick_add_overlay.priority_medium', 'Medium')}</option>
+          <option value="high">{t('tracker_quick_add_overlay.priority_high', 'High')}</option>
+          <option value="critical">{t('tracker_quick_add_overlay.priority_critical', 'Critical')}</option>
         </select>
 
         <button
@@ -87,14 +89,14 @@ export const TrackerQuickAddOverlay: React.FC<TrackerQuickAddOverlayProps> = ({
           className="px-3 py-1.5 rounded text-sm font-medium text-white border-none cursor-pointer transition-all disabled:opacity-50 disabled:cursor-not-allowed hover:opacity-90 shrink-0"
           style={{ backgroundColor: color }}
         >
-          Add
+          {t('tracker_quick_add_overlay.add', 'Add')}
         </button>
 
         <button
           type="button"
           onClick={onClose}
           className="p-1 rounded hover:bg-nim-tertiary text-nim-muted shrink-0"
-          title="Cancel (Esc)"
+          title={t('tracker_quick_add_overlay.cancel_esc', 'Cancel (Esc)')}
         >
           <MaterialSymbol icon="close" size={18} />
         </button>
