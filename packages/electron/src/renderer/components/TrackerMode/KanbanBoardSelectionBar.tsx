@@ -75,7 +75,7 @@ export const KanbanBoardSelectionBar: React.FC<KanbanBoardSelectionBarProps> = (
   const { getReferenceProps, getFloatingProps } = useInteractions([dismiss, role]);
 
   const assign = useCallback(async (target: MilestoneAssignTarget) => {
-    const writes = resolveMilestoneAssignmentWrites(items, target);
+    const writes = resolveMilestoneAssignmentWrites(items, target, t);
     setOpen(false);
     if (writes.length === 0) {
       setStatus(t('kanban_selection_bar.already_there', 'Already there'));
