@@ -1378,5 +1378,8 @@
     "type_markdown": "Markdown",
     "type_mockup": "モックアップ",
     "type_other": "その他"
+  },
+  "tracker_mode": {
+    "delete_shared_view_confirm": "\"{{name}}\" をチーム全体から削除しますか？元に戻せません。"
   }
 }
