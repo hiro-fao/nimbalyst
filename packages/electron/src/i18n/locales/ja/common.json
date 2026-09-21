@@ -1442,5 +1442,39 @@
   },
   "tracker_document_header_meta": {
     "unsaved_changes": "未保存の変更"
+  },
+  "tracker_document_panel": {
+    "open_project_hint": "プロジェクトを開くと、このアイテムについてチャットできます。"
+  },
+  "tracker_saved_description": {
+    "heading": "保存された説明",
+    "explanation": "アイテム作成時に入力されたテキストが含まれている場合があります。コピーするか、現在の本文を置き換えずにカーソル位置に挿入できます。",
+    "copy": "コピー",
+    "insert_into_body": "本文に挿入"
+  },
+  "tracker_quick_add_overlay": {
+    "title_placeholder": "新しい{{type}}...",
+    "priority_low": "低",
+    "priority_medium": "中",
+    "priority_high": "高",
+    "priority_critical": "緊急",
+    "add": "追加",
+    "cancel_esc": "キャンセル (Esc)"
+  },
+  "tracker_sharing_migration_banner": {
+    "heading": "共有設定はトラッカー自体に属するようになりました",
+    "explanation": "各トラッカーは個人用またはチーム用のいずれかで、そのフィールドとアイテムをまとめて扱います。このマシンの旧・トラッカー単位の設定がスキーマファイルと食い違っていた場合、実際に使われていた設定が優先されました:",
+    "got_it": "了解"
+  },
+  "tracker_sync_rejection_banner": {
+    "drain_hold_singular": "1件のトラッカーアイテムがまだチームに同期されていません。",
+    "drain_hold_plural": "{{count}} 件のトラッカーアイテムがまだチームに同期されていません。",
+    "drain_hold_explanation": "どのトラッカーが共有されているか確認できなかったため、チームのコピーを削除するリスクを避けて何もせず残しました。プロジェクトを開き直すと通常は解決します。",
+    "try_again": "再試行",
+    "custody_unavailable": "この組織の暗号化が移行されていないため、変更を同期できません。組織管理者に組織の設定完了を依頼してください。",
+    "rotation_locked": "チームキーのローテーション中です。変更はまもなく再開されます。",
+    "stale_key_epoch": "チームの暗号化キーが変更されました。チーム管理者に新しいキーエンベロープの共有を依頼してください。",
+    "check_again": "再確認",
+    "dismiss": "閉じる"
   }
 }
