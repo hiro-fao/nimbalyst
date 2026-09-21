@@ -49,9 +49,14 @@ export function selectTrackerSharingMigrationNotice(
 }
 
 /** Where a diverged tracker landed, in the user's terms. */
-export function describeTrackerSharingOutcome(entry: TrackerSharingMigrationEntryLike): string {
-  if (entry.sharing === 'personal') return 'is now a personal tracker, kept on this machine';
+export function describeTrackerSharingOutcome(
+  entry: TrackerSharingMigrationEntryLike,
+  t: (key: string, defaultValue: string) => string,
+): string {
+  if (entry.sharing === 'personal') {
+    return t('tracker_sharing_migration_notice.now_personal', 'is now a personal tracker, kept on this machine');
+  }
   return entry.draftByDefault
-    ? 'is now a team tracker whose new items start as drafts'
-    : 'is now a team tracker, shared with everyone';
+    ? t('tracker_sharing_migration_notice.now_team_draft', 'is now a team tracker whose new items start as drafts')
+    : t('tracker_sharing_migration_notice.now_team_shared', 'is now a team tracker, shared with everyone');
 }
