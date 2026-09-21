@@ -14,6 +14,7 @@
  */
 
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAtomValue } from 'jotai';
 import { MaterialSymbol } from '@nimbalyst/runtime/ui/icons/MaterialSymbol';
 import { trackerItemByIdAtom } from '@nimbalyst/runtime/plugins/TrackerPlugin/trackerDataAtoms';
@@ -40,6 +41,7 @@ export const TrackerDocumentPanel: React.FC<TrackerDocumentPanelProps> = ({
   onFileOpen,
   onSwitchToAgentMode,
 }) => {
+  const { t } = useTranslation();
   const item = useAtomValue(trackerItemByIdAtom(itemId));
   const option = TRACKER_DOCUMENT_PANEL_MODES.find((entry) => entry.id === mode)
     ?? TRACKER_DOCUMENT_PANEL_MODES[0];
@@ -67,7 +69,7 @@ export const TrackerDocumentPanel: React.FC<TrackerDocumentPanelProps> = ({
             />
           ) : (
             <div className="flex h-full items-center justify-center px-6 text-center text-xs text-nim-faint">
-              Open a project to chat about this item.
+              {t('tracker_document_panel.open_project_hint', 'Open a project to chat about this item.')}
             </div>
           )
         ) : (
