@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useCallback, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAtomValue } from 'jotai';
 import { VList } from 'virtua';
 import { FloatingPortal } from '@floating-ui/react';
@@ -114,6 +115,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
   onToggleFavorite,
   currentIdentity,
 }) => {
+  const { t } = useTranslation();
   // Items always come from the caller (TrackerMainView passes atom-sourced items).
   // KanbanBoard no longer loads its own data -- single source of truth via Jotai atoms.
   const allItems = useMemo(() => {
@@ -429,7 +431,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
 
   if (allItems.length === 0) {
     return (
-      <TrackerSurfaceMessage icon="view_kanban" message="No items to display" />
+      <TrackerSurfaceMessage icon="view_kanban" message={t('kanban_board.empty_message', 'No items to display')} />
     );
   }
 
@@ -551,12 +553,12 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
           onClick={(e) => e.stopPropagation()}
         >
           <div className="px-3 py-1 text-[11px] text-nim-faint font-medium">
-            {selectedIds.size} item{selectedIds.size > 1 ? 's' : ''} selected
+            {t('kanban_board.selection_count', '{{count}} selected', { count: selectedIds.size })}
           </div>
           <div className="border-b border-nim my-1" />
 
           {/* Set Status */}
-          <KanbanContextSubmenu label="Set Status" icon="swap_horiz">
+          <KanbanContextSubmenu label={t('kanban_board.set_status_label', 'Set Status')} icon="swap_horiz">
             {statusChoices.map(choice => (
               <button
                 key={`${choice.kind}:${choice.value}`}
@@ -577,7 +579,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
           </KanbanContextSubmenu>
 
           {/* Set Priority */}
-          <KanbanContextSubmenu label="Set Priority" icon="flag">
+          <KanbanContextSubmenu label={t('kanban_board.set_priority_label', 'Set Priority')} icon="flag">
             {(['critical', 'high', 'medium', 'low'] as const).map(p => (
               <button
                 key={p}
@@ -588,7 +590,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
                   className="w-2 h-2 rounded-full shrink-0"
                   style={{ backgroundColor: PRIORITY_COLORS[p] || NEUTRAL_SWATCH }}
                 />
-                {p.charAt(0).toUpperCase() + p.slice(1)}
+                {t(`kanban_board.priority_${p}`, p.charAt(0).toUpperCase() + p.slice(1))}
               </button>
             ))}
           </KanbanContextSubmenu>
@@ -598,13 +600,13 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
               <div className="border-b border-nim my-1" />
 
               {contextSessions.length > 0 && (
-                <KanbanContextSubmenu label={`Sessions (${contextSessions.length})`} icon="smart_toy">
+                <KanbanContextSubmenu label={t('kanban_board.sessions_label', 'Sessions ({{count}})', { count: contextSessions.length })} icon="smart_toy">
                   {contextSessions.map(session => (
                     <button
                       key={session.id}
                       className="w-full flex items-center gap-2 px-3 py-1.5 text-left text-nim hover:bg-nim-tertiary cursor-pointer"
                       data-testid="tracker-kanban-context-open-session"
-                      title={`Open session: ${session.title}`}
+                      title={t('kanban_board.open_session_title', 'Open session: {{title}}', { title: session.title })}
                       onClick={() => {
                         closeContextMenu();
                         onOpenSession?.(session.id);
@@ -632,7 +634,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
                   }}
                 >
                   <MaterialSymbol icon="add_circle" size={16} />
-                  Launch Session
+                  {t('kanban_board.launch_session', 'Launch Session')}
                 </button>
               )}
 
@@ -646,7 +648,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
                   }}
                 >
                   <MaterialSymbol icon="account_tree" size={16} />
-                  Launch Worktree
+                  {t('kanban_board.launch_worktree', 'Launch Worktree')}
                 </button>
               )}
             </>
@@ -665,7 +667,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
               }}
             >
               <MaterialSymbol icon="article" size={16} />
-              Open document
+              {t('kanban_board.open_document', 'Open document')}
             </button>
           )}
 
@@ -679,7 +681,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
               }}
             >
               <MaterialSymbol icon="link" size={16} />
-              Copy Link
+              {t('kanban_board.copy_link', 'Copy Link')}
             </button>
           )}
 
@@ -693,7 +695,7 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
               }}
             >
               <MaterialSymbol icon="archive" size={16} />
-              Archive
+              {t('kanban_board.archive', 'Archive')}
             </button>
           )}
 
@@ -703,14 +705,14 @@ export const KanbanBoard: React.FC<KanbanBoardProps> = ({
               onClick={() => {
                 closeContextMenu();
                 const ids = Array.from(selectedIds);
-                if (window.confirm(`Delete ${ids.length} item${ids.length > 1 ? 's' : ''}? This cannot be undone.`)) {
+                if (window.confirm(t('kanban_board.delete_confirm', 'Delete {{count}} item? This cannot be undone.', { count: ids.length }))) {
                   onDeleteItems(ids);
                   setSelectedIds(new Set());
                 }
               }}
             >
               <MaterialSymbol icon="delete" size={16} />
-              Delete
+              {t('kanban_board.delete', 'Delete')}
             </button>
           )}
         </div>
