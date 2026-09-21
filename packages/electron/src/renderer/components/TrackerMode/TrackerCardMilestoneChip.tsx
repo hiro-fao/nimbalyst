@@ -14,6 +14,7 @@
  */
 
 import React, { useCallback, useState } from 'react';
+import { useTranslation, type TFunction } from 'react-i18next';
 import { useAtomValue } from 'jotai';
 import {
   FloatingPortal,
@@ -54,8 +55,9 @@ interface TrackerCardMilestoneChipProps {
 function chipLabel(
   values: TrackerRelationshipValue[],
   resolveLabel: TrackerRelationshipLabelResolver,
+  t: TFunction,
 ): string {
-  if (values.length === 0) return 'No milestone';
+  if (values.length === 0) return t('tracker_card_milestone_chip.no_milestone', 'No milestone');
   const first = resolveRelationshipLabel(values[0], resolveLabel);
   return values.length === 1 ? first : `${first} +${values.length - 1}`;
 }
@@ -64,11 +66,12 @@ export const TrackerCardMilestoneChip: React.FC<TrackerCardMilestoneChipProps> =
   item,
   onOpenItem,
 }) => {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const relationshipLabel = useAtomValue(trackerRelationshipLabelAtom);
   const values = cardMilestoneValues(item);
   const empty = values.length === 0;
-  const label = chipLabel(values, relationshipLabel);
+  const label = chipLabel(values, relationshipLabel, t);
 
   const floating = useFloating({
     open,
@@ -116,8 +119,8 @@ export const TrackerCardMilestoneChip: React.FC<TrackerCardMilestoneChipProps> =
         data-empty={empty}
         aria-expanded={open}
         aria-haspopup="dialog"
-        aria-label={empty ? 'Assign a milestone' : `Milestone: ${label}`}
-        title={empty ? 'Assign a milestone' : `Milestone: ${label}`}
+        aria-label={empty ? t('tracker_card_milestone_chip.assign_a_milestone', 'Assign a milestone') : t('tracker_card_milestone_chip.milestone_label', 'Milestone: {{label}}', { label })}
+        title={empty ? t('tracker_card_milestone_chip.assign_a_milestone', 'Assign a milestone') : t('tracker_card_milestone_chip.milestone_label', 'Milestone: {{label}}', { label })}
         onClick={(event) => {
           // The card behind the chip selects on click and opens on double-click.
           event.stopPropagation();
@@ -153,7 +156,7 @@ export const TrackerCardMilestoneChip: React.FC<TrackerCardMilestoneChipProps> =
                   onClick={() => handleAssign({ itemId: null })}
                 >
                   <MaterialSymbol icon="remove" size={14} />
-                  Remove from milestone
+                  {t('tracker_card_milestone_chip.remove_from_milestone', 'Remove from milestone')}
                 </button>
               )}
             />
