@@ -1750,5 +1750,32 @@
     "links_to_fallback": "リンク先",
     "backlink_title": "{{label}} — {{relLabel}}",
     "backlink_rel_colon": "{{relLabel}}:"
+  },
+  "tracker_document_panel_modes": {
+    "chat": "このアイテムについてチャット",
+    "discussion": "ディスカッション"
+  },
+  "tracker_sharing_migration_notice": {
+    "now_personal": "個人用トラッカーになりました(このマシンに保持されます)",
+    "now_team_draft": "チームトラッカーになりました(新規アイテムは下書きとして開始します)",
+    "now_team_shared": "チームトラッカーになりました(全員と共有されます)"
+  },
+  "tracker_bulk_assign": {
+    "no_milestone": "マイルストーンなし"
+  },
+  "tracker_activity_presentation": {
+    "changed_from_to": "{{label}}を{{oldValue}}から{{newValue}}に変更しました",
+    "changed_to": "{{label}}を{{newValue}}に変更しました",
+    "updated": "{{label}}を更新しました",
+    "created": "このアイテムを作成しました",
+    "commented": "コメントを追加しました",
+    "comment_updated_from_to": "コメントを{{oldValue}}から{{newValue}}に編集しました",
+    "comment_updated": "コメントを編集しました",
+    "comment_deleted_with_value": "コメント{{value}}を削除しました",
+    "comment_deleted": "コメントを削除しました",
+    "archived": "このアイテムをアーカイブしました",
+    "unarchived": "このアイテムのアーカイブを解除しました",
+    "field_status": "ステータス",
+    "field_type": "タイプ"
   }
 }
