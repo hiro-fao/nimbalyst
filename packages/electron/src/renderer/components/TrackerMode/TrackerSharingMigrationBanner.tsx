@@ -8,6 +8,7 @@
  */
 
 import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { MaterialSymbol } from '@nimbalyst/runtime/ui/icons/MaterialSymbol';
 import { globalRegistry } from '@nimbalyst/runtime/plugins/TrackerPlugin/models/TrackerDataModel';
 import { TrackerOwnershipChip } from '../common/TrackerOwnershipChip';
@@ -21,6 +22,7 @@ export const TrackerSharingMigrationBanner: React.FC<{
   workspacePath?: string;
   teamName?: string | null;
 }> = ({ workspacePath, teamName }) => {
+  const { t } = useTranslation();
   const [notice, setNotice] = useState<Notice | null>(null);
 
   useEffect(() => {
@@ -65,11 +67,9 @@ export const TrackerSharingMigrationBanner: React.FC<{
     >
       <MaterialSymbol icon="info" size={15} className="shrink-0 mt-0.5 text-nim-muted" />
       <div className="flex-1 min-w-0">
-        <div className="font-medium">Sharing now belongs to the tracker itself</div>
+        <div className="font-medium">{t('tracker_sharing_migration_banner.heading', 'Sharing now belongs to the tracker itself')}</div>
         <p className="mt-0.5 text-nim-muted leading-relaxed">
-          Each tracker is personal or your team's, covering its fields and its items together.
-          Where this machine's old per-tracker setting disagreed with the schema file, the
-          setting you were actually using won:
+          {t('tracker_sharing_migration_banner.explanation', "Each tracker is personal or your team's, covering its fields and its items together. Where this machine's old per-tracker setting disagreed with the schema file, the setting you were actually using won:")}
         </p>
         <ul className="mt-1.5 space-y-1">
           {notice.changes.map((change) => (
@@ -92,7 +92,7 @@ export const TrackerSharingMigrationBanner: React.FC<{
         onClick={handleDismiss}
         data-testid="tracker-sharing-migration-dismiss"
       >
-        Got it
+        {t('tracker_sharing_migration_banner.got_it', 'Got it')}
       </button>
     </div>
   );
