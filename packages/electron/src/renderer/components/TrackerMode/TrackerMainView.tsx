@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
+import { useTranslation, type TFunction } from 'react-i18next';
 import { useAtomValue, useSetAtom } from 'jotai';
 import { activeFileRepoPathAtom } from '../../store/atoms/workspaceRepos';
 import { copyToClipboard, MaterialSymbol } from '@nimbalyst/runtime';
@@ -118,8 +119,8 @@ import type { TeamMemberOption } from '@nimbalyst/runtime/plugins/TrackerPlugin/
 export type ViewMode = TrackerViewMode;
 
 /** Human label for a source key without probing the importer (avoids backend start). */
-function sourceKeyLabel(key: string): string {
-  if (key === 'native') return 'Native';
+function sourceKeyLabel(key: string, t: TFunction): string {
+  if (key === 'native') return t('tracker_main_view.source_native', 'Native');
   // Map known provider ids; otherwise title-case the id.
   const known: Record<string, string> = {
     'github-issues': 'GitHub',
@@ -196,6 +197,7 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
   onUpdateSavedView,
   onExitSavedView,
 }) => {
+  const { t } = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [quickAddType, setQuickAddType] = useState<string | null>(null);
   const [pendingWorktreeLaunch, setPendingWorktreeLaunch] = useState<TrackerLaunchContext | null>(null);
@@ -450,11 +452,11 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
     if (!item) return [];
     return resolveLinkedSessions(item, store.get(sessionRegistryAtom)).map(session => ({
       id: session.id,
-      title: session.title || 'Untitled session',
+      title: session.title || t('tracker_main_view.session_untitled', 'Untitled session'),
       provider: session.provider,
       timeLabel: getRelativeTimeString(session.updatedAt),
     }));
-  }, []);
+  }, [t]);
 
   /** Launch a new AI session linked to a tracker item */
   const handleLaunchSession = useCallback(async (trackerItemId: string) => {
@@ -477,7 +479,7 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
           id: sessionId,
           provider,
           model: defaultModel,
-          title: 'New Session',
+          title: t('tracker_main_view.session_new_title', 'New Session'),
         },
         workspaceId: workspacePath,
       });
@@ -504,7 +506,7 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
     } catch (err) {
       console.error('[TrackerMainView] Failed to launch session:', err);
     }
-  }, [workspacePath, refreshSessionList, setSelectedWorkstream, setWindowMode, defaultModel]);
+  }, [workspacePath, refreshSessionList, setSelectedWorkstream, setWindowMode, defaultModel, t]);
 
   /** Launch a new isolated worktree session linked to a tracker item. */
   const handleLaunchWorktree = useCallback((trackerItemId: string) => {
@@ -905,18 +907,18 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
     try {
       await copyToClipboard(url);
       errorNotificationService.showInfo(
-        'Link copied',
-        'Paste it anywhere to open this tracker in Nimbalyst.',
+        t('tracker_main_view.link_copied_title', 'Link copied'),
+        t('tracker_main_view.link_copied_message', 'Paste it anywhere to open this tracker in Nimbalyst.'),
         { duration: 3000 }
       );
     } catch (err) {
       console.error('[TrackerMainView] Failed to copy link:', err);
       errorNotificationService.showError(
-        'Copy failed',
-        'Could not write the link to the clipboard.'
+        t('tracker_main_view.copy_failed_title', 'Copy failed'),
+        t('tracker_main_view.copy_failed_message', 'Could not write the link to the clipboard.')
       );
     }
-  }, [teamOrgId]);
+  }, [teamOrgId, t]);
 
   /** Link that reopens the item in document view (`view=document`). */
   const handleCopyDocumentLink = useCallback(async () => {
@@ -925,18 +927,18 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
     try {
       await copyToClipboard(url);
       errorNotificationService.showInfo(
-        'Document link copied',
-        'Paste it anywhere to open this item as a document in Nimbalyst.',
+        t('tracker_main_view.document_link_copied_title', 'Document link copied'),
+        t('tracker_main_view.document_link_copied_message', 'Paste it anywhere to open this item as a document in Nimbalyst.'),
         { duration: 3000 }
       );
     } catch (err) {
       console.error('[TrackerMainView] Failed to copy document link:', err);
       errorNotificationService.showError(
-        'Copy failed',
-        'Could not write the link to the clipboard.'
+        t('tracker_main_view.copy_failed_title', 'Copy failed'),
+        t('tracker_main_view.copy_failed_message', 'Could not write the link to the clipboard.')
       );
     }
-  }, [documentItemId, teamOrgId]);
+  }, [documentItemId, teamOrgId, t]);
 
   /** Bulk archive for multi-select context menu */
   const handleArchiveItems = useCallback(async (itemIds: string[], archive: boolean) => {
@@ -953,11 +955,11 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
     // An archived tracker keeps everything it has and gains nothing more.
     const writeAccess = resolveTrackerWriteAccess(globalRegistry.get(type));
     if (!writeAccess.canWrite) {
-      errorNotificationService.showInfo('Archived tracker', writeAccess.readOnlyReason ?? '', { duration: 4000 });
+      errorNotificationService.showInfo(t('tracker_main_view.archived_tracker_title', 'Archived tracker'), writeAccess.readOnlyReason ?? '', { duration: 4000 });
       return;
     }
     setQuickAddType(type);
-  }, []);
+  }, [t]);
 
   const handleQuickAddClose = useCallback(() => {
     setQuickAddType(null);
@@ -1036,7 +1038,7 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
 
   const handleBulkImport = useCallback(async (directory: string) => {
     setImportMenuOpen(false);
-    setImportStatus('Importing...');
+    setImportStatus(t('tracker_main_view.import_status_importing', 'Importing...'));
     try {
       const result = await window.electronAPI.documentService.bulkImportTrackerItems({
         directory,
@@ -1045,39 +1047,39 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
       });
       if (result.success) {
         const parts: string[] = [];
-        if (result.imported) parts.push(`${result.imported} imported`);
-        if (result.skipped) parts.push(`${result.skipped} skipped`);
-        if (result.errors?.length) parts.push(`${result.errors.length} errors`);
-        setImportStatus(parts.join(', ') || 'No items found');
+        if (result.imported) parts.push(t('tracker_main_view.import_status_imported_count', '{{count}} imported', { count: result.imported }));
+        if (result.skipped) parts.push(t('tracker_main_view.import_status_skipped_count', '{{count}} skipped', { count: result.skipped }));
+        if (result.errors?.length) parts.push(t('tracker_main_view.import_status_errors_count', '{{count}} errors', { count: result.errors.length }));
+        setImportStatus(parts.join(', ') || t('tracker_main_view.import_status_no_items', 'No items found'));
       } else {
-        setImportStatus(`Failed: ${result.error}`);
+        setImportStatus(t('tracker_main_view.import_status_failed', 'Failed: {{error}}', { error: result.error }));
       }
     } catch (error) {
-      setImportStatus('Import failed');
+      setImportStatus(t('tracker_main_view.import_status_import_failed', 'Import failed'));
       console.error('[TrackerMainView] Bulk import failed:', error);
     }
     // Clear status after 4 seconds
     setTimeout(() => setImportStatus(null), 4000);
-  }, []);
+  }, [t]);
 
   // Build a composite title from the active filters + type selection
   const title = useMemo(() => {
     const activeTracker = filterType !== 'all'
       ? trackerTypes.find(t => t.type === filterType)
       : null;
-    const typeName = activeTracker ? activeTracker.displayNamePlural : 'Items';
+    const typeName = activeTracker ? activeTracker.displayNamePlural : t('tracker_main_view.title_type_fallback', 'Items');
 
     const parts: string[] = [];
-    if (activeFilters.includes('archived')) parts.push('Archived');
-    if (activeFilters.includes('mine')) parts.push('My');
-    if (activeFilters.includes('high-priority')) parts.push('High Priority');
-    if (activeFilters.includes('recently-updated')) parts.push('Recent');
+    if (activeFilters.includes('archived')) parts.push(t('tracker_main_view.title_filter_archived', 'Archived'));
+    if (activeFilters.includes('mine')) parts.push(t('tracker_main_view.title_filter_mine', 'My'));
+    if (activeFilters.includes('high-priority')) parts.push(t('tracker_main_view.title_filter_high_priority', 'High Priority'));
+    if (activeFilters.includes('recently-updated')) parts.push(t('tracker_main_view.title_filter_recent', 'Recent'));
 
     if (parts.length === 0) {
-      return activeTracker ? activeTracker.displayNamePlural : 'All Items';
+      return activeTracker ? activeTracker.displayNamePlural : t('tracker_main_view.title_all_items', 'All Items');
     }
     return `${parts.join(' ')} ${typeName}`;
-  }, [filterType, activeFilters, trackerTypes]);
+  }, [filterType, activeFilters, trackerTypes, t]);
 
   const displayedItemCount = viewMode === 'inbox'
     ? inboxFilteredItems.length
@@ -1236,7 +1238,7 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
                 type="button"
                 className="flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] border cursor-pointer bg-blue-400/[0.12] border-blue-400/30 text-blue-400 hover:bg-blue-400/[0.18]"
                 onClick={() => removeTagFilter(tag)}
-                title={`Remove #${tag} filter`}
+                title={t('tracker_main_view.tag_remove_filter_tooltip', 'Remove #{{tag}} filter', { tag })}
                 data-testid={`tracker-tag-chip-${tag}`}
               >
                 #{tag}
@@ -1254,7 +1256,7 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
           <div
             className="flex h-7 shrink-0 items-center overflow-hidden rounded border border-nim bg-nim-secondary"
             role="group"
-            aria-label="Filter by source"
+            aria-label={t('tracker_main_view.source_filter_aria_label', 'Filter by source')}
             data-testid="tracker-source-filter"
           >
             {sourceOptions.map((key, index) => {
@@ -1272,10 +1274,10 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
                       : 'text-nim-muted hover:bg-nim-tertiary hover:text-nim'
                   }`}
                   aria-pressed={active}
-                  title={`Filter by ${sourceKeyLabel(key)}`}
+                  title={t('tracker_main_view.source_filter_tooltip', 'Filter by {{source}}', { source: sourceKeyLabel(key, t) })}
                   data-testid={`tracker-source-filter-${key}`}
                 >
-                  {sourceKeyLabel(key)}
+                  {sourceKeyLabel(key, t)}
                 </button>
               );
             })}
@@ -1289,11 +1291,11 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
             type="button"
             className="inline-flex h-7 items-center gap-1 rounded border border-nim bg-nim-secondary px-2 text-[11px] font-medium text-nim-muted transition-colors hover:bg-nim-tertiary hover:text-nim"
             onClick={clearTableFilters}
-            title="Clear all filters"
+            title={t('tracker_main_view.clear_filters_tooltip', 'Clear all filters')}
             data-testid="tracker-clear-filters"
           >
             <MaterialSymbol icon="filter_alt_off" size={14} />
-            Clear
+            {t('tracker_main_view.clear_button', 'Clear')}
           </button>
         )}
 
@@ -1320,10 +1322,10 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
           <button
             className="inline-flex h-7 items-center gap-1 rounded border border-nim px-2 text-[11px] font-medium text-nim-muted transition-colors hover:bg-nim-tertiary hover:text-nim"
             onClick={() => setImportMenuOpen(!importMenuOpen)}
-            title="Import from files"
+            title={t('tracker_main_view.import_files_tooltip', 'Import from files')}
           >
             <MaterialSymbol icon="upload_file" size={14} />
-            Import
+            {t('tracker_main_view.import_button', 'Import')}
           </button>
           {importMenuOpen && (
             <div className="absolute right-0 top-full mt-1 w-[220px] bg-nim border border-nim rounded-md shadow-lg z-50 py-1">
@@ -1332,21 +1334,21 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
                 onClick={() => handleBulkImport('nimbalyst-local/plans')}
               >
                 <MaterialSymbol icon="folder_open" size={14} />
-                Import from nimbalyst-local/plans
+                {t('tracker_main_view.import_from_local_plans', 'Import from nimbalyst-local/plans')}
               </button>
               <button
                 className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-nim-muted hover:bg-nim-tertiary hover:text-nim text-left"
                 onClick={() => handleBulkImport('plans')}
               >
                 <MaterialSymbol icon="folder_open" size={14} />
-                Import from plans/
+                {t('tracker_main_view.import_from_plans', 'Import from plans/')}
               </button>
               <button
                 className="w-full flex items-center gap-2 px-3 py-1.5 text-xs text-nim-muted hover:bg-nim-tertiary hover:text-nim text-left"
                 onClick={() => handleBulkImport('design')}
               >
                 <MaterialSymbol icon="folder_open" size={14} />
-                Import from design/
+                {t('tracker_main_view.import_from_design', 'Import from design/')}
               </button>
               {externalImporters.length > 0 && (
                 <div className="my-1 border-t border-nim" />
@@ -1366,7 +1368,7 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
                   data-testid={`tracker-import-source-${imp.id}`}
                 >
                   <MaterialSymbol icon={imp.icon || 'cloud_download'} size={14} />
-                  Import from {imp.displayName}
+                  {t('tracker_main_view.import_from_provider', 'Import from {{provider}}', { provider: imp.displayName })}
                 </button>
               ))}
             </div>
@@ -1392,7 +1394,7 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
             data-testid="tracker-toolbar-new-button"
           >
             <MaterialSymbol icon="add" size={14} />
-            New
+            {t('tracker_main_view.new_button', 'New')}
           </button>
         )}
       </div>
@@ -1403,7 +1405,7 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
     <>
       {personalStateRequired && !personalStateHydrated ? (
             <div className="h-full flex items-center justify-center text-sm text-nim-muted" data-testid="tracker-personal-state-loading">
-              Loading personal tracker state...
+              {t('tracker_main_view.personal_state_loading', 'Loading personal tracker state...')}
             </div>
           ) : viewMode === 'list' ? (
             <TrackerTable
@@ -1558,7 +1560,7 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
               data-testid="tracker-hidden-by-scope"
             >
               <span>
-                {hiddenByScopeCount} closed item{hiddenByScopeCount === 1 ? '' : 's'} hidden
+                {t('tracker_main_view.hidden_by_scope_message', '{{count}} closed item{{suffix}} hidden', { count: hiddenByScopeCount, suffix: hiddenByScopeCount === 1 ? '' : 's' })}
               </span>
               <button
                 type="button"
@@ -1566,7 +1568,7 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
                 onClick={() => setModeLayout({ statusScope: 'all' })}
                 data-testid="tracker-hidden-by-scope-show-all"
               >
-                Show all
+                {t('tracker_main_view.show_all_button', 'Show all')}
               </button>
             </div>
           )}
@@ -1615,7 +1617,7 @@ export const TrackerMainView: React.FC<TrackerMainViewProps> = ({
           onClose={() => setSourceDialog(null)}
           onImported={(count) => {
             if (count > 0) {
-              setImportStatus(`Imported ${count} item${count === 1 ? '' : 's'}`);
+              setImportStatus(t('tracker_main_view.import_success_message', 'Imported {{count}} item{{suffix}}', { count, suffix: count === 1 ? '' : 's' }));
               setTimeout(() => setImportStatus(null), 4000);
             }
           }}
