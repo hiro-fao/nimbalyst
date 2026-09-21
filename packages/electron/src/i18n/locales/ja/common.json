@@ -1439,5 +1439,8 @@
   },
   "tracker_detail_panel_resizable": {
     "resize_aria": "詳細パネルのサイズを変更"
+  },
+  "tracker_document_header_meta": {
+    "unsaved_changes": "未保存の変更"
   }
 }
